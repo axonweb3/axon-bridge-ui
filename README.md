@@ -1,11 +1,11 @@
-# Godwoken Bridge
+# Axon Bridge
 
-An asset bridge for `CKB <=> Godwoken`
+An asset crosschain bridge for Axon
 
-## Accessing the Godwoken Bridge
+## Accessing the Axon Bridge
 
-- mainnet: https://mainnet.bridge.godwoken.io
-- testnet: https://testnet.bridge.godwoken.io
+- mainnet: todo
+- testnet: todo
 
 ## Development
 
@@ -24,4 +24,3 @@ yarn start
 - [claiming test token](docs/test-tokens.md)
 
 Check out [docs](docs) for more information.
-
