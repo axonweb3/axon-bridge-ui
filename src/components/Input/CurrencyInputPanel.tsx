@@ -47,11 +47,11 @@ const TokenList = styled.div`
     padding: 12px;
     border-radius: 10px;
     &:hover {
-      background-color: #f3f3f3;
+      background-color: rgb(247, 248, 250);
       cursor: pointer;
     }
     &.selected {
-      background-color: #f3f3f3;
+      background-color: rgb(247, 248, 250);
     }
   }
 `;
@@ -153,7 +153,7 @@ export default function CurrencyInputPanel({
   return (
     <InputCard>
       <Row className="first-row">
-        <Text>{label}</Text>
+        <Text style={{ fontSize: "16px" }}>{label}</Text>
         <Text className="balance" onClick={selectedCurrency && handelMaxClick}>
           Max:{" "}
           {selectedCurrencyBalance

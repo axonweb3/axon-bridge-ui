@@ -31,7 +31,7 @@ const StyleWrapper = styled.div`
       margin-right: 4px;
     }
     .copy-text {
-      color: #00cc98;
+      color: #d50066;
     }
     &:hover {
       cursor: pointer;

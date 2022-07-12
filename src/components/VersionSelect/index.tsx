@@ -19,8 +19,10 @@ export const VersionSelect: React.FC = () => {
   };
   return (
     <Select style={{ width: 160, marginLeft: "10px", marginRight: "10px" }} value={version} onChange={handleChange}>
+      {/*
       <Option value="v0">Godwoken V0</Option>
-      <Option value="v1">Godwoken V1</Option>
+      */}
+      <Option value="v1">Axon V1</Option>
     </Select>
   );
 };

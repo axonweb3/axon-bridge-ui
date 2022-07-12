@@ -3,19 +3,23 @@ import styled from "styled-components";
 import { COLOR } from "./variables";
 
 export const Card = styled.div`
-  width: 400px;
+  max-width: 480px;
+  width: 100%;
   background: white;
   border-radius: 24px;
   color: black;
   padding: 24px;
   margin-bottom: 16px;
+  box-shadow: rgb(0 0 0 / 1%) 0px 0px 1px, rgb(0 0 0 / 4%) 0px 4px 8px, rgb(0 0 0 / 4%) 0px 16px 24px,
+    rgb(0 0 0 / 1%) 0px 24px 32px;
   @media (max-width: 600px) {
     width: calc(100% - 8px);
     margin: 16px 4px 64px;
   }
 `;
 export const PageContent = styled.div`
-  width: 400px;
+  max-width: 480px;
+  width: 100%;
   @media (max-width: 600px) {
     width: calc(100% - 16px);
   }
@@ -40,7 +44,7 @@ export const PrimaryText = styled.span`
 export const InputCard = styled.div`
   font-size: 14px;
   border-radius: 16px;
-  background-color: #f3f3f3;
+  background-color: rgb(247, 248, 250);
   box-shadow: rgb(74 74 104 / 10%) 0px 2px 2px -1px;
   padding: 20px 16px;
   .anticon {
@@ -59,6 +63,13 @@ export const InputCard = styled.div`
   }
   .second-row {
     margin-top: 18px;
+    height: 44px;
+    border: 1px solid #dfe1e5;
+    border-radius: 12px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0px 8px 0 14px;
+    font-size: 16px;
     .symbol {
       color: ${COLOR.primary};
       margin-left: 5px;
@@ -78,15 +89,15 @@ export const Row = styled.div`
 `;
 
 export const PrimaryButton = styled.button`
-  height: 48px;
+  height: 60px;
   width: 100%;
   padding: 0px 24px;
   margin-top: 24px;
   background-color: ${COLOR.brand};
   color: white;
   border: 0px;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 20px;
+  font-size: 20px;
   font-weight: bold;
   letter-spacing: 0.03em;
   line-height: 1;
@@ -94,7 +105,8 @@ export const PrimaryButton = styled.button`
     cursor: pointer;
   }
   &:disabled {
-    background-color: rgba(0, 204, 155, 0.5);
+    background-color: rgb(253, 234, 241);
+    color: #d50066;
     cursor: not-allowed;
   }
 `;
@@ -106,7 +118,7 @@ export const SecondeButton = styled.button`
   background-color: ${COLOR.brand};
   color: white;
   border: 0px;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
   font-weight: bold;
   line-height: 1;
@@ -124,7 +136,7 @@ export const PlainButton = styled.button`
   background-color: #999999;
   color: white;
   border: 0px;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
   font-weight: bold;
   line-height: 1;
@@ -273,8 +285,8 @@ export const LinkList = styled.div`
 export const Tab = styled.span`
   height: 32px;
   line-height: 32px;
-  width: 120px;
-  font-size: 14px;
+  width: 160px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   color: black;
@@ -286,7 +298,8 @@ export const Tab = styled.span`
     }
   }
   &.active {
-    background: #18efb1;
+    background: rgb(232, 0, 111);
+    color: white;
   }
   &:hover {
     cursor: pointer;

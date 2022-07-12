@@ -14,7 +14,7 @@ import { CheckCircleOutlined, CloseCircleOutlined, FieldTimeOutlined } from "@an
 import { Tooltip } from "antd";
 
 const StyleWrapper = styled.div`
-  background: #f3f3f3;
+  background: rgb(247, 248, 250);
   padding: 16px;
   border-radius: 12px;
   & + & {
@@ -176,7 +176,7 @@ const WithdrawalRequestCard = ({
             {isFastWithdrawal && (
               <span className="fast-withdrawal-icon" style={{ marginLeft: 8 }}>
                 <Tooltip title="This is a fast withdrawal, target is godwoken v1 network">
-                  <FieldTimeOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+                  <FieldTimeOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
                 </Tooltip>
               </span>
             )}
@@ -197,7 +197,7 @@ const WithdrawalRequestCard = ({
           {status === "success" && (
             <>
               <Tooltip title={status}>
-                <CheckCircleOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+                <CheckCircleOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
               </Tooltip>
             </>
           )}
