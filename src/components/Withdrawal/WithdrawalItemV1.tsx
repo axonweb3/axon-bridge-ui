@@ -15,7 +15,7 @@ import { Tooltip } from "antd";
 import { useClock } from "../../hooks/useClock";
 
 const StyleWrapper = styled.div`
-  background: #f3f3f3;
+  background: rgb(247, 248, 250);
   padding: 16px;
   border-radius: 12px;
   & + & {
@@ -181,7 +181,7 @@ const WithdrawalRequestCard = ({
             ))}
           {status === "success" && (
             <Tooltip title={status}>
-              <CheckCircleOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+              <CheckCircleOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
             </Tooltip>
           )}
           {status === "fail" && (
@@ -192,7 +192,7 @@ const WithdrawalRequestCard = ({
           {status === "l2Pending" && (
             <>
               <Tooltip title={"Godwoken withdrawal pending, this transaction will be committed in a few minites."}>
-                <QuestionCircleOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+                <QuestionCircleOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
               </Tooltip>
             </>
           )}

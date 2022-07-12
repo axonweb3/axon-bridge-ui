@@ -20,7 +20,7 @@ import { parse } from "date-fns";
 import { DATE_FORMAT } from "../../utils/dateUtils";
 
 const StyleWrapper = styled.div`
-  background: #f3f3f3;
+  background: rgb(247, 248, 250);
   padding: 16px;
   border-radius: 12px;
   & + & {
@@ -204,13 +204,13 @@ const DepositItem = ({ capacity, amount, token, status, txHash, date, cancelTime
                     "This deposit will be committed in a few minutes, you can cancel deposit here if it takes longer than 7 days."
                   }
                 >
-                  <QuestionCircleOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+                  <QuestionCircleOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
                 </Tooltip>
               </span>
             ))}
           {status === "success" && (
             <Tooltip title={status}>
-              <CheckCircleOutlined style={{ color: "#00CC9B", height: "21px", lineHeight: "21px" }} />
+              <CheckCircleOutlined style={{ color: "#D50066", height: "21px", lineHeight: "21px" }} />
             </Tooltip>
           )}
           {status === "fail" && (
