@@ -38,7 +38,7 @@ export default function CKBInputPanel({
   return (
     <InputCard>
       <Row className="first-row">
-        <Text style={{fontSize: '16px'}}>{label}</Text>
+        <Text style={{ fontSize: "16px" }}>{label}</Text>
         <Text className="balance" onClick={handelMaxClick}>
           Max: {CKBBalance ? formatToThousands(getDisplayAmount(BI.from(CKBBalance), decimals)) : <Placeholder />}
         </Text>

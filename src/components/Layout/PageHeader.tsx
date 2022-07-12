@@ -104,10 +104,10 @@ const PageHeader: React.FC<Props> = ({ onViewChange }) => {
       </div>
       <div className="link-list">
         <Link onClick={changeViewToDeposit} className={active === "deposit" ? "active" : ""}>
-          Axon { active === "deposit" ? <ArrowRightIcon /> : <ArrowRightBlackIcon /> }  CKB
+          Axon {active === "deposit" ? <ArrowRightIcon /> : <ArrowRightBlackIcon />} CKB
         </Link>
         <Link onClick={changeViewToWithdrawal} className={active === "withdrawal" ? "active" : ""}>
-          CKB { active === "withdrawal" ? <ArrowRightIcon /> : <ArrowRightBlackIcon /> } Axon
+          CKB {active === "withdrawal" ? <ArrowRightIcon /> : <ArrowRightBlackIcon />} Axon
         </Link>
       </div>
       <div className="right-side">

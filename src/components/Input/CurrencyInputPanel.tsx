@@ -153,7 +153,7 @@ export default function CurrencyInputPanel({
   return (
     <InputCard>
       <Row className="first-row">
-        <Text style={{fontSize: '16px'}}>{label}</Text>
+        <Text style={{ fontSize: "16px" }}>{label}</Text>
         <Text className="balance" onClick={selectedCurrency && handelMaxClick}>
           Max:{" "}
           {selectedCurrencyBalance

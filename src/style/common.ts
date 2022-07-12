@@ -10,7 +10,8 @@ export const Card = styled.div`
   color: black;
   padding: 24px;
   margin-bottom: 16px;
-  box-shadow: rgb(0 0 0 / 1%) 0px 0px 1px, rgb(0 0 0 / 4%) 0px 4px 8px, rgb(0 0 0 / 4%) 0px 16px 24px, rgb(0 0 0 / 1%) 0px 24px 32px;
+  box-shadow: rgb(0 0 0 / 1%) 0px 0px 1px, rgb(0 0 0 / 4%) 0px 4px 8px, rgb(0 0 0 / 4%) 0px 16px 24px,
+    rgb(0 0 0 / 1%) 0px 24px 32px;
   @media (max-width: 600px) {
     width: calc(100% - 8px);
     margin: 16px 4px 64px;
@@ -66,7 +67,7 @@ export const InputCard = styled.div`
     border: 1px solid #dfe1e5;
     border-radius: 12px;
     background-color: white;
-    color: rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, 0.87);
     padding: 0px 8px 0 14px;
     font-size: 16px;
     .symbol {
@@ -105,7 +106,7 @@ export const PrimaryButton = styled.button`
   }
   &:disabled {
     background-color: rgb(253, 234, 241);
-    color: #D50066;
+    color: #d50066;
     cursor: not-allowed;
   }
 `;
