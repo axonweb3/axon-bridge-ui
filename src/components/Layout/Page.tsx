@@ -8,7 +8,7 @@ const StyledPage = styled.div`
   width: 100%;
   height: 100%;
   min-height: calc(100vh);
-  background: linear-gradient(111.44deg, #dcf2ed 0%, #d3d9ec 100%);
+  background-color: rgb(247, 248, 250) !important;
 `;
 
 const Page: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => {
