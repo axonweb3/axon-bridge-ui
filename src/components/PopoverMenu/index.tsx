@@ -30,9 +30,14 @@ type Props = {
 export const PopoverMenu: React.FC<Props> = ({ handleClick }) => {
   return (
     <StyleWrapper>
+      {/*
       <div className="claim-sudt-container" onClick={handleClick}>
         <ClaimSudt />
       </div>
+      */}
+      <a href="https://faucet.nervos.org/" target="_blank" rel="noreferrer" onClick={handleClick}>
+        Get wCKB on Swap
+      </a>
       <a href="https://faucet.nervos.org/" target="_blank" rel="noreferrer" onClick={handleClick}>
         CKB Testnet Faucet
       </a>
