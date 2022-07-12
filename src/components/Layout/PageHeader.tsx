@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
+import { ReactComponent as ArrowRightIcon } from "../../assets/arrow-right.svg";
+import { ReactComponent as ArrowRightBlackIcon } from "../../assets/arrow-right-black.svg";
 import { ReactComponent as Hamburger } from "../../assets/hamburger.svg";
 
 import styled from "styled-components";
@@ -43,8 +45,8 @@ const StyledPage = styled.div`
 const Link = styled.span`
   height: 32px;
   line-height: 32px;
-  width: 120px;
-  font-size: 14px;
+  width: 160px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   color: black;
@@ -56,7 +58,8 @@ const Link = styled.span`
     }
   }
   &.active {
-    background: #18efb1;
+    background: rgb(232, 0, 111);
+    color: white;
   }
   &:hover {
     cursor: pointer;
@@ -97,14 +100,14 @@ const PageHeader: React.FC<Props> = ({ onViewChange }) => {
   return (
     <StyledPage>
       <div className="logo-container">
-        <Logo height={27}></Logo>
+        <Logo height={32}></Logo>
       </div>
       <div className="link-list">
         <Link onClick={changeViewToDeposit} className={active === "deposit" ? "active" : ""}>
-          Deposit
+          Axon { active === "deposit" ? <ArrowRightIcon /> : <ArrowRightBlackIcon /> }  CKB
         </Link>
         <Link onClick={changeViewToWithdrawal} className={active === "withdrawal" ? "active" : ""}>
-          Withdrawal
+          CKB { active === "withdrawal" ? <ArrowRightIcon /> : <ArrowRightBlackIcon /> } Axon
         </Link>
       </div>
       <div className="right-side">
