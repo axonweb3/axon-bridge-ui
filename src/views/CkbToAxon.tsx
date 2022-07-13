@@ -300,6 +300,9 @@ export default function CkbToAxon() {
             CKBBalance={CKBBalance}
             maxAmount={maxAmount}
           ></BridgeFeeShow>
+          <PlusIconContainer>
+            <PlusIcon />
+          </PlusIconContainer>
           <CKBInputPanel
             value={CKBInput}
             onUserInput={setCKBInput}
