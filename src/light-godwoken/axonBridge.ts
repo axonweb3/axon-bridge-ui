@@ -19,13 +19,12 @@ import {
   GetL1CkbBalancePayload,
   GetSudtBalances,
   GetSudtBalancesResult,
-  AxonBridgeBase, GetATBalancePayload,
+  AxonBridgeBase,
+  GetATBalancePayload,
 } from "./axonBridgeType";
 import { debug } from "./debug";
-import {AxonBridgeConfig, GodwokenVersion, LightGodwokenConfig} from "./constants/configTypes";
-import {
-  NotEnoughCapacityError,
-} from "./constants/error";
+import { AxonBridgeConfig, GodwokenVersion, LightGodwokenConfig } from "./constants/configTypes";
+import { NotEnoughCapacityError } from "./constants/error";
 import { CellDep, CellWithStatus, DepType, OutPoint, Output, TransactionWithStatus } from "@ckb-lumos/base";
 import { isSpecialWallet } from "./utils";
 
@@ -80,7 +79,6 @@ export default class AxonBridge implements AxonBridgeBase {
     return txSkeleton;
   }
 
-
   // subscribPendingWithdrawalTransactions(txHashList: Hash[]): WithdrawalEventEmitter {
   //   const eventEmitter = new EventEmitter();
   //   for (let index = 0; index < txHashList.length; index++) {
@@ -114,7 +112,6 @@ export default class AxonBridge implements AxonBridgeBase {
     const size = serializedTx.byteLength + 4;
     return size;
   }
-
 
   async signMessageMetamaskPersonalSign(message: Hash): Promise<HexString> {
     let signedMessage = await this.provider.ethereum.request({

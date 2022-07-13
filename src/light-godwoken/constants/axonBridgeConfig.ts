@@ -1,4 +1,4 @@
-import {AxonBridgeConfig, CkbConfig} from "./configTypes";
+import { AxonBridgeConfig, CkbConfig } from "./configTypes";
 
 const layer1ConfigAggron: CkbConfig = {
   SCRIPTS: {

@@ -1,6 +1,6 @@
 import { Address, Cell, Hash, HexNumber, Transaction, helpers, Script, BI, HexString } from "@ckb-lumos/lumos";
 import EventEmitter from "events";
-import {AxonBridgeConfig, GodwokenVersion, LightGodwokenConfig} from "./constants/configTypes";
+import { AxonBridgeConfig, GodwokenVersion, LightGodwokenConfig } from "./constants/configTypes";
 
 export interface GetATBalancePayload {
   axonAddress?: string;
@@ -131,7 +131,6 @@ type Promisable<T> = Promise<T> | T;
 export const CKB_SUDT_ID = 1;
 
 export interface AxonBridgeProvider {
-
   getAxonAddress(): Promisable<string>;
 
   getConfig(): AxonBridgeConfig;

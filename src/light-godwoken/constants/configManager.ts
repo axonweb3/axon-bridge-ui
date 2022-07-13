@@ -1,7 +1,10 @@
 import { isMainnet } from "../env";
-import {AxonBridgeConfig, LightGodwokenConfig, LightGodwokenConfigMap} from "./configTypes";
+import { AxonBridgeConfig, LightGodwokenConfig, LightGodwokenConfigMap } from "./configTypes";
 import { predefined_testnet, predefined_mainnet } from "./lightGodwokenConfig";
-import { predefined_testnet as predefined_axon_testnet, predefined_mainnet as predefined_axon_mainnet } from "./axonBridgeConfig";
+import {
+  predefined_testnet as predefined_axon_testnet,
+  predefined_mainnet as predefined_axon_mainnet,
+} from "./axonBridgeConfig";
 import { writeStorage } from "@rehooks/local-storage";
 import { GodwokenVersion } from "./configTypes";
 

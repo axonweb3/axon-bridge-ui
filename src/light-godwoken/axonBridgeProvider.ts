@@ -23,11 +23,16 @@ import { ethers } from "ethers";
 import { AxonBridgeProvider } from "./axonBridgeType";
 import { debug } from "./debug";
 import { claimUSDC } from "./sudtFaucet";
-import {AxonBridgeConfig, GodwokenVersion, LightGodwokenConfig, LightGodwokenConfigMap} from "./constants/configTypes";
+import {
+  AxonBridgeConfig,
+  GodwokenVersion,
+  LightGodwokenConfig,
+  LightGodwokenConfigMap,
+} from "./constants/configTypes";
 import { EnvNotFoundError, EthereumNotFoundError, LightGodwokenConfigNotValidError } from "./constants/error";
 import { OmniLockWitnessLockCodec } from "./schemas/codecLayer1";
 import { isSpecialWallet } from "./utils";
-import {initAxonConfig, initConfig} from "./constants/configManager";
+import { initAxonConfig, initConfig } from "./constants/configManager";
 import DefaultLightGodwokenProvider from "./lightGodwokenProvider";
 
 export default class DefaultAxonBridgeProvider implements AxonBridgeProvider {
@@ -220,8 +225,7 @@ export default class DefaultAxonBridgeProvider implements AxonBridgeProvider {
     const layer2Lock: Script = {
       code_hash: this.axonBridgeConfig.axonConfig.SCRIPTS.eth_account_lock.script_type_hash as string,
       hash_type: "type",
-      args:
-        this.axonBridgeConfig.axonConfig.ROLLUP_CONFIG.rollup_type_hash + this.axonAddress.slice(2).toLowerCase(),
+      args: this.axonBridgeConfig.axonConfig.ROLLUP_CONFIG.rollup_type_hash + this.axonAddress.slice(2).toLowerCase(),
     };
     return layer2Lock;
   }
@@ -263,9 +267,7 @@ export default class DefaultAxonBridgeProvider implements AxonBridgeProvider {
     return new Promise((r) => setTimeout(r, ms));
   }
 }
-function validateAxonBridgeConfig(
-  axonBridgeConfig: AxonBridgeConfig,
-): asserts axonBridgeConfig is AxonBridgeConfig {
+function validateAxonBridgeConfig(axonBridgeConfig: AxonBridgeConfig): asserts axonBridgeConfig is AxonBridgeConfig {
   if (
     !axonBridgeConfig ||
     !axonBridgeConfig.axonConfig ||

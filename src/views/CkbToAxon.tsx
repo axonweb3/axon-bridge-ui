@@ -3,7 +3,7 @@ import { LoadingOutlined, CopyOutlined } from "@ant-design/icons";
 import { BI } from "@ckb-lumos/lumos";
 import { ReactComponent as CopyIcon } from "../assets/copy.svg";
 import { Placeholder } from "../components/Placeholder";
-import {notification, Form, Input, Tooltip, message} from "antd";
+import { notification, Form, Input, Tooltip, message } from "antd";
 import styled from "styled-components";
 import { useLightGodwoken } from "../hooks/useLightGodwoken";
 import CKBInputPanel from "../components/Input/CKBInputPanel";
@@ -258,24 +258,32 @@ export default function CkbToAxon() {
       <Card>
         <WalletConnect></WalletConnect>
         <div style={{ opacity: lightGodwoken ? "1" : "0.5" }}>
-          <Form
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 12 }}
-            layout="horizontal"
-          >
-            <Form.Item label="Axon Address" style={{fontWeight: 600}}>
-              <Input style={{padding: '4px'}} bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
-                <Tooltip title="Copy Axon Address">
-                  <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
-                </Tooltip>
-              }/>
+          <Form labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} layout="horizontal">
+            <Form.Item label="Axon Address" style={{ fontWeight: 600 }}>
+              <Input
+                style={{ padding: "4px" }}
+                bordered={false}
+                readOnly={true}
+                value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ""}
+                suffix={
+                  <Tooltip title="Copy Axon Address">
+                    <CopyIcon style={{ color: "rgba(0,0,0,.45)" }} onClick={copyAddress} />
+                  </Tooltip>
+                }
+              />
             </Form.Item>
-            <Form.Item label="wCKB fee" style={{fontWeight: 600}}>
-              <Input style={{padding: '4px'}} bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
-                <Tooltip title="Copy Axon Address">
-                  <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
-                </Tooltip>
-              }/>
+            <Form.Item label="wCKB fee" style={{ fontWeight: 600 }}>
+              <Input
+                style={{ padding: "4px" }}
+                bordered={false}
+                readOnly={true}
+                value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ""}
+                suffix={
+                  <Tooltip title="Copy Axon Address">
+                    <CopyIcon style={{ color: "rgba(0,0,0,.45)" }} onClick={copyAddress} />
+                  </Tooltip>
+                }
+              />
             </Form.Item>
           </Form>
           <BridgeWalletInfo

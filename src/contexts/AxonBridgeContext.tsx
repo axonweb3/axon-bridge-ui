@@ -17,14 +17,14 @@ export const Provider: React.FC = (props) => {
         ethereum.request({ method: "eth_accounts" }).then((accounts: string[]) => {
           if (!accounts || !accounts[0]) return;
 
-          let instance: DefaultAxonBridge = new AxonBridge(new DefaultAxonBridgeProvider(accounts[0], ethereum));;
+          let instance: DefaultAxonBridge = new AxonBridge(new DefaultAxonBridgeProvider(accounts[0], ethereum));
           setAxonBridge(instance);
         });
 
         ethereum.on("accountsChanged", (accounts: string[] | undefined) => {
           if (!accounts || !accounts[0]) return setAxonBridge(undefined);
 
-          let instance: DefaultAxonBridge = new AxonBridge(new DefaultAxonBridgeProvider(accounts[0], ethereum));;
+          let instance: DefaultAxonBridge = new AxonBridge(new DefaultAxonBridgeProvider(accounts[0], ethereum));
           setAxonBridge(instance);
         });
       } else {
@@ -33,7 +33,5 @@ export const Provider: React.FC = (props) => {
     });
   }, [axonBridge, location.pathname]);
 
-  return (
-    <AxonBridgeContext.Provider value={axonBridge || undefined}>{props.children}</AxonBridgeContext.Provider>
-  );
+  return <AxonBridgeContext.Provider value={axonBridge || undefined}>{props.children}</AxonBridgeContext.Provider>;
 };
