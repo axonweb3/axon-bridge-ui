@@ -69,6 +69,9 @@ export default function CkbToAxon() {
   const CKBBalance = CKBBalanceQuery.data;
   const { data: l2CKBBalance } = useL2CKBBalance();
 
+  // todo, getWCKBMin() from contract;
+  const wCKBMin = 132;
+
   const maxAmount = CKBBalance ? BI.from(CKBBalance).toString() : undefined;
   const cancelTimeout = lightGodwoken?.getCancelTimeout() || 0;
   const tokenList: SUDT[] | undefined = lightGodwoken?.getBuiltinSUDTList();
@@ -258,6 +261,7 @@ export default function CkbToAxon() {
       <Card>
         <WalletConnect></WalletConnect>
         <div style={{ opacity: lightGodwoken ? "1" : "0.5" }}>
+          {/*
           <Form labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} layout="horizontal">
             <Form.Item label="Axon Address" style={{ fontWeight: 600 }}>
               <Input
@@ -286,11 +290,13 @@ export default function CkbToAxon() {
               />
             </Form.Item>
           </Form>
+          */}
           <BridgeWalletInfo
             ckbAddress={ckbAddress}
             ckbBalance={CKBBalance}
             ethAddress={ethAddress}
             ethBalance={l2CKBBalance}
+            wCKBFee={wCKBMin}
           ></BridgeWalletInfo>
           <BridgeFeeShow
             value={CKBInput}

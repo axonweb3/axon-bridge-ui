@@ -31,7 +31,7 @@ const StyleWrapper = styled.div`
       margin-right: 4px;
     }
     .copy-text {
-      color: #00cc98;
+      color: #D50066 ;
     }
     &:hover {
       cursor: pointer;
@@ -49,9 +49,10 @@ type Props = {
   ckbBalance: string | undefined;
   ethBalance: string | undefined;
   ethAddress: string | undefined;
+  wCKBFee: number | 0;
 };
 
-export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethBalance, ethAddress }) => {
+export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethBalance, ethAddress, wCKBFee }) => {
   const truncateMiddle = (str: string, first = 40, last = 6): string => {
     return str.substring(0, first) + "..." + str.substring(str.length - last);
   };
@@ -66,9 +67,10 @@ export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethB
   };
   const lightGodwoken = useLightGodwoken();
   const decimals = lightGodwoken?.getNativeAsset().decimals;
-
+  
   return (
     <StyleWrapper>
+      {/*
       <div className="address-row">
         <Text className="title">Ckb Wallet Address</Text>
         <div className="copy" onClick={copyAddress}>
@@ -76,12 +78,13 @@ export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethB
           <Text className="copy-text">Copy Address</Text>
         </div>
       </div>
-
       <PrimaryText className="address" title={ckbAddress}>
         {ckbAddress ? truncateMiddle(ckbAddress, 11, 11) : <Placeholder />}
       </PrimaryText>
+      */}
+
       <div className="address-row eth">
-        <Text className="title">AXON Address</Text>
+        <Text className="title">Axon Address</Text>
         <div className="copy" onClick={copyEthAddress}>
           <CopyIcon />
           <Text className="copy-text">Copy Address</Text>
@@ -89,18 +92,29 @@ export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethB
       </div>
 
       <PrimaryText className="address" title={ethAddress}>
-        {ethAddress ? truncateMiddle(ethAddress, 5, 4) : <Placeholder />}
+        {ethAddress ? ethAddress : <Placeholder />}
       </PrimaryText>
+
+      {/*
       <BalanceRow>
         <Text className="title">CKB Balance</Text>
         <PrimaryText>
           {ckbBalance ? formatToThousands(getDisplayAmount(BI.from(ckbBalance), 8)) + " CKB" : <Placeholder />}
         </PrimaryText>
       </BalanceRow>
+      */}
+
       <BalanceRow>
-        <Text className="title">AXON Balance</Text>
+        <Text className="title">Axon Balance</Text>
         <PrimaryText>
-          {ethBalance ? formatToThousands(getDisplayAmount(BI.from(ethBalance), decimals)) + " CKB" : <Placeholder />}
+          {ethBalance ? formatToThousands(getDisplayAmount(BI.from(ethBalance), decimals)) + " AT" : <Placeholder />}
+        </PrimaryText>
+      </BalanceRow>
+
+      <BalanceRow>
+        <Text className="title">wCKB fee</Text>
+        <PrimaryText>
+          {wCKBFee ? formatToThousands(getDisplayAmount(BI.from(wCKBFee), 8)) + " wCKB" : <Placeholder />}
         </PrimaryText>
       </BalanceRow>
     </StyleWrapper>
