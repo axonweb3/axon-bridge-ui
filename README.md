@@ -18,6 +18,13 @@ yarn test
 yarn start
 ```
 
+Or you can use the latest Javascript runtime [Bun](https://bun.sh/)
+
+```
+bun install
+bun run start
+```
+
 ## Documentation
 
 - [intro](docs/introduction.md)
