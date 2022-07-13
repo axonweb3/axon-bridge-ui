@@ -7,11 +7,12 @@ import "./index.css";
 
 import { config } from "@ckb-lumos/lumos";
 
-import * as Sentry from "@sentry/react";
+// import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import { LightGodwokenError } from "./light-godwoken/constants/error";
 import { isMainnet } from "./light-godwoken/env";
 
+/*
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
     environment: process.env.NODE_ENV,
@@ -39,6 +40,7 @@ if (process.env.NODE_ENV === "production") {
     },
   });
 }
+*/
 
 config.initializeConfig(isMainnet ? config.predefined.LINA : config.predefined.AGGRON4);
 

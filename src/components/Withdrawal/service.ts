@@ -1,5 +1,5 @@
 import { BI } from "@ckb-lumos/bi";
-import { captureException } from "@sentry/react";
+// import { captureException } from "@sentry/react";
 import { notification } from "antd";
 import {
   NotEnoughCapacityError,
@@ -57,7 +57,7 @@ export const handleError = (e: unknown, selectedSudt?: L1MappedErc20) => {
     return;
   }
 
-  captureException(e);
+  // captureException(e);
   notification.error({
     message: `Unknown Error, Please try again later`,
   });

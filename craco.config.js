@@ -1,4 +1,4 @@
-const SentryPlugin = require("@sentry/webpack-plugin");
+// const SentryPlugin = require("@sentry/webpack-plugin");
 
 function getProductionSetting() {
   if (process.env.NODE_ENV !== "production") return {};
@@ -7,24 +7,24 @@ function getProductionSetting() {
   };
 }
 
-const commitHash = require("child_process").execSync("git rev-parse --short HEAD");
+// const commitHash = require("child_process").execSync("git rev-parse --short HEAD");
 
 module.exports = {
   babel: {
     ...getProductionSetting(),
   },
-  webpack: {
-    alias: {},
-    plugins: [
-      new SentryPlugin({
-        release: "light-godwoken@" + process.env.npm_package_version + "@" + commitHash,
-        include: "./build",
-      }),
+  // webpack: {
+  //   alias: {},
+  //   plugins: [
+  //     new SentryPlugin({
+  //       release: "light-godwoken@" + process.env.npm_package_version + "@" + commitHash,
+  //       include: "./build",
+  //     }),
 
-      /* Any webpack configuration options: https://webpack.js.org/configuration */
-    ],
-    configure: (webpackConfig, { env, paths }) => {
-      return webpackConfig;
-    },
-  },
+  //     /* Any webpack configuration options: https://webpack.js.org/configuration */
+  //   ],
+  //   configure: (webpackConfig, { env, paths }) => {
+  //     return webpackConfig;
+  //   },
+  // },
 };
