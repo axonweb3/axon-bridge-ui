@@ -39,7 +39,7 @@ export const Provider: React.FC = (props) => {
           setLightGodwoken(instance);
         });
       } else {
-        alert("Please install MetaMask to use Godwoken Bridge!");
+        alert("Please install MetaMask to use Axon Bridge!");
       }
     });
   }, [lightGodwoken, location.pathname]);
