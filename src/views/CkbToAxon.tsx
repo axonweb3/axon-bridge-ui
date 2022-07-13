@@ -301,7 +301,7 @@ export default function CkbToAxon() {
           <BridgeFeeShow
             value={CKBInput}
             onUserInput={setCKBInput}
-            label="CkbToAxon"
+            label="CKB to Axon"
             isLoading={CKBBalanceQuery.isLoading}
             CKBBalance={CKBBalance}
             maxAmount={maxAmount}
