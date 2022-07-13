@@ -31,7 +31,7 @@ const StyleWrapper = styled.div`
       margin-right: 4px;
     }
     .copy-text {
-      color: #D50066 ;
+      color: #d50066;
     }
     &:hover {
       cursor: pointer;
@@ -67,7 +67,7 @@ export const BridgeWalletInfo: React.FC<Props> = ({ ckbAddress, ckbBalance, ethB
   };
   const lightGodwoken = useLightGodwoken();
   const decimals = lightGodwoken?.getNativeAsset().decimals;
-  
+
   return (
     <StyleWrapper>
       {/*
