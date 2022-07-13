@@ -68,3 +68,51 @@ export type LightGodwokenTokenType = {
   address: string;
   l1LockArgs: string;
 };
+
+/**
+ * axon
+ */
+
+export type CkbConfig = {
+  SCRIPTS: {
+    omni_lock: ScriptType;
+    secp256k1_blake160: ScriptType;
+    sudt: ScriptType;
+  };
+  CKB_INDEXER_URL: string;
+  CKB_RPC_URL: string;
+  SCANNER_URL: string;
+};
+
+export type AxonConfig = {
+  SCRIPTS: {
+    deposit_lock: {
+      script_type_hash: Hash;
+      cell_dep: CellDep;
+    };
+    withdrawal_lock: {
+      script_type_hash: Hash;
+      cell_dep: CellDep;
+    };
+    eth_account_lock: {
+      script_type_hash: Hash;
+    };
+  };
+  ROLLUP_CONFIG: {
+    rollup_type_hash: Hash;
+    rollup_type_script: Script;
+  };
+  AXON_RPC_URL: string;
+  SCANNER_URL: string;
+  SCANNER_API: string;
+  CHAIN_NAME: string;
+  FINALITY_BLOCKS: number;
+  BLOCK_PRODUCE_TIME: number;
+  MIN_CANCEL_DEPOSIT_TIME: number;
+  MULTICALL_ADDRESS?: string;
+};
+
+export type AxonBridgeConfig = {
+  ckbConfig: CkbConfig;
+  axonConfig: AxonConfig;
+};

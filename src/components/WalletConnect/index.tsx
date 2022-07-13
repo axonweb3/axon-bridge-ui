@@ -1,42 +1,20 @@
-import { Select } from "antd";
 import styled from "styled-components";
 import { SecondeButton } from "../../style/common";
 import { useLightGodwoken } from "../../hooks/useLightGodwoken";
-import { useEffect, useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import { useNavigate, useParams } from "react-router-dom";
-const { Option } = Select;
 const StyleWrapper = styled.div`
-  display: flex;
   margin-bottom: 24px;
   padding-bottom: 16px;
+  text-align: center;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-  .network-select {
-    flex: 1;
-    margin-right: 16px;
-  }
   button {
-    width: 100px;
+    width: 220px;
+    border-radius: 8px;
   }
 `;
 
 export const WalletConnect: React.FC = () => {
-  const params = useParams();
-  const navigate = useNavigate();
-
-  const [version, setVersion] = useState<string>();
   const lightGodwoken = useLightGodwoken();
-
-  useEffect(() => {
-    if (params.version) {
-      setVersion(params.version.toString());
-    }
-  }, [params.version]);
-
-  const handleChange = (value: string) => {
-    setVersion(value);
-    navigate(`/${value}`);
-  };
 
   const connect = () => {
     if (lightGodwoken) return;
@@ -48,11 +26,7 @@ export const WalletConnect: React.FC = () => {
   if (lightGodwoken) return null;
   return (
     <StyleWrapper>
-      <Select className="network-select" value={version} onChange={handleChange}>
-        {/*<Option value="v0">Godwoken V0</Option>*/}
-        <Option value="v1">Axon V1</Option>
-      </Select>
-      <SecondeButton onClick={connect}>Connect</SecondeButton>
+      <SecondeButton onClick={connect}>Connect MetaMask</SecondeButton>
     </StyleWrapper>
   );
 };

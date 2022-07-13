@@ -1,5 +1,6 @@
 import "antd/dist/antd.css";
 import Withdrawal from "./withdrawal/WithdrawalV0";
+import CkbToAxon from "./CkbToAxon";
 import Deposit from "./Deposit";
 import { useEffect, useState } from "react";
 import { useLightGodwoken } from "../hooks/useLightGodwoken";
@@ -28,7 +29,7 @@ export default function LightGodwokenApp(props: Props) {
   return (
     {
       withdrawal: <WithdrawalComp></WithdrawalComp>,
-      deposit: <Deposit></Deposit>,
-    }[activeView] || <Deposit></Deposit>
+      deposit: <CkbToAxon></CkbToAxon>,
+    }[activeView] || <CkbToAxon></CkbToAxon>
   );
 }
