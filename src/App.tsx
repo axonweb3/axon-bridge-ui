@@ -4,8 +4,8 @@ import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom"
 import Page from "./components/Layout/Page";
 import PageFooter from "./components/Layout/PageFooter";
 import PageHeader from "./components/Layout/PageHeader";
-import { Provider as LightGodwokenProvider } from "./contexts/LightGodwokenContext";
-import LightGodwokenApp from "./views/LightGodwokenApp";
+import { Provider as AxonBridgeProvider } from "./contexts/AxonBridgeContext";
+import AxonBridgeApp from "./views/AxonBridgeApp";
 
 function App() {
   const queryClient = new QueryClient();
@@ -16,7 +16,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <LightGodwokenProvider>
+        <AxonBridgeProvider>
           <Routes>
             <Route path="/" element={<Navigate to="/v1" />}></Route>
             <Route
@@ -24,13 +24,13 @@ function App() {
               element={
                 <Page>
                   <PageHeader onViewChange={handleViewChange}></PageHeader>
-                  <LightGodwokenApp activeView={activeView} />
+                  <AxonBridgeApp activeView={activeView} />
                   <PageFooter></PageFooter>
                 </Page>
               }
             ></Route>
           </Routes>
-        </LightGodwokenProvider>
+        </AxonBridgeProvider>
       </Router>
     </QueryClientProvider>
   );

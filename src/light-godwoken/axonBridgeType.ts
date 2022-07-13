@@ -1,9 +1,9 @@
 import { Address, Cell, Hash, HexNumber, Transaction, helpers, Script, BI, HexString } from "@ckb-lumos/lumos";
 import EventEmitter from "events";
-import { GodwokenVersion, LightGodwokenConfig } from "./constants/configTypes";
+import {AxonBridgeConfig, GodwokenVersion, axonBridgeConfig} from "./constants/configTypes";
 
-export interface GetL2CkbBalancePayload {
-  l2Address?: string;
+export interface GetATBalancePayload {
+  axonAddress?: string;
 }
 
 export interface GetL1CkbBalancePayload {
@@ -130,14 +130,13 @@ type Promisable<T> = Promise<T> | T;
 
 export const CKB_SUDT_ID = 1;
 
-export interface LightGodwokenProvider {
-  claimUSDC(): Promise<HexString>;
+export interface AxonBridgeProvider {
 
-  getL2Address(): Promisable<string>;
+  getAxonAddress(): Promisable<string>;
 
-  getConfig(): LightGodwokenConfig;
+  getConfig(): AxonBridgeConfig;
 
-  getL1Address(): Promisable<string>;
+  getCkbAddress(): Promisable<string>;
 
   getMinFeeRate(): Promise<BI>;
 
@@ -158,66 +157,6 @@ export type DepositRequest = {
   rawCell: Cell;
 };
 
-export interface LightGodwokenBase {
-  provider: LightGodwokenProvider;
-
-  getMinimalDepositCapacity(): BI;
-
-  getMinimalWithdrawalCapacity(): BI;
-
-  cancelDeposit(depositTxHash: string, cancelTimeout: number): Promise<HexString>;
-
-  getCkbBlockProduceTime(): Promisable<number>;
-
-  getDepositList(): Promise<DepositRequest[]>;
-
-  getCkbCurrentBlockNumber(): Promise<BI>;
-
-  getConfig(): LightGodwokenConfig;
-
-  claimUSDC(): Promise<HexString>;
-
-  getVersion: () => GodwokenVersion;
-
-  getNativeAsset: () => Token;
-
-  getChainId: () => Promise<HexNumber> | HexNumber;
-
-  /**
-   * get producing 1 block time
-   */
-  getBlockProduceTime: () => Promise<number> | number;
-
-  getWithdrawalWaitBlock: () => Promise<number> | number;
-
-  // listWithdraw: () => Promise<WithdrawResultWithCell[]>;
-
-  generateDepositLock: () => Script;
-
-  deposit: (payload: DepositPayload, eventEmitter: EventEmitter) => Promise<Hash>;
-
-  depositWithEvent: (payload: DepositPayload) => DepositEventEmitter;
-
-  subscribPendingDepositTransactions: (payload: PendingDepositTransaction[]) => DepositEventEmitter;
-
-  withdrawWithEvent: (payload: WithdrawalEventEmitterPayload) => WithdrawalEventEmitter;
-
-  getL2CkbBalance: (payload?: GetL2CkbBalancePayload) => Promise<HexNumber>;
-
-  getL1CkbBalance: (payload?: GetL1CkbBalancePayload) => Promise<HexNumber>;
-
-  getBuiltinErc20List: () => ProxyERC20[];
-
-  getBuiltinSUDTList: () => SUDT[];
-
-  getErc20Balances: (payload: GetErc20Balances) => Promise<GetErc20BalancesResult>;
-
-  getSudtBalances: (payload: GetSudtBalances) => Promise<GetSudtBalancesResult>;
+export interface AxonBridgeBase {
+  provider: AxonBridgeProvider;
 }
-
-export interface LightGodwokenV0 extends LightGodwokenBase {
-  getMinimalWithdrawalToV1Capacity(): BI;
-  // unlock: (payload: UnlockPayload) => Promise<Hash>;
-  withdrawToV1WithEvent: (payload: BaseWithdrawalEventEmitterPayload) => WithdrawalEventEmitter;
-}
-export interface LightGodwokenV1 extends LightGodwokenBase {}

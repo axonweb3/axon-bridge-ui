@@ -4,14 +4,14 @@ import { ecdsaSign } from "secp256k1";
 import { Cell, CellDep, core, hd, HexString, toolkit } from "@ckb-lumos/lumos";
 import { helpers, RPC, utils, Script, HashType, BI } from "@ckb-lumos/lumos";
 import { debug } from "./debug";
-import { LightGodwokenConfig } from "./constants/configTypes";
+import { axonBridgeConfig } from "./constants/configTypes";
 import { NotEnoughCapacityError } from "./constants/error";
 
 const issuerPrivateKey = process.env.REACT_APP_L1_TEST_TOKEN_ISSUER_PRIVATE_KEY!;
 
 export async function claimUSDC(
   ethereum: any,
-  config: LightGodwokenConfig,
+  config: axonBridgeConfig,
   ethAddress: HexString,
   rpc: RPC,
   indexer: any,
@@ -28,7 +28,7 @@ export async function claimUSDC(
 }
 
 export async function generateClaimUSDCTxSkeleton(
-  config: LightGodwokenConfig,
+  config: axonBridgeConfig,
   ethAddress: HexString,
   indexer: any,
   issuerPrivKey?: HexString,
@@ -131,7 +131,7 @@ export async function generateClaimUSDCTxSkeleton(
   return txSkeleton;
 }
 
-function getClaimSUDTCellDeps(config: LightGodwokenConfig): CellDep[] {
+function getClaimSUDTCellDeps(config: axonBridgeConfig): CellDep[] {
   const { omni_lock: omniLock, sudt, secp256k1_blake160: secp256k1 } = config.layer1Config.SCRIPTS;
 
   return [

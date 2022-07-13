@@ -1,6 +1,6 @@
-import { Layer1Config, axonBridgeConfig, axonBridgeConfigMap } from "./configTypes";
+import {AxonBridgeConfig, CkbConfig} from "./configTypes";
 
-const layer1ConfigAggron: Layer1Config = {
+const layer1ConfigAggron: CkbConfig = {
   SCRIPTS: {
     omni_lock: {
       code_hash: "0x79f90bb5e892d80dd213439eeab551120eb417678824f282b4ffb5f21bad2e1e",
@@ -29,7 +29,7 @@ const layer1ConfigAggron: Layer1Config = {
   SCANNER_URL: "https://pudge.explorer.nervos.org",
 };
 
-const layer1ConfigLina: Layer1Config = {
+const layer1ConfigLina: CkbConfig = {
   SCRIPTS: {
     omni_lock: {
       code_hash: "0x9f3aeaf2fc439549cbc870c653374943af96a0658bd6b51be8d8983183e6f52f",
@@ -58,107 +58,10 @@ const layer1ConfigLina: Layer1Config = {
   SCANNER_URL: "https://explorer.nervos.org",
 };
 
-// https://github.com/nervosnetwork/godwoken-info/blob/69175dff51fb63665abff7cc9640af5bf3409fea/testnet_v0/config/scripts-deploy-result.json
-const v0ConfigAggron: axonBridgeConfig = {
-  layer1Config: layer1ConfigAggron,
-  layer2Config: {
-    SCRIPTS: {
-      deposit_lock: {
-        script_type_hash: "0x5a2506bb68d81a11dcadad4cb7eae62a17c43c619fe47ac8037bc8ce2dd90360",
-        cell_dep: {
-          out_point: {
-            tx_hash: "0x97614145cdec9ba924001c11cd49f1c424927437b40ed3ca3b82fff358f2e3de",
-            index: "0x0",
-          },
-          dep_type: "code",
-        },
-      },
-      withdrawal_lock: {
-        script_type_hash: "0x170ef156e9f6132dbca6069dfd3e436f7d91c29d3ac7332c4b33e633b6a299b5",
-        cell_dep: {
-          out_point: {
-            tx_hash: "0xa8c2fe2aaaf405b2b1fd33dd63adc4c514a3d1f6dd1a64244489ad75c51a5d14",
-            index: "0x0",
-          },
-          dep_type: "code",
-        },
-      },
-      eth_account_lock: {
-        script_type_hash: "0xdeec13a7b8e100579541384ccaf4b5223733e4a5483c3aec95ddc4c1d5ea5b22",
-      },
-    },
-    ROLLUP_CONFIG: {
-      rollup_type_hash: "0x4cc2e6526204ae6a2e8fcf12f7ad472f41a1606d5b9624beebd215d780809f6a",
-      rollup_type_script: {
-        code_hash: "0x5c365147bb6c40e817a2a53e0dec3661f7390cc77f0c02db138303177b12e9fb",
-        hash_type: "type",
-        args: "0x213743d13048e9f36728c547ab736023a7426e15a3d7d1c82f43ec3b5f266df2",
-      },
-    },
-    GW_POLYJUICE_RPC_URL: "https://godwoken-testnet-web3-rpc.ckbapp.dev",
-    SCANNER_URL: "https://aggron.gwscan.com",
-    SCANNER_API: "https://api.aggron.gwscan.com/api/",
-    CHAIN_NAME: "Godwoken Testnet v0",
-    FINALITY_BLOCKS: 10000,
-    BLOCK_PRODUCE_TIME: 45,
-    MIN_CANCEL_DEPOSIT_TIME: 1200, // 20 minutes in seconds
-    MULTICALL_ADDRESS: "0xaf98A74b133CD8373EE055b399b0cE19cF8C4523",
-  },
-};
-
-// https://github.com/nervosnetwork/godwoken-info/blob/69175dff51fb63665abff7cc9640af5bf3409fea/mainnet_v0/config/scripts-result.json
-const v0ConfigLina: axonBridgeConfig = {
-  layer1Config: layer1ConfigLina,
-  layer2Config: {
-    SCRIPTS: {
-      deposit_lock: {
-        script_type_hash: "0xe24164e2204f998b088920405dece3dcfd5c1fbcb23aecfce4b3d3edf1488897",
-        cell_dep: {
-          out_point: {
-            tx_hash: "0x23fe9d6410c93b49039a9efa3b1549ff18772c03919bc6f2aa91643c4caa01ba",
-            index: "0x0",
-          },
-          dep_type: "code",
-        },
-      },
-      withdrawal_lock: {
-        script_type_hash: "0xf1717ee388b181fcb14352055c00b7ea7cd7c27350ffd1a2dd231e059dde2fed",
-        cell_dep: {
-          out_point: {
-            tx_hash: "0x3d727bd8bb1d87ba79638b63bfbf4c9a4feb9ac5ac5a0b356f3aaf4ccb4d3a1c",
-            index: "0x0",
-          },
-          dep_type: "code",
-        },
-      },
-      eth_account_lock: {
-        script_type_hash: "0x1563080d175bf8ddd44a48e850cecf0c0b4575835756eb5ffd53ad830931b9f9",
-      },
-    },
-    ROLLUP_CONFIG: {
-      rollup_type_hash: "0x40d73f0d3c561fcaae330eabc030d8d96a9d0af36d0c5114883658a350cb9e3b",
-      rollup_type_script: {
-        code_hash: "0xa9267ff5a16f38aa9382608eb9022883a78e6a40855107bb59f8406cce00e981",
-        hash_type: "type",
-        args: "0x2d8d67c8d73453c1a6d6d600e491b303910802e0cc90a709da9b15d26c5c48b3",
-      },
-    },
-    GW_POLYJUICE_RPC_URL: "https://mainnet.godwoken.io/rpc",
-    SCANNER_URL: "https://v0.gwscan.com",
-    SCANNER_API: "https://api.gwscan.com/api/",
-    CHAIN_NAME: "Godwoken v0 mainnet",
-    FINALITY_BLOCKS: 3600,
-    BLOCK_PRODUCE_TIME: 45,
-    MIN_CANCEL_DEPOSIT_TIME: 172800, // two days
-
-    MULTICALL_ADDRESS: "0x277FD6c744f7C16A997E5D626131eBd81d2D58Aa",
-  },
-};
-
 // https://github.com/nervosnetwork/godwoken-info/blob/69175dff51fb63665abff7cc9640af5bf3409fea/testnet_v1_1/scripts-deploy-result.json
-const v1ConfigAggron: axonBridgeConfig = {
-  layer1Config: layer1ConfigAggron,
-  layer2Config: {
+const configAggron: AxonBridgeConfig = {
+  ckbConfig: layer1ConfigAggron,
+  axonConfig: {
     SCRIPTS: {
       deposit_lock: {
         script_type_hash: "0x50704b84ecb4c4b12b43c7acb260ddd69171c21b4c0ba15f3c469b7d143f6f18",
@@ -192,7 +95,7 @@ const v1ConfigAggron: axonBridgeConfig = {
         args: "0x86c7429247beba7ddd6e4361bcdfc0510b0b644131e2afb7e486375249a01802",
       },
     },
-    GW_POLYJUICE_RPC_URL: "https://godwoken-testnet-v1.ckbapp.dev",
+    AXON_RPC_URL: "https://godwoken-testnet-v1.ckbapp.dev",
     SCANNER_URL: "https://v1.betanet.gwscan.com/",
     SCANNER_API: "https://api.v1.betanet.gwscan.com/api/",
     CHAIN_NAME: "Godwoken Testnet v1",
@@ -202,13 +105,15 @@ const v1ConfigAggron: axonBridgeConfig = {
 
     // https://github.com/mds1/multicall/blob/a6ed03f4bb232a573e9f6d4bdeca21a4edd3c1f7/README.md
     MULTICALL_ADDRESS: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    WCKB_ADDRESS: "0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352",
+    CROSS_CHAIN_ADDRESS: "0xF67Bc4E50d1df92b0E4C61794A4517AF6a995CB2",
   },
 };
 
 // https://github.com/nervosnetwork/godwoken-info/blob/69175dff51fb63665abff7cc9640af5bf3409fea/mainnet_v1/scripts-deploy-result.json
-const v1ConfigLina: axonBridgeConfig = {
-  layer1Config: layer1ConfigLina,
-  layer2Config: {
+const configLina: AxonBridgeConfig = {
+  ckbConfig: layer1ConfigLina,
+  axonConfig: {
     SCRIPTS: {
       deposit_lock: {
         script_type_hash: "0xff602581f07667eef54232cce850cbca2c418b3418611c132fca849d1edcd775",
@@ -242,7 +147,7 @@ const v1ConfigLina: axonBridgeConfig = {
         args: "0xab21bfe2bf85927bb42faaf3006a355222e24d5ea1d4dec0e62f53a8e0c04690",
       },
     },
-    GW_POLYJUICE_RPC_URL: "https://v1.mainnet.godwoken.io/rpc",
+    AXON_RPC_URL: "https://v1.mainnet.godwoken.io/rpc",
     SCANNER_URL: "https://v1.gwscan.com/",
     SCANNER_API: "https://api.v1.gwscan.com/api/",
     CHAIN_NAME: "Godwoken Mainet v1",
@@ -253,15 +158,11 @@ const v1ConfigLina: axonBridgeConfig = {
 
     // https://github.com/mds1/multicall/commit/a6ed03f4bb232a573e9f6d4bdeca21a4edd3c1f7
     MULTICALL_ADDRESS: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    WCKB_ADDRESS: "",
+    CROSS_CHAIN_ADDRESS: "",
   },
 };
 
-export const predefined_testnet: axonBridgeConfigMap = {
-  v0: v0ConfigAggron,
-  v1: v1ConfigAggron,
-};
+export const predefined_testnet: AxonBridgeConfig = configAggron;
 
-export const predefined_mainnet: axonBridgeConfigMap = {
-  v0: v0ConfigLina,
-  v1: v1ConfigLina,
-};
+export const predefined_mainnet: AxonBridgeConfig = configLina;

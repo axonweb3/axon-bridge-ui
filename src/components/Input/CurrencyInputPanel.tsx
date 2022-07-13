@@ -9,7 +9,7 @@ import { Token } from "../../light-godwoken/lightGodwokenType";
 import { BI } from "@ckb-lumos/lumos";
 import { ConfirmModal, InputCard, Row, Text } from "../../style/common";
 import { formatToThousands } from "../../utils/numberFormat";
-import { useLightGodwoken } from "../../hooks/useLightGodwoken";
+import { useAxonBridge } from "../../hooks/useAxonBridge";
 
 const TokenList = styled.div`
   height: 390px;
@@ -85,7 +85,7 @@ export default function CurrencyInputPanel({
   dataLoading,
   onSelectedChange,
 }: CurrencyInputPanelProps) {
-  const lightGodwoken = useLightGodwoken();
+  const axonBridge = useAxonBridge();
   const [selectedCurrencyBalance, setCurrencyBalance] = useState<string>();
   const [selectedCurrency, setSelectedCurrency] = useState<Token>();
   const [disableInput, setDisableInput] = useState<boolean>(true);
@@ -114,7 +114,7 @@ export default function CurrencyInputPanel({
     setSelectedCurrency(undefined);
     setDisableInput(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lightGodwoken?.getVersion(), lightGodwoken?.provider.getL2Address()]);
+  }, [lightGodwoken?.getVersion(), axonBridge?.provider.getL2Address()]);
   const handleOk = () => {
     setIsModalVisible(false);
   };

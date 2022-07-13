@@ -9,7 +9,7 @@ import { config } from "@ckb-lumos/lumos";
 
 // import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import { LightGodwokenError } from "./light-godwoken/constants/error";
+import { axonBridgeError } from "./light-godwoken/constants/error";
 import { isMainnet } from "./light-godwoken/env";
 
 /*
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "production") {
     ],
     beforeSend: function (event, hint) {
       const exception = hint?.originalException;
-      if (exception instanceof LightGodwokenError) {
+      if (exception instanceof axonBridgeError) {
         event.fingerprint = ["light-godwoken-error"];
       }
       return event;

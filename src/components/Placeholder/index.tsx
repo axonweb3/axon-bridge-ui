@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { useLightGodwoken } from "../../hooks/useLightGodwoken";
+import { useAxonBridge } from "../../hooks/useAxonBridge";
 
 export const Placeholder: React.FC = () => {
-  const lightGodwoken = useLightGodwoken();
+  const axonBridge = useAxonBridge();
   return <>{lightGodwoken ? <LoadingOutlined /> : "-"}</>;
 };

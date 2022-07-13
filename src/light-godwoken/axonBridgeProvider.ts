@@ -19,61 +19,51 @@ import { PolyjuiceHttpProvider } from "@polyjuice-provider/web3";
 import { SUDT_ERC20_PROXY_ABI } from "./constants/sudtErc20ProxyAbi";
 import { AbiItems } from "@polyjuice-provider/base";
 import Web3 from "web3";
-import { LightGodwokenProvider } from "./lightGodwokenType";
+import { ethers } from "ethers";
+import { AxonBridgeProvider } from "./axonBridgeType";
 import { debug } from "./debug";
 import { claimUSDC } from "./sudtFaucet";
-import { GodwokenVersion, LightGodwokenConfig, LightGodwokenConfigMap } from "./constants/configTypes";
-import { EnvNotFoundError, EthereumNotFoundError, LightGodwokenConfigNotValidError } from "./constants/error";
+import {AxonBridgeConfig, GodwokenVersion, axonBridgeConfig, axonBridgeConfigMap} from "./constants/configTypes";
+import { EnvNotFoundError, EthereumNotFoundError, axonBridgeConfigNotValidError } from "./constants/error";
 import { OmniLockWitnessLockCodec } from "./schemas/codecLayer1";
 import { isSpecialWallet } from "./utils";
-import { initConfig } from "./constants/configManager";
+import {initAxonConfig, initConfig} from "./constants/configManager";
+import DefaultLightGodwokenProvider from "./lightGodwokenProvider";
 
-export default class DefaultLightGodwokenProvider implements LightGodwokenProvider {
-  l2Address: Address = "";
-  l1Address: Address = "";
+export default class DefaultAxonBridgeProvider implements AxonBridgeProvider {
+  axonAddress: Address = "";
+  ckbAddress: Address = "";
   ckbIndexer;
   ckbRpc;
   ethereum;
+  ethProvider;
   web3;
-  lightGodwokenConfig;
-  constructor(ethAddress: Address, ethereum: any, env: GodwokenVersion, lightGodwokenConfig?: LightGodwokenConfigMap) {
-    if (lightGodwokenConfig) {
-      validateLightGodwokenConfig(lightGodwokenConfig[env]);
+  axonBridgeConfig;
+  constructor(ethAddress: Address, ethereum: any, axonBridgeConfig?: AxonBridgeConfig) {
+    if (axonBridgeConfig) {
+      validateAxonBridgeConfig(axonBridgeConfig);
     }
-    this.lightGodwokenConfig = initConfig(env, lightGodwokenConfig);
+    this.axonBridgeConfig = initAxonConfig(axonBridgeConfig);
 
-    const { layer1Config, layer2Config } = this.lightGodwokenConfig;
-    this.ckbIndexer = new Indexer(layer1Config.CKB_INDEXER_URL, layer1Config.CKB_RPC_URL);
-    this.ckbRpc = new RPC(layer1Config.CKB_RPC_URL);
+    const { ckbConfig, axonConfig } = this.axonBridgeConfig;
+    this.ckbIndexer = new Indexer(ckbConfig.CKB_INDEXER_URL, ckbConfig.CKB_RPC_URL);
+    this.ckbRpc = new RPC(ckbConfig.CKB_RPC_URL);
 
-    if (env === "v0") {
-      const polyjuiceProvider = new PolyjuiceHttpProvider(layer2Config.GW_POLYJUICE_RPC_URL, {
-        web3Url: layer2Config.GW_POLYJUICE_RPC_URL,
-        abiItems: SUDT_ERC20_PROXY_ABI as AbiItems,
-      });
-      this.web3 = new Web3(polyjuiceProvider);
-    } else if (env === "v1") {
-      this.web3 = new Web3(ethereum || (window.ethereum as any));
-    } else {
-      throw new EnvNotFoundError(env, "unsupported env");
-    }
+    this.ethProvider = new ethers.providers.JsonRpcProvider(axonBridgeConfig?.axonConfig.AXON_RPC_URL);
+    this.web3 = new Web3(axonBridgeConfig?.axonConfig.AXON_RPC_URL!);
 
     this.ethereum = ethereum;
-    this.l2Address = ethAddress;
-    this.l1Address = this.generateL1Address(this.l2Address);
+    this.axonAddress = ethAddress;
+    this.ckbAddress = this.generateCkbAddress(this.axonAddress);
     ethereum.on("accountsChanged", (accounts: any) => {
       debug("eth accounts changed", accounts);
-      this.l2Address = accounts[0];
-      this.l1Address = this.generateL1Address(this.l2Address);
+      this.axonAddress = accounts[0];
+      this.ckbAddress = this.generateCkbAddress(this.axonAddress);
     });
   }
 
-  getConfig(): LightGodwokenConfig {
-    return this.lightGodwokenConfig;
-  }
-
-  async claimUSDC(): Promise<HexString> {
-    return claimUSDC(this.ethereum, this.getLightGodwokenConfig(), this.getL2Address(), this.ckbRpc, this.ckbIndexer);
+  getConfig(): AxonBridgeConfig {
+    return this.axonBridgeConfig;
   }
 
   async getMinFeeRate(): Promise<BI> {
@@ -81,16 +71,16 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
     return BI.from(feeRate.min_fee_rate);
   }
 
-  getL2Address(): string {
-    return this.l2Address;
+  getAxonAddress(): string {
+    return this.axonAddress;
   }
-  getL1Address(): string {
-    return this.l1Address;
+  getCkbAddress(): string {
+    return this.ckbAddress;
   }
 
   async getL1CkbBalance(): Promise<BI> {
     const ckbCollector = this.ckbIndexer.collector({
-      lock: helpers.parseAddress(this.l1Address),
+      lock: helpers.parseAddress(this.ckbAddress),
       type: "empty",
       outputDataLenRange: ["0x0", "0x1"],
     });
@@ -101,11 +91,7 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
     return ckbBalance;
   }
 
-  getLightGodwokenConfig(): LightGodwokenConfig {
-    return this.lightGodwokenConfig;
-  }
-
-  static async CreateProvider(ethereum: any, version: GodwokenVersion): Promise<LightGodwokenProvider> {
+  static async CreateProvider(ethereum: any): Promise<AxonBridgeProvider> {
     if (!ethereum || !ethereum.isMetaMask) {
       throw new EthereumNotFoundError(ethereum, "please provide metamask ethereum object");
     }
@@ -113,7 +99,7 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
       .request({ method: "eth_requestAccounts" })
       .then((accounts: any) => {
         debug("eth_requestAccounts", accounts);
-        return new DefaultLightGodwokenProvider(accounts[0], ethereum, version);
+        return new DefaultAxonBridgeProvider(accounts[0], ethereum);
       })
       .catch((error: any) => {
         if (error.code === 4001) {
@@ -125,16 +111,16 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
       });
   }
 
-  generateL1Address(l2Address: Address): Address {
+  generateCkbAddress(axonAddress: Address): Address {
     const omniLock: Script = {
-      code_hash: this.lightGodwokenConfig.layer1Config.SCRIPTS.omni_lock.code_hash,
-      hash_type: this.lightGodwokenConfig.layer1Config.SCRIPTS.omni_lock.hash_type as HashType,
+      code_hash: this.axonBridgeConfig.ckbConfig.SCRIPTS.omni_lock.code_hash,
+      hash_type: this.axonBridgeConfig.ckbConfig.SCRIPTS.omni_lock.hash_type as HashType,
       // omni flag       pubkey hash   omni lock flags
       // chain identity   eth addr      function flag()
       // 00: Nervos       👇            00: owner
       // 01: Ethereum     👇            01: administrator
       //      👇          👇            👇
-      args: `0x01${l2Address.substring(2)}00`,
+      args: `0x01${axonAddress.substring(2)}00`,
     };
     return helpers.generateAddress(omniLock);
   }
@@ -209,7 +195,7 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
   }
 
   async getRollupCell(): Promise<Cell | undefined> {
-    const rollupConfig = this.lightGodwokenConfig.layer2Config.ROLLUP_CONFIG;
+    const rollupConfig = this.axonBridgeConfig.axonConfig.ROLLUP_CONFIG;
     const queryOptions = {
       type: {
         code_hash: rollupConfig.rollup_type_script.code_hash,
@@ -232,10 +218,10 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
 
   getLayer2LockScript(): Script {
     const layer2Lock: Script = {
-      code_hash: this.lightGodwokenConfig.layer2Config.SCRIPTS.eth_account_lock.script_type_hash as string,
+      code_hash: this.axonBridgeConfig.axonConfig.SCRIPTS.eth_account_lock.script_type_hash as string,
       hash_type: "type",
       args:
-        this.lightGodwokenConfig.layer2Config.ROLLUP_CONFIG.rollup_type_hash + this.l2Address.slice(2).toLowerCase(),
+        this.axonBridgeConfig.axonConfig.ROLLUP_CONFIG.rollup_type_hash + this.axonAddress.slice(2).toLowerCase(),
     };
     return layer2Lock;
   }
@@ -247,11 +233,11 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
   }
 
   getLayer1Lock(): Script {
-    return helpers.parseAddress(this.l1Address);
+    return helpers.parseAddress(this.ckbAddress);
   }
 
   getLayer1LockScriptHash(): Hash {
-    const ownerCKBLock = helpers.parseAddress(this.l1Address);
+    const ownerCKBLock = helpers.parseAddress(this.ckbAddress);
     const ownerLock: Script = {
       code_hash: ownerCKBLock.code_hash,
       args: ownerCKBLock.args,
@@ -277,20 +263,20 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
     return new Promise((r) => setTimeout(r, ms));
   }
 }
-function validateLightGodwokenConfig(
-  lightGodwokenConfig: LightGodwokenConfig,
-): asserts lightGodwokenConfig is LightGodwokenConfig {
+function validateAxonBridgeConfig(
+  axonBridgeConfig: AxonBridgeConfig,
+): asserts axonBridgeConfig is AxonBridgeConfig {
   if (
-    !lightGodwokenConfig ||
-    !lightGodwokenConfig.layer2Config ||
-    !lightGodwokenConfig.layer2Config.SCRIPTS ||
-    !lightGodwokenConfig.layer2Config.ROLLUP_CONFIG ||
-    !lightGodwokenConfig.layer2Config.GW_POLYJUICE_RPC_URL ||
-    !lightGodwokenConfig.layer1Config ||
-    !lightGodwokenConfig.layer1Config.SCRIPTS ||
-    !lightGodwokenConfig.layer1Config.CKB_INDEXER_URL ||
-    !lightGodwokenConfig.layer1Config.CKB_RPC_URL
+    !axonBridgeConfig ||
+    !axonBridgeConfig.axonConfig ||
+    !axonBridgeConfig.axonConfig.SCRIPTS ||
+    !axonBridgeConfig.axonConfig.ROLLUP_CONFIG ||
+    !axonBridgeConfig.axonConfig.AXON_RPC_URL ||
+    !axonBridgeConfig.ckbConfig ||
+    !axonBridgeConfig.ckbConfig.SCRIPTS ||
+    !axonBridgeConfig.ckbConfig.CKB_INDEXER_URL ||
+    !axonBridgeConfig.ckbConfig.CKB_RPC_URL
   ) {
-    throw new LightGodwokenConfigNotValidError(JSON.stringify(lightGodwokenConfig), "lightGodwokenConfig not valid.");
+    throw new axonBridgeConfigNotValidError(JSON.stringify(axonBridgeConfig), "axonBridgeConfig not valid.");
   }
 }

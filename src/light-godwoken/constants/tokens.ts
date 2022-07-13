@@ -1,11 +1,11 @@
-import { LightGodwokenTokenType } from "./configTypes";
+import { axonBridgeTokenType } from "./configTypes";
 import { TOKEN_LIST_V0_MAINNET } from "./godwokenTokensV0";
 import { TOKEN_LIST_V1_MAINNET } from "./godwokenTokensV1";
 import { isMainnet } from "../env";
 
 export const CKB_SUDT_ID = 1; // This is default sudt id fro ckb on Godwoken
 
-export const TOKEN_LIST_V0: LightGodwokenTokenType[] = [
+export const TOKEN_LIST_V0: axonBridgeTokenType[] = [
   {
     id: 120,
     symbol: "TTKN",
@@ -53,7 +53,7 @@ export const TOKEN_LIST_V0: LightGodwokenTokenType[] = [
   },
 ];
 
-export const TOKEN_LIST_V1: LightGodwokenTokenType[] = [
+export const TOKEN_LIST_V1: axonBridgeTokenType[] = [
   {
     id: 80,
     symbol: "TTKN",

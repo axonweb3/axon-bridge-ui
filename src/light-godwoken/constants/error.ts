@@ -1,6 +1,6 @@
 import { BI, HexString } from "@ckb-lumos/lumos";
 
-export class LightGodwokenError<T> extends Error {
+export class axonBridgeError<T> extends Error {
   readonly metadata: T;
   constructor(metadata: T, message: string) {
     super(message);
@@ -8,29 +8,29 @@ export class LightGodwokenError<T> extends Error {
   }
 }
 
-export class EthereumNotFoundError extends LightGodwokenError<string> {}
-export class LightGodwokenConfigNotValidError extends LightGodwokenError<string> {}
-export class LightGodwokenNotFoundError extends LightGodwokenError<string> {}
-export class NotEnoughCapacityError extends LightGodwokenError<{ expected: BI; actual: BI }> {}
-export class NotEnoughSudtError extends LightGodwokenError<{ expected: BI; actual: BI }> {}
+export class EthereumNotFoundError extends axonBridgeError<string> {}
+export class axonBridgeConfigNotValidError extends axonBridgeError<string> {}
+export class axonBridgeNotFoundError extends axonBridgeError<string> {}
+export class NotEnoughCapacityError extends axonBridgeError<{ expected: BI; actual: BI }> {}
+export class NotEnoughSudtError extends axonBridgeError<{ expected: BI; actual: BI }> {}
 
-export class Layer1RpcError extends LightGodwokenError<string> {}
-export class Layer2RpcError extends LightGodwokenError<string> {}
+export class Layer1RpcError extends axonBridgeError<string> {}
+export class Layer2RpcError extends axonBridgeError<string> {}
 
-export class V1WithdrawTokenNotEnoughError extends LightGodwokenError<string> {}
-export class V0WithdrawTokenNotEnoughError extends LightGodwokenError<string> {}
+export class V1WithdrawTokenNotEnoughError extends axonBridgeError<string> {}
+export class V0WithdrawTokenNotEnoughError extends axonBridgeError<string> {}
 
-export class EthAddressFormatError extends LightGodwokenError<{ address: string }> {}
-export class Layer2AccountIdNotFoundError extends LightGodwokenError<string> {}
-export class ERC20TokenNotFoundError extends LightGodwokenError<{ sudtScriptHash: HexString }> {}
-export class TransactionSignError extends LightGodwokenError<string> {}
-export class EnvNotFoundError extends LightGodwokenError<string> {}
-export class SudtNotFoundError extends LightGodwokenError<string> {}
-export class Erc20NotFoundError extends LightGodwokenError<string> {}
+export class EthAddressFormatError extends axonBridgeError<{ address: string }> {}
+export class Layer2AccountIdNotFoundError extends axonBridgeError<string> {}
+export class ERC20TokenNotFoundError extends axonBridgeError<{ sudtScriptHash: HexString }> {}
+export class TransactionSignError extends axonBridgeError<string> {}
+export class EnvNotFoundError extends axonBridgeError<string> {}
+export class SudtNotFoundError extends axonBridgeError<string> {}
+export class Erc20NotFoundError extends axonBridgeError<string> {}
 
-export class DepositTxNotFoundError extends LightGodwokenError<string> {}
-export class DepositCellNotFoundError extends LightGodwokenError<string> {}
-export class DepositTimeoutError extends LightGodwokenError<string> {}
-export class DepositRejectedError extends LightGodwokenError<string> {}
-export class DepositCanceledError extends LightGodwokenError<string> {}
-export class WithdrawalTimeoutError extends LightGodwokenError<string> {}
+export class DepositTxNotFoundError extends axonBridgeError<string> {}
+export class DepositCellNotFoundError extends axonBridgeError<string> {}
+export class DepositTimeoutError extends axonBridgeError<string> {}
+export class DepositRejectedError extends axonBridgeError<string> {}
+export class DepositCanceledError extends axonBridgeError<string> {}
+export class WithdrawalTimeoutError extends axonBridgeError<string> {}

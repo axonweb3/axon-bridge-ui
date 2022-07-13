@@ -6,7 +6,7 @@ import { getDisplayAmount } from "../../utils/formatTokenAmount";
 import { BI } from "@ckb-lumos/lumos";
 import { Placeholder } from "../Placeholder";
 import { formatToThousands } from "../../utils/numberFormat";
-import { useLightGodwoken } from "../../hooks/useLightGodwoken";
+import { useAxonBridge } from "../../hooks/useAxonBridge";
 import copy from "copy-to-clipboard";
 const StyleWrapper = styled.div`
   display: flex;
@@ -64,8 +64,8 @@ export const WalletInfo: React.FC<Props> = ({ l1Address, l1Balance, l2Balance, e
     copy(ethAddress || "");
     message.success("copied ethereum address to clipboard");
   };
-  const lightGodwoken = useLightGodwoken();
-  const decimals = lightGodwoken?.getNativeAsset().decimals;
+  const axonBridge = useAxonBridge();
+  const decimals = axonBridge?.getNativeAsset().decimals;
 
   return (
     <StyleWrapper>

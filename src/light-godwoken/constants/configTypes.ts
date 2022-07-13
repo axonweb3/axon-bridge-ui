@@ -47,19 +47,19 @@ export type Layer1Config = {
   SCANNER_URL: string;
 };
 
-export type LightGodwokenConfig = {
+export type axonBridgeConfig = {
   layer1Config: Layer1Config;
   layer2Config: Layer2Config;
 };
 
-export type LightGodwokenConfigMap = {
-  v0: LightGodwokenConfig;
-  v1: LightGodwokenConfig;
+export type axonBridgeConfigMap = {
+  v0: axonBridgeConfig;
+  v1: axonBridgeConfig;
 };
 
-export type GodwokenVersion = keyof LightGodwokenConfigMap;
+export type GodwokenVersion = keyof axonBridgeConfigMap;
 
-export type LightGodwokenTokenType = {
+export type axonBridgeTokenType = {
   id: number;
   symbol: string;
   name: string;
@@ -67,4 +67,54 @@ export type LightGodwokenTokenType = {
   tokenURI: string;
   address: string;
   l1LockArgs: string;
+};
+
+/**
+ * axon
+ */
+
+export type CkbConfig = {
+  SCRIPTS: {
+    omni_lock: ScriptType;
+    secp256k1_blake160: ScriptType;
+    sudt: ScriptType;
+  };
+  CKB_INDEXER_URL: string;
+  CKB_RPC_URL: string;
+  SCANNER_URL: string;
+};
+
+export type AxonConfig = {
+  SCRIPTS: {
+    deposit_lock: {
+      script_type_hash: Hash;
+      cell_dep: CellDep;
+    };
+    withdrawal_lock: {
+      script_type_hash: Hash;
+      cell_dep: CellDep;
+    };
+    eth_account_lock: {
+      script_type_hash: Hash;
+    };
+  };
+  ROLLUP_CONFIG: {
+    rollup_type_hash: Hash;
+    rollup_type_script: Script;
+  };
+  AXON_RPC_URL: string;
+  SCANNER_URL: string;
+  SCANNER_API: string;
+  CHAIN_NAME: string;
+  FINALITY_BLOCKS: number;
+  BLOCK_PRODUCE_TIME: number;
+  MIN_CANCEL_DEPOSIT_TIME: number;
+  MULTICALL_ADDRESS?: string;
+  WCKB_ADDRESS: string,
+  CROSS_CHAIN_ADDRESS: string,
+};
+
+export type AxonBridgeConfig = {
+  ckbConfig: CkbConfig;
+  axonConfig: AxonConfig;
 };

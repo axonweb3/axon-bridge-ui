@@ -1,9 +1,9 @@
-import { LightGodwokenV1 } from "../light-godwoken";
+import { axonBridgeV1 } from "../light-godwoken";
 
-export const addNetwork = async (ethereum: any, lightGodwokenV1: LightGodwokenV1) => {
-  const chainId = await lightGodwokenV1.getChainId();
-  const layer2Config = lightGodwokenV1.getConfig().layer2Config;
-  const nativeToken = lightGodwokenV1.getNativeAsset();
+export const addNetwork = async (ethereum: any, axonBridgeV1: axonBridgeV1) => {
+  const chainId = await axonBridgeV1.getChainId();
+  const layer2Config = axonBridgeV1.getConfig().layer2Config;
+  const nativeToken = axonBridgeV1.getNativeAsset();
 
   const params = [
     {

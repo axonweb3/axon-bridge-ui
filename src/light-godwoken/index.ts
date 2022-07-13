@@ -1,5 +1,3 @@
-import LightGodwokenProvider from "./lightGodwokenProvider";
-import LightGodwokenV0 from "./LightGodwokenV0";
-import LightGodwokenV1 from "./LightGodwokenV1";
+import axonBridgeProvider from "./lightGodwokenProvider";
 
-export { LightGodwokenProvider, LightGodwokenV1, LightGodwokenV0 };
+export { axonBridgeProvider };

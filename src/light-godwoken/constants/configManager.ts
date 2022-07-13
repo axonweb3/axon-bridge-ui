@@ -1,16 +1,21 @@
 import { isMainnet } from "../env";
-import { LightGodwokenConfig, LightGodwokenConfigMap } from "./configTypes";
+import {AxonBridgeConfig, axonBridgeConfig, axonBridgeConfigMap} from "./configTypes";
 import { predefined_testnet, predefined_mainnet } from "./lightGodwokenConfig";
+import { predefined_testnet as predefined_axon_testnet, predefined_mainnet as predefined_axon_mainnet } from "./axonBridgeConfig";
 import { writeStorage } from "@rehooks/local-storage";
 import { GodwokenVersion } from "./configTypes";
 
-export function getPredefinedConfig(): LightGodwokenConfigMap {
+export function getPredefinedConfig(): axonBridgeConfigMap {
   return isMainnet ? predefined_mainnet : predefined_testnet;
 }
 
+export function getPredefinedAxonConfig(): AxonBridgeConfig {
+  return isMainnet ? predefined_axon_mainnet : predefined_axon_testnet;
+}
+
 // TODO deprecate initConfig, and refactor it to application level, `DefaultLightGodwokenProvider` would be design in stateless
-export function initConfig(env: GodwokenVersion, lightGodwokenConfig?: LightGodwokenConfigMap): LightGodwokenConfig {
-  const config = lightGodwokenConfig || getPredefinedConfig();
+export function initConfig(env: GodwokenVersion, axonBridgeConfig?: axonBridgeConfigMap): axonBridgeConfig {
+  const config = axonBridgeConfig || getPredefinedConfig();
   if (!localStorage.getItem("advanced-settings")) {
     setAdvancedSettingsMap({
       v0: {
@@ -46,4 +51,18 @@ export function getAdvancedSettings(version: GodwokenVersion): AdvancedSettings 
 
 function setAdvancedSettingsMap(settings: AdvancedSettingsMap) {
   writeStorage("advanced-settings", JSON.stringify(settings));
+}
+
+function setAxonAdvancedSettings(settings: AdvancedSettings) {
+  writeStorage("axon-advanced-settings", JSON.stringify(settings));
+}
+
+export function initAxonConfig(axonBridgeConfig?: AxonBridgeConfig): AxonBridgeConfig {
+  const config = axonBridgeConfig || getPredefinedAxonConfig();
+  if (!localStorage.getItem("axon-advanced-settings")) {
+    setAxonAdvancedSettings({
+      MIN_CANCEL_DEPOSIT_TIME: config.axonConfig.MIN_CANCEL_DEPOSIT_TIME,
+    });
+  }
+  return config;
 }

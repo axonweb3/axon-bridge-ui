@@ -1,7 +1,7 @@
-import { LightGodwokenTokenType } from "./configTypes";
+import { axonBridgeTokenType } from "./configTypes";
 
 // https://github.com/nervosnetwork/godwoken-info/blob/main/mainnet_v0/ERC20TokenList.json
-export const TOKEN_LIST_V0_MAINNET: LightGodwokenTokenType[] = [
+export const TOKEN_LIST_V0_MAINNET: axonBridgeTokenType[] = [
   {
     id: 0,
     symbol: "dCKB",

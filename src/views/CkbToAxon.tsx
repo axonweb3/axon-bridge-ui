@@ -1,15 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, CopyOutlined } from "@ant-design/icons";
 import { BI } from "@ckb-lumos/lumos";
-import { notification } from "antd";
+import { ReactComponent as CopyIcon } from "../assets/copy.svg";
+import { Placeholder } from "../components/Placeholder";
+import {notification, Form, Input, Tooltip, message} from "antd";
 import styled from "styled-components";
-import { useLightGodwoken } from "../hooks/useLightGodwoken";
+import { useAxonBridge } from "../hooks/useAxonBridge";
 import CKBInputPanel from "../components/Input/CKBInputPanel";
 import CurrencyInputPanel from "../components/Input/CurrencyInputPanel";
-import { useSUDTBalance } from "../hooks/useSUDTBalance";
 import { useL1CKBBalance } from "../hooks/useL1CKBBalance";
 import { useL2CKBBalance } from "../hooks/useL2CKBBalance";
-import { DepositEventEmitter, SUDT, Token } from "../light-godwoken/lightGodwokenType";
+import { useAxonBalance } from "../hooks/useAxonBalance";
+import { useAxonFee } from "../hooks/useAxonFee";
+import { DepositEventEmitter, SUDT, Token } from "../light-godwoken/axonBridgeType";
 import {
   ConfirmModal,
   Card,
@@ -23,7 +26,6 @@ import {
   Tips,
 } from "../style/common";
 import { ReactComponent as PlusIcon } from "./../assets/plus.svg";
-import { WalletInfo } from "../components/WalletInfo";
 import { getDepositInputError, isDepositCKBInputValidate, isSudtInputValidate } from "../utils/inputValidate";
 import { formatToThousands, parseStringToBI } from "../utils/numberFormat";
 import { ReactComponent as CKBIcon } from "../assets/ckb.svg";
@@ -31,18 +33,19 @@ import { WalletConnect } from "../components/WalletConnect";
 import { DepositList } from "../components/Deposit/List";
 import {
   DepositRejectedError,
-  LightGodwokenError,
+  axonBridgeError,
   NotEnoughCapacityError,
   NotEnoughSudtError,
   TransactionSignError,
 } from "../light-godwoken/constants/error";
 import { getFullDisplayAmount } from "../utils/formatTokenAmount";
-// import { captureException } from "@sentry/react";
+import { captureException } from "@sentry/react";
 import EventEmitter from "events";
 import { useQuery } from "react-query";
 import { useGodwokenVersion } from "../hooks/useGodwokenVersion";
 import { useDepositHistory } from "../hooks/useDepositTxHistory";
 import { format } from "date-fns";
+import copy from "copy-to-clipboard";
 
 const ModalContent = styled.div`
   width: 100%;
@@ -51,7 +54,8 @@ const ModalContent = styled.div`
   align-items: center;
 `;
 
-export default function Deposit() {
+export default function CkbToAxon() {
+  // TODO
   const [CKBInput, setCKBInput] = useState("");
   const [sudtInput, setSudtInputValue] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -59,27 +63,38 @@ export default function Deposit() {
   const [isSudtValueValidate, setIsSudtValueValidate] = useState(true);
   const [selectedSudt, setSelectedSudt] = useState<SUDT>();
   const [selectedSudtBalance, setSelectedSudtBalance] = useState<string>();
-  const lightGodwoken = useLightGodwoken();
-  const sudtBalanceQUery = useSUDTBalance();
+  const axonBridge = useAxonBridge();
   const CKBBalanceQuery = useL1CKBBalance();
+  const axonFeeQuery = useAxonFee();
+  const axonBalanceQuery = useAxonBalance();
   const CKBBalance = CKBBalanceQuery.data;
+  const atBalance = axonBalanceQuery.data;
+  const axonFee = axonFeeQuery.data;
   const { data: l2CKBBalance } = useL2CKBBalance();
 
   const maxAmount = CKBBalance ? BI.from(CKBBalance).toString() : undefined;
-  const cancelTimeout = lightGodwoken?.getCancelTimeout() || 0;
-  const tokenList: SUDT[] | undefined = lightGodwoken?.getBuiltinSUDTList();
-  const l1Address = lightGodwoken?.provider.getL1Address();
-  const ethAddress = lightGodwoken?.provider.getL2Address();
+  const cancelTimeout = axonBridge?.getCancelTimeout() || 0;
+  const tokenList: SUDT[] | undefined = axonBridge?.getBuiltinSUDTList();
+  const ckbAddress = axonBridge?.provider.getL1Address();
+  const ethAddress = axonBridge?.provider.getL2Address();
   const godwokenVersion = useGodwokenVersion();
+
+  const truncateMiddle = (str: string, first = 40, last = 6): string => {
+    return str.substring(0, first) + "..." + str.substring(str.length - last);
+  };
+  const copyAddress = () => {
+    copy(ethAddress || "");
+    message.success("copied eth address to clipboard");
+  };
 
   const { txHistory: depositHistory, addTxToHistory, updateTxWithStatus } = useDepositHistory();
 
   const [depositListListener, setDepositListListener] = useState(new EventEmitter() as DepositEventEmitter);
 
   const depositListQuery = useQuery(
-    ["queryDepositList", { version: lightGodwoken?.getVersion(), l2Address: lightGodwoken?.provider.getL2Address() }],
+    ["queryDepositList", { version: axonBridge?.getVersion(), l2Address: axonBridge?.provider.getL2Address() }],
     () => {
-      return lightGodwoken?.getDepositList();
+      return axonBridge?.getDepositList();
     },
   );
 
@@ -107,7 +122,7 @@ export default function Deposit() {
   useMemo(() => {
     const pendingList = depositHistory.filter((history) => history.status === "pending");
     const subscribePayload = pendingList.map(({ txHash }) => ({ tx_hash: txHash }));
-    const listener = lightGodwoken?.subscribPendingDepositTransactions(subscribePayload);
+    const listener = axonBridge?.subscribPendingDepositTransactions(subscribePayload);
     if (listener) {
       listener.on("success", (txHash) => {
         updateTxWithStatus(txHash, "success");
@@ -115,7 +130,7 @@ export default function Deposit() {
       listener.on("fail", (e) => {
         if (e instanceof DepositRejectedError) {
           updateTxWithStatus(e.metadata, "rejected");
-        } else if (e instanceof LightGodwokenError) {
+        } else if (e instanceof axonBridgeError) {
           updateTxWithStatus(e.metadata, "fail");
         }
       });
@@ -175,7 +190,7 @@ export default function Deposit() {
       });
       return;
     }
-    // captureException(e);
+    captureException(e);
     notification.error({
       message: `Unknown Error, Please try again later`,
     });
@@ -191,7 +206,7 @@ export default function Deposit() {
     }
     setIsModalVisible(true);
     try {
-      const txHash = await lightGodwoken.deposit({
+      const txHash = await axonBridge.deposit({
         capacity: capacity,
         amount: amount,
         sudtType: selectedSudt?.type,
@@ -245,44 +260,30 @@ export default function Deposit() {
     <>
       <Card>
         <WalletConnect></WalletConnect>
-        <div style={{ opacity: lightGodwoken ? "1" : "0.5" }}>
-          <CardHeader className="header">
-            <Text className="title">
-              <span>Deposit To Layer2</span>
-            </Text>
-            <Text className="description">
-              To deposit, transfer CKB or supported sUDT tokens to your L1 Wallet Address first
-            </Text>
-          </CardHeader>
-          <WalletInfo
-            l1Address={l1Address}
-            l1Balance={CKBBalance}
-            l2Balance={l2CKBBalance}
-            ethAddress={ethAddress}
-          ></WalletInfo>
-          <CKBInputPanel
-            value={CKBInput}
-            onUserInput={setCKBInput}
-            label="Deposit"
-            isLoading={CKBBalanceQuery.isLoading}
-            CKBBalance={CKBBalance}
-            maxAmount={maxAmount}
-          ></CKBInputPanel>
-          <PlusIconContainer>
-            <PlusIcon />
-          </PlusIconContainer>
-          <CurrencyInputPanel
-            value={sudtInput}
-            onUserInput={setSudtInputValue}
-            label="sUDT(optional)"
-            onSelectedChange={handleSelectedChange}
-            balancesList={sudtBalanceQUery.data?.balances}
-            tokenList={tokenList}
-            dataLoading={sudtBalanceQUery.isLoading}
-          ></CurrencyInputPanel>
-          <PrimaryButton disabled={!CKBInput || !isCKBValueValidate || !isSudtValueValidate} onClick={deposit}>
-            {inputError || "Deposit"}
-          </PrimaryButton>
+        <div style={{ opacity: axonBridge ? "1" : "0.5" }}>
+          <Form
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 12 }}
+            layout="horizontal"
+          >
+            <Form.Item label="Axon Address">
+              <Input bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
+                <Tooltip title="Copy Axon Address">
+                  <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
+                </Tooltip>
+              }/>
+            </Form.Item>
+            <Form.Item label="WCKB fee2">
+              <Input bordered={false} readOnly={true} value={atBalance} suffix={
+                <Tooltip title="Copy Axon Address">
+                  <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
+                </Tooltip>
+              }/>
+            </Form.Item>
+            <PrimaryButton disabled={!CKBInput || !isCKBValueValidate || !isSudtValueValidate} onClick={deposit}>
+              {inputError || "Deposit"}
+            </PrimaryButton>
+          </Form>
         </div>
       </Card>
       <Card>

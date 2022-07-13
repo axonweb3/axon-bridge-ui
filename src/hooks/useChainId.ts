@@ -1,9 +1,9 @@
 import { useQuery, UseQueryResult } from "react-query";
-import { LightGodwokenV1 } from "../light-godwoken";
-import { useLightGodwoken } from "./useLightGodwoken";
+import { axonBridgeV1 } from "../light-godwoken";
+import { useAxonBridge } from "./useAxonBridge";
 
 export const useChainId = (): UseQueryResult<string> => {
-  const lightGodwoken = useLightGodwoken();
+  const axonBridge = useAxonBridge();
 
   return useQuery(
     ["queryChainId"],
@@ -11,8 +11,8 @@ export const useChainId = (): UseQueryResult<string> => {
       if (!lightGodwoken) {
         throw new Error("LightGodwokenV1 not found");
       }
-      if (lightGodwoken instanceof LightGodwokenV1) {
-        return lightGodwoken.getChainId();
+      if (lightGodwoken instanceof axonBridgeV1) {
+        return axonBridge.getChainId();
       }
       return "";
     },

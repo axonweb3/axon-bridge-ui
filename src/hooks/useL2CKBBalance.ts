@@ -1,13 +1,13 @@
 import { useQuery, UseQueryResult } from "react-query";
-import { useLightGodwoken } from "./useLightGodwoken";
+import { useAxonBridge } from "./useAxonBridge";
 
 export const useL2CKBBalance = (): UseQueryResult<string> => {
-  const lightGodwoken = useLightGodwoken();
+  const axonBridge = useAxonBridge();
 
   return useQuery(
-    ["queryL2CKBBalance", { version: lightGodwoken?.getVersion(), l2Address: lightGodwoken?.provider.getL2Address() }],
+    ["queryL2CKBBalance", { version: axonBridge?.getVersion(), l2Address: axonBridge?.provider.getL2Address() }],
     () => {
-      return lightGodwoken?.getL2CkbBalance();
+      return axonBridge?.getL2CkbBalance();
     },
     {
       enabled: !!lightGodwoken,

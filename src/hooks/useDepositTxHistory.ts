@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { writeStorage } from "@rehooks/local-storage";
 import { Token } from "../light-godwoken/lightGodwokenType";
-import { useLightGodwoken } from "./useLightGodwoken";
+import { useAxonBridge } from "./useAxonBridge";
 
 export interface DepositHistoryType {
   txHash: string;
@@ -14,7 +14,7 @@ export interface DepositHistoryType {
 }
 
 export function useDepositHistory() {
-  const lightGodwoken = useLightGodwoken();
+  const axonBridge = useAxonBridge();
   const storageKey = `${lightGodwoken?.getVersion()}/${lightGodwoken?.provider.getL1Address()}/deposit`;
   const [txHistory, setTxHistory] = useState<DepositHistoryType[]>(() => []);
   const storageValue = localStorage.getItem(storageKey);
