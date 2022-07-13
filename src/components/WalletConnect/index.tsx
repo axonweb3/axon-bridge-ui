@@ -49,8 +49,8 @@ export const WalletConnect: React.FC = () => {
   return (
     <StyleWrapper>
       <Select className="network-select" value={version} onChange={handleChange}>
-        <Option value="v0">Godwoken V0</Option>
-        <Option value="v1">Godwoken V1</Option>
+        {/*<Option value="v0">Godwoken V0</Option>*/}
+        <Option value="v1">Axon V1</Option>
       </Select>
       <SecondeButton onClick={connect}>Connect</SecondeButton>
     </StyleWrapper>
