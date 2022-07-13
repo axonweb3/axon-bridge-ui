@@ -263,15 +263,15 @@ export default function CkbToAxon() {
             wrapperCol={{ span: 12 }}
             layout="horizontal"
           >
-            <Form.Item label="Axon Address">
-              <Input bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
+            <Form.Item label="Axon Address" style={{fontWeight: 600}}>
+              <Input style={{padding: '4px'}} bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
                 <Tooltip title="Copy Axon Address">
                   <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
                 </Tooltip>
               }/>
             </Form.Item>
-            <Form.Item label="WCKB fee">
-              <Input bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
+            <Form.Item label="wCKB fee" style={{fontWeight: 600}}>
+              <Input style={{padding: '4px'}} bordered={false} readOnly={true} value={ethAddress ? truncateMiddle(ethAddress, 11, 11) : ''} suffix={
                 <Tooltip title="Copy Axon Address">
                   <CopyIcon style={{ color: 'rgba(0,0,0,.45)' }} onClick={copyAddress}/>
                 </Tooltip>
