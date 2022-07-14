@@ -119,10 +119,7 @@ export const getDepositInputError = ({
   return undefined;
 };
 
-export const getAxonInputError = ({
-  axonInput,
-  CKBAddressInput,
-}: InputType): string | undefined => {
+export const getAxonInputError = ({ axonInput, CKBAddressInput }: InputType): string | undefined => {
   const commonInputError = getInputError({
     CKBAddressInput,
     axonInput,
@@ -131,8 +128,8 @@ export const getAxonInputError = ({
     return commonInputError;
   } else if (
     // must deposit max or left at least 64 ckb
-    axonInput && CKBAddressInput
-    
+    axonInput &&
+    CKBAddressInput
   ) {
     return "Please input valid CKB address and AT amount";
   }

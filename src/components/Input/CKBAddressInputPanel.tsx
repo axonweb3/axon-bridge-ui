@@ -15,12 +15,7 @@ interface CKBAddressInputPanelProps {
   label?: string;
   placeholder?: string;
 }
-export default function CKBAddressInputPanel({
-  value,
-  onUserInput,
-  label,
-  placeholder,
-}: CKBAddressInputPanelProps) {
+export default function CKBAddressInputPanel({ value, onUserInput, label, placeholder }: CKBAddressInputPanelProps) {
   const [isActive, setActive] = useState(false);
   return (
     <InputCard>
@@ -34,9 +29,9 @@ export default function CKBAddressInputPanel({
           placeholder={placeholder || "ckb/ckt..."}
           onChange={(event) => {
             // replace commas with periods, because we exclusively uses period as the decimal separator
-            onUserInput(event.target.value);}
-          }
-          style={{padding: '4px', border:"none", boxShadow: isActive ? "none":"none" }}
+            onUserInput(event.target.value);
+          }}
+          style={{ padding: "4px", border: "none", boxShadow: isActive ? "none" : "none" }}
           onFocus={() => setActive(true)}
         />
       </Row>

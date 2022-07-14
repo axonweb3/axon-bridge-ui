@@ -29,7 +29,13 @@ import {
 import { ReactComponent as PlusIcon } from "./../assets/plus.svg";
 import { BridgeWalletInfo } from "../components/BridgeWalletInfo";
 import { BridgeFeeShow } from "../components/BridgeFeeShow";
-import { getDepositInputError, getAxonInputError, isAxonValueValidate, isDepositCKBInputValidate, isSudtInputValidate } from "../utils/inputValidate";
+import {
+  getDepositInputError,
+  getAxonInputError,
+  isAxonValueValidate,
+  isDepositCKBInputValidate,
+  isSudtInputValidate,
+} from "../utils/inputValidate";
 import { formatToThousands, parseStringToBI } from "../utils/numberFormat";
 import { ReactComponent as CKBIcon } from "../assets/ckb.svg";
 import { WalletConnect } from "../components/WalletConnect";
@@ -261,8 +267,8 @@ export default function AxonToCKB() {
     setSelectedSudtBalance(balance);
   };
 
-  console.log({CKBAddressInput})
-  console.log({axonInput})
+  console.log({ CKBAddressInput });
+  console.log({ axonInput });
 
   return (
     <>
