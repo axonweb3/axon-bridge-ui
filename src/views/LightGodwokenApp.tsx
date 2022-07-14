@@ -1,6 +1,5 @@
 import "antd/dist/antd.css";
-import Withdrawal from "./withdrawal/WithdrawalV0";
-import CkbToAxon from "./CkbToAxon";
+import AxonToCKB from "./AxonToCKB";
 import Deposit from "./Deposit";
 import { useEffect, useState } from "react";
 import { useLightGodwoken } from "../hooks/useLightGodwoken";
@@ -22,14 +21,13 @@ export default function LightGodwokenApp(props: Props) {
     addNetwork(lightGodwoken.provider.ethereum, lightGodwoken);
   }
 
-  const WithdrawalComp = lightGodwoken?.getVersion().toString() === "v0" ? Withdrawal : WithdrawalV1;
-
-  console.log("LightGodwokenApp render");
+  // const WithdrawalComp = lightGodwoken?.getVersion().toString() === "v0" ? Withdrawal : WithdrawalV1;
+  const WithdrawalComp = WithdrawalV1;
 
   return (
     {
       withdrawal: <WithdrawalComp></WithdrawalComp>,
-      deposit: <CkbToAxon></CkbToAxon>,
-    }[activeView] || <CkbToAxon></CkbToAxon>
+      deposit: <AxonToCKB></AxonToCKB>,
+    }[activeView] || <AxonToCKB></AxonToCKB>
   );
 }

@@ -7,6 +7,8 @@ import { notification, Form, Input, Tooltip, message } from "antd";
 import styled from "styled-components";
 import { useLightGodwoken } from "../hooks/useLightGodwoken";
 import CKBInputPanel from "../components/Input/CKBInputPanel";
+import CKBAddressInputPanel from "../components/Input/CKBAddressInputPanel";
+import AxonInputPanel from "../components/Input/AxonInputPanel";
 import CurrencyInputPanel from "../components/Input/CurrencyInputPanel";
 import { useSUDTBalance } from "../hooks/useSUDTBalance";
 import { useL1CKBBalance } from "../hooks/useL1CKBBalance";
@@ -27,7 +29,7 @@ import {
 import { ReactComponent as PlusIcon } from "./../assets/plus.svg";
 import { BridgeWalletInfo } from "../components/BridgeWalletInfo";
 import { BridgeFeeShow } from "../components/BridgeFeeShow";
-import { getDepositInputError, isDepositCKBInputValidate, isSudtInputValidate } from "../utils/inputValidate";
+import { getDepositInputError, getAxonInputError, isAxonValueValidate, isDepositCKBInputValidate, isSudtInputValidate } from "../utils/inputValidate";
 import { formatToThousands, parseStringToBI } from "../utils/numberFormat";
 import { ReactComponent as CKBIcon } from "../assets/ckb.svg";
 import { WalletConnect } from "../components/WalletConnect";
@@ -55,8 +57,9 @@ const ModalContent = styled.div`
   align-items: center;
 `;
 
-export default function CkbToAxon() {
-  const [CKBInput, setCKBInput] = useState("");
+export default function AxonToCKB() {
+  const [CKBAddressInput, setCKBAddressInput] = useState("");
+  const [axonInput, setAxonInput] = useState("");
   const [sudtInput, setSudtInputValue] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCKBValueValidate, setIsCKBValueValidate] = useState(true);
@@ -70,7 +73,7 @@ export default function CkbToAxon() {
   const { data: l2CKBBalance } = useL2CKBBalance();
 
   // todo, getWCKBMin() from contract;
-  const wCKBMin = 132;
+  const wCKBMin = 133;
 
   const maxAmount = CKBBalance ? BI.from(CKBBalance).toString() : undefined;
   const cancelTimeout = lightGodwoken?.getCancelTimeout() || 0;
@@ -140,13 +143,13 @@ export default function CkbToAxon() {
       setDepositListListener(listener);
     }
 
-    setCKBInput("");
+    setCKBAddressInput("");
     setSudtInputValue("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightGodwoken, godwokenVersion, depositHistory]);
 
   useMemo(() => {
-    setCKBInput("");
+    setCKBAddressInput("");
     setSudtInputValue("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightGodwoken, godwokenVersion, ethAddress]);
@@ -197,9 +200,9 @@ export default function CkbToAxon() {
   };
   const deposit = async () => {
     if (!lightGodwoken) {
-      throw new Error("LightGodwoken not found");
+      throw new Error("Axon Network not found");
     }
-    const capacity = parseStringToBI(CKBInput, 8).toHexString();
+    const capacity = parseStringToBI(axonInput, 8).toHexString();
     let amount = "0x0";
     if (selectedSudt && sudtInput) {
       amount = parseStringToBI(sudtInput, selectedSudt.decimals).toHexString();
@@ -228,33 +231,38 @@ export default function CkbToAxon() {
     }
   };
 
+  /*
   const inputError = useMemo(() => {
-    return getDepositInputError({
-      CKBInput,
-      CKBBalance,
-      sudtValue: sudtInput,
-      sudtBalance: selectedSudtBalance,
-      sudtDecimals: selectedSudt?.decimals,
-      sudtSymbol: selectedSudt?.symbol,
+    return getAxonInputError({
+      CKBAddressInput,
+      axonInput,
     });
-  }, [CKBInput, CKBBalance, sudtInput, selectedSudtBalance, selectedSudt?.decimals, selectedSudt?.symbol]);
+  }, [CKBAddressInput, axonInput]);
+  */
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
+  /*
   useEffect(() => {
-    setIsCKBValueValidate(isDepositCKBInputValidate(CKBInput, CKBBalance));
-  }, [CKBBalance, CKBInput]);
+    setIsCKBValueValidate(isDepositCKBInputValidate(CKBAddressInput, CKBBalance));
+  }, [CKBBalance, CKBAddressInput]);
+  */
 
+  /*
   useEffect(() => {
     setIsSudtValueValidate(isSudtInputValidate(sudtInput, selectedSudtBalance, selectedSudt?.decimals));
   }, [sudtInput, selectedSudtBalance, selectedSudt?.decimals]);
+  */
 
   const handleSelectedChange = (value: Token, balance: string) => {
     setSelectedSudt(value as SUDT);
     setSelectedSudtBalance(balance);
   };
+
+  console.log({CKBAddressInput})
+  console.log({axonInput})
 
   return (
     <>
@@ -298,39 +306,37 @@ export default function CkbToAxon() {
             ethBalance={l2CKBBalance}
             wCKBFee={wCKBMin}
           ></BridgeWalletInfo>
-          <BridgeFeeShow
-            value={CKBInput}
-            onUserInput={setCKBInput}
-            label="CKB to Axon"
-            isLoading={CKBBalanceQuery.isLoading}
-            CKBBalance={CKBBalance}
-            maxAmount={maxAmount}
-          ></BridgeFeeShow>
+          <CKBAddressInputPanel
+            value={CKBAddressInput}
+            onUserInput={setCKBAddressInput}
+            label="Target CKB Address"
+          ></CKBAddressInputPanel>
           <PlusIconContainer>
             <PlusIcon />
           </PlusIconContainer>
-          <CKBInputPanel
-            value={CKBInput}
-            onUserInput={setCKBInput}
-            label="Deposit"
+          <AxonInputPanel
+            value={axonInput}
+            onUserInput={setAxonInput}
+            label="Axon Token Amount"
             isLoading={CKBBalanceQuery.isLoading}
             CKBBalance={CKBBalance}
-            maxAmount={maxAmount}
-          ></CKBInputPanel>
+          ></AxonInputPanel>
+          {/*
           <PlusIconContainer>
             <PlusIcon />
           </PlusIconContainer>
           <CurrencyInputPanel
             value={sudtInput}
             onUserInput={setSudtInputValue}
-            label="sUDT(optional)"
+            label="Axon Token"
             onSelectedChange={handleSelectedChange}
             balancesList={sudtBalanceQUery.data?.balances}
             tokenList={tokenList}
             dataLoading={sudtBalanceQUery.isLoading}
           ></CurrencyInputPanel>
-          <PrimaryButton disabled={!CKBInput || !isCKBValueValidate || !isSudtValueValidate} onClick={deposit}>
-            {inputError || "Deposit"}
+          */}
+          <PrimaryButton disabled={!axonInput || !isAxonValueValidate} onClick={deposit}>
+            {"Submit Transaction"}
           </PrimaryButton>
         </div>
       </Card>
@@ -349,7 +355,7 @@ export default function CkbToAxon() {
             <span className="title">Depositing</span>
             <div className="amount">
               <div className="ckb-amount">
-                <MainText>{formatToThousands(CKBInput)}</MainText>
+                <MainText>{formatToThousands(axonInput)}</MainText>
                 <div className="ckb-icon">
                   <CKBIcon></CKBIcon>
                 </div>

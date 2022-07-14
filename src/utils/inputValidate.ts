@@ -12,6 +12,10 @@ export const isSudtInputValidate = (sudtValue: string, sudtBalance?: string, dec
   }
 };
 
+export const isAxonValueValidate = (axonValue: string) => {
+  return true;
+};
+
 export const isCKBInputValidate = (
   CKBInput: string,
   CKBBalance: string,
@@ -29,12 +33,16 @@ export const isCKBInputValidate = (
   }
 };
 type InputType = {
+  CKBAddressInput: string;
+  axonInput: string;
+  /*
   CKBInput: string;
   CKBBalance: string | undefined;
   sudtValue: string;
   sudtBalance: string | undefined;
   sudtDecimals: number | undefined;
   sudtSymbol: string | undefined;
+  */
 };
 type InputOptionType = {
   minimumCKBAmount: number;
@@ -47,7 +55,7 @@ type InputOptionType = {
  * if it is invalid, return an error message
  */
 export const getInputError = (
-  { CKBInput, CKBBalance, sudtValue, sudtBalance, sudtDecimals, sudtSymbol }: InputType,
+  { CKBInput, CKBBalance, sudtValue, sudtBalance, sudtDecimals, sudtSymbol }: any,
   limit: InputOptionType = { minimumCKBAmount: 400 },
 ): string | undefined => {
   if (CKBInput === "") {
@@ -88,7 +96,7 @@ export const getDepositInputError = ({
   sudtBalance,
   sudtDecimals,
   sudtSymbol,
-}: InputType): string | undefined => {
+}: any): string | undefined => {
   const commonInputError = getInputError({
     CKBInput,
     CKBBalance,
@@ -107,6 +115,26 @@ export const getDepositInputError = ({
     parseStringToBI(CKBInput, 8).lt(parseStringToBI(CKBBalance))
   ) {
     return "Must Left 0 Or 64 More CKB";
+  }
+  return undefined;
+};
+
+export const getAxonInputError = ({
+  axonInput,
+  CKBAddressInput,
+}: InputType): string | undefined => {
+  const commonInputError = getInputError({
+    CKBAddressInput,
+    axonInput,
+  });
+  if (commonInputError !== undefined) {
+    return commonInputError;
+  } else if (
+    // must deposit max or left at least 64 ckb
+    axonInput && CKBAddressInput
+    
+  ) {
+    return "Please input valid CKB address and AT amount";
   }
   return undefined;
 };
