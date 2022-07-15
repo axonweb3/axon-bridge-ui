@@ -6,6 +6,11 @@ export interface GetL2CkbBalancePayload {
   l2Address?: string;
 }
 
+export interface GetFeePayload {
+  l2Address?: string;
+  value?: number;
+}
+
 export interface GetL1CkbBalancePayload {
   l1Address?: string;
 }
@@ -120,6 +125,17 @@ export interface DepositPayload {
   capacity: HexNumber;
   amount?: HexNumber;
   sudtType?: Script;
+}
+
+export interface CrossToCkbPayload {
+  amount: HexNumber;
+  address: string;
+  token: string;
+}
+
+export interface LockATPayload {
+  amount: HexNumber;
+  to: string;
 }
 
 export interface PendingDepositTransaction {

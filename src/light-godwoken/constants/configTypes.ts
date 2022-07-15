@@ -19,6 +19,7 @@ export type Layer2Config = {
     rollup_type_script: Script;
   };
   GW_POLYJUICE_RPC_URL: string;
+  AXON_RPC_URL: string;
   SCANNER_URL: string;
   SCANNER_API: string;
   CHAIN_NAME: string;
@@ -26,6 +27,8 @@ export type Layer2Config = {
   BLOCK_PRODUCE_TIME: number;
   MIN_CANCEL_DEPOSIT_TIME: number;
   MULTICALL_ADDRESS?: string;
+  WCKB_ADDRESS: string;
+  CROSS_CHAIN_ADDRESS: string;
 };
 
 export type ScriptType = {

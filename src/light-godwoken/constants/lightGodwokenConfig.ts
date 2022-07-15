@@ -96,6 +96,7 @@ const v0ConfigAggron: LightGodwokenConfig = {
       },
     },
     GW_POLYJUICE_RPC_URL: "https://godwoken-testnet-web3-rpc.ckbapp.dev",
+    AXON_RPC_URL: "http://13.113.146.156:8000/",
     SCANNER_URL: "https://aggron.gwscan.com",
     SCANNER_API: "https://api.aggron.gwscan.com/api/",
     CHAIN_NAME: "Godwoken Testnet v0",
@@ -103,6 +104,8 @@ const v0ConfigAggron: LightGodwokenConfig = {
     BLOCK_PRODUCE_TIME: 45,
     MIN_CANCEL_DEPOSIT_TIME: 1200, // 20 minutes in seconds
     MULTICALL_ADDRESS: "0xaf98A74b133CD8373EE055b399b0cE19cF8C4523",
+    WCKB_ADDRESS: "0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352",
+    CROSS_CHAIN_ADDRESS: "0xF67Bc4E50d1df92b0E4C61794A4517AF6a995CB2",
   },
 };
 
@@ -144,6 +147,7 @@ const v0ConfigLina: LightGodwokenConfig = {
       },
     },
     GW_POLYJUICE_RPC_URL: "https://mainnet.godwoken.io/rpc",
+    AXON_RPC_URL: "http://13.113.146.156:8000/",
     SCANNER_URL: "https://v0.gwscan.com",
     SCANNER_API: "https://api.gwscan.com/api/",
     CHAIN_NAME: "Godwoken v0 mainnet",
@@ -152,6 +156,8 @@ const v0ConfigLina: LightGodwokenConfig = {
     MIN_CANCEL_DEPOSIT_TIME: 172800, // two days
 
     MULTICALL_ADDRESS: "0x277FD6c744f7C16A997E5D626131eBd81d2D58Aa",
+    WCKB_ADDRESS: "",
+    CROSS_CHAIN_ADDRESS: "",
   },
 };
 
@@ -193,6 +199,7 @@ const v1ConfigAggron: LightGodwokenConfig = {
       },
     },
     GW_POLYJUICE_RPC_URL: "https://godwoken-testnet-v1.ckbapp.dev",
+    AXON_RPC_URL: "http://13.113.146.156:8000/",
     SCANNER_URL: "https://v1.betanet.gwscan.com/",
     SCANNER_API: "https://api.v1.betanet.gwscan.com/api/",
     CHAIN_NAME: "Godwoken Testnet v1",
@@ -202,6 +209,8 @@ const v1ConfigAggron: LightGodwokenConfig = {
 
     // https://github.com/mds1/multicall/blob/a6ed03f4bb232a573e9f6d4bdeca21a4edd3c1f7/README.md
     MULTICALL_ADDRESS: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    WCKB_ADDRESS: "0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352",
+    CROSS_CHAIN_ADDRESS: "0xF67Bc4E50d1df92b0E4C61794A4517AF6a995CB2",
   },
 };
 
@@ -243,6 +252,7 @@ const v1ConfigLina: LightGodwokenConfig = {
       },
     },
     GW_POLYJUICE_RPC_URL: "https://v1.mainnet.godwoken.io/rpc",
+    AXON_RPC_URL: "http://13.113.146.156:8000/",
     SCANNER_URL: "https://v1.gwscan.com/",
     SCANNER_API: "https://api.v1.gwscan.com/api/",
     CHAIN_NAME: "Godwoken Mainet v1",
@@ -253,6 +263,8 @@ const v1ConfigLina: LightGodwokenConfig = {
 
     // https://github.com/mds1/multicall/commit/a6ed03f4bb232a573e9f6d4bdeca21a4edd3c1f7
     MULTICALL_ADDRESS: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    WCKB_ADDRESS: "",
+    CROSS_CHAIN_ADDRESS: "",
   },
 };
 

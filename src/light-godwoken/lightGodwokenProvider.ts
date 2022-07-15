@@ -27,6 +27,8 @@ import { EnvNotFoundError, EthereumNotFoundError, LightGodwokenConfigNotValidErr
 import { OmniLockWitnessLockCodec } from "./schemas/codecLayer1";
 import { isSpecialWallet } from "./utils";
 import { initConfig } from "./constants/configManager";
+import {ethers} from "ethers";
+import CrossChain from "./constants/CrossChain.json";
 
 export default class DefaultLightGodwokenProvider implements LightGodwokenProvider {
   l2Address: Address = "";
@@ -34,6 +36,9 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
   ckbIndexer;
   ckbRpc;
   ethereum;
+  ethProvider;
+  crossChainContract;
+  web3Signer;
   web3;
   lightGodwokenConfig;
   constructor(ethAddress: Address, ethereum: any, env: GodwokenVersion, lightGodwokenConfig?: LightGodwokenConfigMap) {
@@ -45,10 +50,14 @@ export default class DefaultLightGodwokenProvider implements LightGodwokenProvid
     const { layer1Config, layer2Config } = this.lightGodwokenConfig;
     this.ckbIndexer = new Indexer(layer1Config.CKB_INDEXER_URL, layer1Config.CKB_RPC_URL);
     this.ckbRpc = new RPC(layer1Config.CKB_RPC_URL);
+    this.ethProvider = new ethers.providers.JsonRpcProvider(layer2Config.AXON_RPC_URL);
+    const web3Provider = new ethers.providers.Web3Provider(ethereum);
+    this.web3Signer = web3Provider.getSigner();
+    this.crossChainContract = new ethers.Contract(layer2Config.CROSS_CHAIN_ADDRESS, CrossChain.abi, this.web3Signer);
 
     if (env === "v0") {
-      const polyjuiceProvider = new PolyjuiceHttpProvider(layer2Config.GW_POLYJUICE_RPC_URL, {
-        web3Url: layer2Config.GW_POLYJUICE_RPC_URL,
+      const polyjuiceProvider = new PolyjuiceHttpProvider(layer2Config.AXON_RPC_URL, {
+        web3Url: layer2Config.AXON_RPC_URL,
         abiItems: SUDT_ERC20_PROXY_ABI as AbiItems,
       });
       this.web3 = new Web3(polyjuiceProvider);
@@ -285,7 +294,7 @@ function validateLightGodwokenConfig(
     !lightGodwokenConfig.layer2Config ||
     !lightGodwokenConfig.layer2Config.SCRIPTS ||
     !lightGodwokenConfig.layer2Config.ROLLUP_CONFIG ||
-    !lightGodwokenConfig.layer2Config.GW_POLYJUICE_RPC_URL ||
+    !lightGodwokenConfig.layer2Config.AXON_RPC_URL ||
     !lightGodwokenConfig.layer1Config ||
     !lightGodwokenConfig.layer1Config.SCRIPTS ||
     !lightGodwokenConfig.layer1Config.CKB_INDEXER_URL ||

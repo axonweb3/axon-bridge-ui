@@ -49,7 +49,7 @@ export default class DefaultLightGodwokenV1 extends DefaultLightGodwoken impleme
 
   constructor(provider: LightGodwokenProvider) {
     super(provider);
-    this.godwokenClient = new GodwokenV1(provider.getLightGodwokenConfig().layer2Config.GW_POLYJUICE_RPC_URL);
+    this.godwokenClient = new GodwokenV1(provider.getLightGodwokenConfig().layer2Config.AXON_RPC_URL);
     this.godwokenScannerClient = new GodwokenScanner(provider.getLightGodwokenConfig().layer2Config.SCANNER_API);
   }
 
@@ -64,7 +64,7 @@ export default class DefaultLightGodwokenV1 extends DefaultLightGodwoken impleme
       const chainId = Number(await this.getChainId());
       setMulticallAddress(chainId, multicallContractAddress);
       this.multicallProvider = new MulticallProvider(
-        new providers.JsonRpcProvider(this.getConfig().layer2Config.GW_POLYJUICE_RPC_URL),
+        new providers.JsonRpcProvider(this.getConfig().layer2Config.AXON_RPC_URL),
         chainId,
       );
     }
@@ -180,7 +180,7 @@ export default class DefaultLightGodwokenV1 extends DefaultLightGodwoken impleme
       return result;
     }
     const Contract = require("web3-eth-contract");
-    Contract.setProvider(this.provider.getLightGodwokenConfig().layer2Config.GW_POLYJUICE_RPC_URL);
+    Contract.setProvider(this.provider.getLightGodwokenConfig().layer2Config.AXON_RPC_URL);
 
     let promises = [];
     for (let index = 0; index < payload.addresses.length; index++) {
@@ -203,7 +203,7 @@ export default class DefaultLightGodwokenV1 extends DefaultLightGodwoken impleme
       return "result";
     }
     const Contract = require("web3-eth-contract");
-    Contract.setProvider(this.provider.getLightGodwokenConfig().layer2Config.GW_POLYJUICE_RPC_URL);
+    Contract.setProvider(this.provider.getLightGodwokenConfig().layer2Config.AXON_RPC_URL);
     const contract = new Contract(ERC20.abi, address);
     const balance = contract.methods
       .balanceOf(this.provider.l2Address)

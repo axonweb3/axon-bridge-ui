@@ -51,7 +51,7 @@ export default class DefaultLightGodwokenV0 extends DefaultLightGodwoken impleme
 
   constructor(provider: LightGodwokenProvider) {
     super(provider);
-    this.godwokenClient = new GodwokenClient(provider.getLightGodwokenConfig().layer2Config.GW_POLYJUICE_RPC_URL);
+    this.godwokenClient = new GodwokenClient(provider.getLightGodwokenConfig().layer2Config.AXON_RPC_URL);
     this.godwokenScannerClient = new GodwokenScanner(provider.getLightGodwokenConfig().layer2Config.SCANNER_API);
   }
 
@@ -186,11 +186,11 @@ export default class DefaultLightGodwokenV0 extends DefaultLightGodwoken impleme
       this.multicallProvider = new MulticallProvider(
         new PolyjuiceJsonRpcProvider(
           {
-            web3Url: this.getConfig().layer2Config.GW_POLYJUICE_RPC_URL,
+            web3Url: this.getConfig().layer2Config.AXON_RPC_URL,
             rollupTypeHash: this.getConfig().layer2Config.ROLLUP_CONFIG.rollup_type_hash,
             ethAccountLockCodeHash: this.getConfig().layer2Config.SCRIPTS.eth_account_lock.script_type_hash,
           },
-          this.getConfig().layer2Config.GW_POLYJUICE_RPC_URL,
+          this.getConfig().layer2Config.AXON_RPC_URL,
         ),
         chainId,
       );

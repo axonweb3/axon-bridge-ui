@@ -55,6 +55,7 @@ import { useGodwokenVersion } from "../hooks/useGodwokenVersion";
 import { useDepositHistory } from "../hooks/useDepositTxHistory";
 import { format } from "date-fns";
 import copy from "copy-to-clipboard";
+import {ethers} from "ethers";
 
 const ModalContent = styled.div`
   width: 100%;
@@ -237,6 +238,38 @@ export default function AxonToCKB() {
     }
   };
 
+  const bridge = async () => {
+    if (!lightGodwoken) {
+      throw new Error("LightGodwoken not found");
+    }
+    setIsModalVisible(true);
+    // ethers.utils.parseEther(CKBBalance)
+    try {
+      const txHash = await lightGodwoken.lockAT({
+        amount: axonInput,
+        to: CKBAddressInput,
+      });
+      console.log('txHash');
+      console.log(txHash)
+      /*
+      addTxToHistory({
+        txHash: txHash,
+        capacity,
+        amount,
+        token: selectedSudt,
+        status: "pending",
+        date: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        cancelTimeout,
+      });
+       */
+      setIsModalVisible(false);
+    } catch (e) {
+      handleError(e, selectedSudt);
+      setIsModalVisible(false);
+      return;
+    }
+  };
+
   /*
   const inputError = useMemo(() => {
     return getAxonInputError({
@@ -341,7 +374,7 @@ export default function AxonToCKB() {
             dataLoading={sudtBalanceQUery.isLoading}
           ></CurrencyInputPanel>
           */}
-          <PrimaryButton disabled={!axonInput || !isAxonValueValidate} onClick={deposit}>
+          <PrimaryButton disabled={!axonInput || !isAxonValueValidate} onClick={bridge}>
             {"Submit Transaction"}
           </PrimaryButton>
         </div>

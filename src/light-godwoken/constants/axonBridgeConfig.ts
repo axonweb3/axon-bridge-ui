@@ -95,10 +95,10 @@ const configAggron: AxonBridgeConfig = {
         args: "0x86c7429247beba7ddd6e4361bcdfc0510b0b644131e2afb7e486375249a01802",
       },
     },
-    AXON_RPC_URL: "https://godwoken-testnet-v1.ckbapp.dev",
+    AXON_RPC_URL: "http://13.113.146.156:8000/",
     SCANNER_URL: "https://v1.betanet.gwscan.com/",
     SCANNER_API: "https://api.v1.betanet.gwscan.com/api/",
-    CHAIN_NAME: "Godwoken Testnet v1",
+    CHAIN_NAME: "AXON Test Network",
     FINALITY_BLOCKS: 100,
     BLOCK_PRODUCE_TIME: 30,
     MIN_CANCEL_DEPOSIT_TIME: 604800, // 7 days in seconds
@@ -148,7 +148,7 @@ const configLina: AxonBridgeConfig = {
     AXON_RPC_URL: "https://v1.mainnet.godwoken.io/rpc",
     SCANNER_URL: "https://v1.gwscan.com/",
     SCANNER_API: "https://api.v1.gwscan.com/api/",
-    CHAIN_NAME: "Godwoken Mainet v1",
+    CHAIN_NAME: "AXON Main Network",
     FINALITY_BLOCKS: 16800,
     // Assuming layer 1 block produce time is 12 secondes, layer 2 produces 1 block every 3 layer 1 blocks
     BLOCK_PRODUCE_TIME: 12 * 3,

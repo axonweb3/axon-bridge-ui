@@ -14,7 +14,7 @@ export const addNetwork = async (ethereum: any, lightGodwokenV1: LightGodwokenV1
         symbol: nativeToken.symbol,
         decimals: nativeToken.decimals,
       },
-      rpcUrls: [layer2Config.GW_POLYJUICE_RPC_URL],
+      rpcUrls: [layer2Config.AXON_RPC_URL],
       blockExplorerUrls: [layer2Config.SCANNER_URL],
     },
   ];
