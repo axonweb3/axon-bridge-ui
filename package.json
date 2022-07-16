@@ -1,5 +1,5 @@
 {
-  "name": "force-bridge",
+  "name": "axon-bridge",
   "license": "MIT",
   "private": true,
   "workspaces": [

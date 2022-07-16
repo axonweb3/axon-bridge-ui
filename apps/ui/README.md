@@ -1,3 +1,3 @@
-# @force-bridge/ui
+# @axon-bridge/ui
 
-A Force-Bridge user interface created by create-react-app
+A Axon-Bridge user interface created by create-react-app

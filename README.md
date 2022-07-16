@@ -1,4 +1,4 @@
-# Force Bridge User Interface
+# Axon Bridge User Interface
 
 ## Quick Start
 
@@ -8,25 +8,26 @@
 - yarn 1.x
 
 ```
-git clone path/to/the/force-bridge-ui
-cd force-bridge-ui
 yarn install
+
 # build commons libraries
 yarn build:lib
+
 # craco start
-yarn workspace @force-bridge/ui run start
+yarn workspace @axon-bridge/ui run start
+
 # build ui
 cd apps/ui
 yarn build
-# serve -s build
+
+serve -s build
 ```
 
 ## Build the User Interface
 
 ### Create .env
 
-Create an `.env.local` at [apps/ui/](apps/ui) to declare required environment variables, the below env config shows how
-force-bridge-ui works with Rinkeby network and Bsc network
+Create an `.env.local` at [apps/ui/](apps/ui) to declare required environment variables, the below env config shows how axon-bridge-ui works with Rinkeby network
 
 <details>
   <summary>Testnet</summary>
@@ -101,8 +102,6 @@ REACT_APP_BSC_ENABLE_CHAIN_NAME=Bsc-Mainnet
 ### Run Command To Build
 
 ```
-> pwd
-/path/to/force-bridge-ui
 > yarn install
 > yarn run build:lib
 
@@ -110,7 +109,6 @@ REACT_APP_BSC_ENABLE_CHAIN_NAME=Bsc-Mainnet
 > yarn run build
 ```
 
-We will get a `build` folder after the build. The `build/index.html` is the program entry, and we should serve
-the `build` folder with an HTTP server.
+We will get a `build` folder after the build. The `build/index.html` is the program entry, and we should serve the `build` folder with an HTTP server.
 
 For more about deployment, we can check this [doc](https://create-react-app.dev/docs/deployment)
