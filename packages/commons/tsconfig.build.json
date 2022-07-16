@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "include": ["src"],
+  "exclude": ["**/*.spec.ts"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "types": ["@nervosnetwork/ckb-types"]
+  }
+}
