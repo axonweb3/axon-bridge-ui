@@ -25,8 +25,10 @@ const AppHeaderWrapper = styled.header`
 `;
 
 export const AppHeader: React.FC = () => {
-  const { network, direction, switchBridgeDirection, switchNetwork, supportedNetworks } =
-    ForceBridgeContainer.useContainer();
+  // const { network, direction, switchBridgeDirection, switchNetwork, supportedNetworks } = ForceBridgeContainer.useContainer();
+  const { direction, switchBridgeDirection, switchNetwork } = ForceBridgeContainer.useContainer();
+  const supportedNetworks = ['Ethereum'];
+  const network = 'Ethereum';
 
   const referenceLinks = (
     <Menu>
@@ -55,7 +57,7 @@ export const AppHeader: React.FC = () => {
       <Row justify="space-between" align="middle" gutter={16}>
         <Col md={3} sm={2} xs={2}>
           <div>
-            <Logo height="32px" width="62px" />
+            <Logo height="32px" width="160px" />
           </div>
         </Col>
         <Col md={18} sm={22} xs={22}>
