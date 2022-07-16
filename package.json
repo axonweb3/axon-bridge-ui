@@ -31,7 +31,6 @@
   "scripts": {
     "build:lib": "lerna run build",
     "clean:lib": "lerna run clean",
-    "lint": "eslint --color --format=pretty packages/*/src/**/*.{ts,tsx} --color --format=pretty",
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx}'",
     "format:fix": "prettier --write '**/*.{js,jsx,ts,tsx}'",
     "test": "jest"
