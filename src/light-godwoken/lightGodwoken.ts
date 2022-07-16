@@ -30,7 +30,9 @@ import {
   Token,
   DepositRequest,
   DepositEventEmitter,
-  PendingDepositTransaction, CrossToCkbPayload, LockATPayload,
+  PendingDepositTransaction,
+  CrossToCkbPayload,
+  LockATPayload,
 } from "./lightGodwokenType";
 import { debug } from "./debug";
 import { GodwokenVersion, LightGodwokenConfig } from "./constants/configTypes";
@@ -50,7 +52,7 @@ import { CellDep, CellWithStatus, DepType, OutPoint, Output, TransactionWithStat
 import EventEmitter from "events";
 import { isSpecialWallet } from "./utils";
 import { getAdvancedSettings } from "./constants/configManager";
-import {BigNumber, ethers} from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 export default abstract class DefaultLightGodwoken implements LightGodwokenBase {
   provider: LightGodwokenProvider;
@@ -431,7 +433,7 @@ export default abstract class DefaultLightGodwoken implements LightGodwokenBase 
 
   async lockAT(payload: LockATPayload, eventEmitter?: EventEmitter): Promise<string> {
     const value = ethers.utils.parseEther(payload?.amount);
-    const tx = await this.provider.crossChainContract.lockAT(payload?.to, {value});
+    const tx = await this.provider.crossChainContract.lockAT(payload?.to, { value });
     return tx.hash;
   }
 

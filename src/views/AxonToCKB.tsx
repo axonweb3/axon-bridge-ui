@@ -55,7 +55,7 @@ import { useGodwokenVersion } from "../hooks/useGodwokenVersion";
 import { useDepositHistory } from "../hooks/useDepositTxHistory";
 import { format } from "date-fns";
 import copy from "copy-to-clipboard";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 
 const ModalContent = styled.div`
   width: 100%;
@@ -249,8 +249,8 @@ export default function AxonToCKB() {
         amount: axonInput,
         to: CKBAddressInput,
       });
-      console.log('txHash');
-      console.log(txHash)
+      console.log("txHash");
+      console.log(txHash);
       /*
       addTxToHistory({
         txHash: txHash,

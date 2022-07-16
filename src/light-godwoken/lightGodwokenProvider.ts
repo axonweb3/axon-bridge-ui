@@ -27,7 +27,7 @@ import { EnvNotFoundError, EthereumNotFoundError, LightGodwokenConfigNotValidErr
 import { OmniLockWitnessLockCodec } from "./schemas/codecLayer1";
 import { isSpecialWallet } from "./utils";
 import { initConfig } from "./constants/configManager";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import CrossChain from "./constants/CrossChain.json";
 
 export default class DefaultLightGodwokenProvider implements LightGodwokenProvider {
