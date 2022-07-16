@@ -1,5 +1,5 @@
-import { Asset, utils } from '@force-bridge/commons';
-import { BridgeTransactionStatus, TransactionSummaryWithStatus } from '@force-bridge/commons/lib/types/apiv1';
+import { Asset, utils } from '@axon-bridge/commons';
+import { BridgeTransactionStatus, TransactionSummaryWithStatus } from '@axon-bridge/commons/lib/types/apiv1';
 import { Button, Col, Row, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table/interface';
 import dayjs from 'dayjs';

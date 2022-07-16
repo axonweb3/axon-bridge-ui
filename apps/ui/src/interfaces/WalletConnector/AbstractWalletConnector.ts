@@ -1,4 +1,4 @@
-import { NetworkBase } from '@force-bridge/commons';
+import { NetworkBase } from '@axon-bridge/commons';
 import { EventEmitter } from 'eventemitter3';
 import { ConnectStatus, TwoWaySigner, Wallet } from './types';
 

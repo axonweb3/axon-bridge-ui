@@ -1,4 +1,4 @@
-import { API, eth, ForceBridgeAPIV1Handler, Module, nervos, NervosNetwork } from '@force-bridge/commons';
+import { API, eth, ForceBridgeAPIV1Handler, Module, nervos, NervosNetwork } from '@axon-bridge/commons';
 import { useCallback, useMemo, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { WalletContainer, WalletState } from './WalletContainer';

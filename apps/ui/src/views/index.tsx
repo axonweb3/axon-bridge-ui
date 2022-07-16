@@ -1,4 +1,4 @@
-import { NERVOS_NETWORK } from '@force-bridge/commons';
+import { NERVOS_NETWORK } from '@axon-bridge/commons';
 import { BigNumber } from 'bignumber.js';
 import React, { useEffect } from 'react';
 import { Route, useHistory, useLocation } from 'react-router-dom';

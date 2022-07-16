@@ -1,4 +1,4 @@
-import { utils } from '@force-bridge/commons';
+import { utils } from '@axon-bridge/commons';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { MetaMaskInpageProvider } from '@metamask/inpage-provider';
 import { useEffect, useState } from 'react';

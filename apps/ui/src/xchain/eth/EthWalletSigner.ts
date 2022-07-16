@@ -1,8 +1,8 @@
+import { EthereumNetwork, NervosNetwork, utils } from '@axon-bridge/commons';
 import { helpers, toolkit, core, RPC } from '@ckb-lumos/lumos';
 import { SerializeRcLockWitnessLock } from '@ckitjs/rc-lock';
 import { JsonRpcSigner } from '@ethersproject/providers/src.ts/json-rpc-provider';
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers/src.ts/web3-provider';
-import { EthereumNetwork, NervosNetwork, utils } from '@force-bridge/commons';
 import { BigNumber, ethers } from 'ethers';
 import { ConnectorConfig } from './EthereumWalletConnector';
 import { boom, unimplemented } from 'errors';

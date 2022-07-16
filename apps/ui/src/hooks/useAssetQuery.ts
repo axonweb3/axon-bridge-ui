@@ -1,4 +1,4 @@
-import { Asset, nervos } from '@force-bridge/commons';
+import { Asset, nervos } from '@axon-bridge/commons';
 import { useMemo } from 'react';
 import { QueryObserverResult, useQuery } from 'react-query';
 import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';

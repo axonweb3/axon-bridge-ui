@@ -1,4 +1,4 @@
-import { Asset, NERVOS_NETWORK } from '@force-bridge/commons';
+import { Asset, NERVOS_NETWORK } from '@axon-bridge/commons';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BridgeOperationFormContainer } from 'containers/BridgeOperationFormContainer';

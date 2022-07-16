@@ -1,4 +1,4 @@
-import { NervosNetwork, NetworkBase } from '@force-bridge/commons';
+import { NervosNetwork, NetworkBase } from '@axon-bridge/commons';
 import { TwoWaySigner } from './types';
 import { boom, unimplemented } from 'errors';
 

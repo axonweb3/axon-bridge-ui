@@ -1,5 +1,5 @@
+import { EthereumNetwork } from '@axon-bridge/commons';
 import { helpers, Script, HashType } from '@ckb-lumos/lumos';
-import { EthereumNetwork } from '@force-bridge/commons';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { MetaMaskInpageProvider } from '@metamask/inpage-provider';
 import warning from 'tiny-warning';

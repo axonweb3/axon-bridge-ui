@@ -1,4 +1,4 @@
-import { NervosNetwork, NetworkBase } from '@force-bridge/commons';
+import { NervosNetwork, NetworkBase } from '@axon-bridge/commons';
 import { unimplemented } from 'errors';
 import { AbstractWalletSigner } from 'interfaces/WalletConnector/AbstractWalletSigner';
 

@@ -1,4 +1,4 @@
-import { Asset, AssetType, eth, FungibleBaseInfo, nervos, NERVOS_NETWORK } from '@force-bridge/commons';
+import { Asset, AssetType, eth, FungibleBaseInfo, nervos, NERVOS_NETWORK } from '@axon-bridge/commons';
 import { useCallback } from 'react';
 import { QueryObserverResult, useQuery } from 'react-query';
 import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';

@@ -1,4 +1,4 @@
-import { NetworkTypes } from '@force-bridge/commons';
+import { NetworkTypes } from '@axon-bridge/commons';
 import { DummyWalletSigner } from './DummyWalletSigner';
 import { unimplemented } from 'errors';
 import { AbstractWalletConnector } from 'interfaces/WalletConnector';

@@ -1,4 +1,4 @@
-import { AmountWithoutDecimals, FungibleBaseInfo } from '@force-bridge/commons';
+import { AmountWithoutDecimals, FungibleBaseInfo } from '@axon-bridge/commons';
 import { Button, ButtonProps, List, Modal } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
