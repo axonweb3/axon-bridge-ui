@@ -77,13 +77,8 @@ export const BridgeOperationForm: React.FC = () => {
     initialTouched: { bridgeInInputAmount: !!initAmount, recipient: !!initRecipient },
   });
 
-  const {
-    bridgeToAmount,
-    bridgeFromAmount,
-    setBridgeFromAmount,
-    setRecipient,
-    recipient,
-  } = BridgeOperationFormContainer.useContainer();
+  const { bridgeToAmount, bridgeFromAmount, setBridgeFromAmount, setRecipient, recipient } =
+    BridgeOperationFormContainer.useContainer();
 
   const allowance = useAllowance(selectedAsset);
   const enableApproveButton = allowance && allowance.status === 'NeedApprove';

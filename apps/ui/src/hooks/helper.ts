@@ -3,9 +3,9 @@ type NonNilFn<T extends (...args: unknown[]) => unknown> = ReturnType<T> extends
   : never;
 
 export function createNonNilStateHook<T extends (...args: unknown[]) => unknown>(hook: T): NonNilFn<T> {
-  return (((...args: unknown[]) => {
+  return ((...args: unknown[]) => {
     const x = hook(...args);
     if (x == null) throw new Error('');
     return x;
-  }) as unknown) as NonNilFn<T>;
+  }) as unknown as NonNilFn<T>;
 }

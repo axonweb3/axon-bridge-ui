@@ -27,7 +27,7 @@
     "ckb-js-toolkit": "^0.9.1",
     "craco-less": "^1.17.1",
     "dayjs": "^1.10.4",
-    "ethers": "^5.0.32",
+    "ethers": "^5.6.5",
     "eventemitter3": "^4.0.7",
     "formik": "^2.2.6",
     "i18next": "^20.2.1",
@@ -50,7 +50,9 @@
     "start": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco start",
     "build": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco build",
     "test": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco test",
-    "lint": "eslint src --format=pretty"
+    "lint": "eslint src --format=pretty",
+    "format:check": "prettier --check '**/*.{js,jsx,ts,tsx}'",
+    "format:fix": "prettier --write '**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [

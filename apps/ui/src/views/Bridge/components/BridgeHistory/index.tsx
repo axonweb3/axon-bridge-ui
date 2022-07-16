@@ -116,11 +116,10 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
     setPendingExpandedRowKeys([]);
     setSuccessExpandedRowKeys([]);
   }, [asset?.ident]);
-  const expandedRowKeys = useMemo(() => (historyKind === 'Pending' ? pendingExpandedRowKeys : successExpandedRowKeys), [
-    historyKind,
-    pendingExpandedRowKeys,
-    successExpandedRowKeys,
-  ]);
+  const expandedRowKeys = useMemo(
+    () => (historyKind === 'Pending' ? pendingExpandedRowKeys : successExpandedRowKeys),
+    [historyKind, pendingExpandedRowKeys, successExpandedRowKeys],
+  );
   return (
     <BridgeHistoryWrapper>
       <header>

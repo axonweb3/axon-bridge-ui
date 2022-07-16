@@ -20,12 +20,12 @@ export class DummyWalletSigner extends AbstractWalletSigner<NetworkBase> {
   }
 
   _sendToNervos(raw: NervosNetwork['RawTransaction']): Promise<{ txId: string }> {
-    console.log('send transaction to Nervos: ' + this._nervosRPCURL);
+    // console.log('send transaction to Nervos: ' + this._nervosRPCURL);
     unimplemented();
   }
 
   _sendToXChain(raw: NetworkBase['RawTransaction']): Promise<{ txId: string }> {
-    console.log('send transaction to XChain: ' + this._xchainRPCURL);
+    // console.log('send transaction to XChain: ' + this._xchainRPCURL);
     unimplemented();
   }
 }

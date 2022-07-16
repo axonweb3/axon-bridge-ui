@@ -25,13 +25,8 @@ const AppHeaderWrapper = styled.header`
 `;
 
 export const AppHeader: React.FC = () => {
-  const {
-    network,
-    direction,
-    switchBridgeDirection,
-    switchNetwork,
-    supportedNetworks,
-  } = ForceBridgeContainer.useContainer();
+  const { network, direction, switchBridgeDirection, switchNetwork, supportedNetworks } =
+    ForceBridgeContainer.useContainer();
 
   const referenceLinks = (
     <Menu>

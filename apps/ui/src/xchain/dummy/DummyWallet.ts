@@ -6,9 +6,10 @@ import { AbstractWalletConnector } from 'interfaces/WalletConnector';
 const asyncSleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class DummyWallet extends AbstractWalletConnector<NetworkTypes> {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor() {
     super();
-    console.log('waiting for connect');
+    // console.log('waiting for connect');
   }
 
   _connect(): Promise<void> {
