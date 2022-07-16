@@ -1,5 +1,5 @@
 {
-  "name": "@force-bridge/commons",
+  "name": "@axon-bridge/commons",
   "version": "0.0.1",
   "main": "lib/index.js",
   "scripts": {
