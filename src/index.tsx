@@ -8,7 +8,7 @@ import "./index.css";
 import { config } from "@ckb-lumos/lumos";
 
 // import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
+// import { BrowserTracing } from "@sentry/tracing";
 import { LightGodwokenError } from "./light-godwoken/constants/error";
 import { isMainnet } from "./light-godwoken/env";
 

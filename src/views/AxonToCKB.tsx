@@ -48,7 +48,7 @@ import {
   TransactionSignError,
 } from "../light-godwoken/constants/error";
 import { getFullDisplayAmount } from "../utils/formatTokenAmount";
-import { captureException } from "@sentry/react";
+// import { captureException } from "@sentry/react";
 import EventEmitter from "events";
 import { useQuery } from "react-query";
 import { useGodwokenVersion } from "../hooks/useGodwokenVersion";
@@ -199,7 +199,7 @@ export default function AxonToCKB() {
       });
       return;
     }
-    captureException(e);
+    // captureException(e);
     notification.error({
       message: `Unknown Error, Please try again later`,
     });
