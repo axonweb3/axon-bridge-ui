@@ -57,7 +57,7 @@ export const AppHeader: React.FC = () => {
       <Row justify="space-between" align="middle" gutter={16}>
         <Col md={3} sm={2} xs={2}>
           <div>
-            <Logo height="32px" width="160px" />
+            <Logo height="32px" width="180px" />
           </div>
         </Col>
         <Col md={18} sm={22} xs={22}>
