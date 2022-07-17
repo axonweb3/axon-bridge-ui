@@ -55,7 +55,7 @@ export const ForceBridgeContainer = createContainer<ForceBridgeState>(() => {
 
   // TODO replace with ModuleRegistry
   const xchainModule = useMemo<Module>(() => {
-    if (network === 'Ethereum' || network === 'Bsc') return eth.module as Module;
+    if (network === 'Axon' || network === 'Ethereum' || network === 'Bsc') return eth.module as Module;
     throw new Error('unknown network');
   }, [network]);
 

@@ -27,8 +27,8 @@ const AppHeaderWrapper = styled.header`
 export const AppHeader: React.FC = () => {
   // const { network, direction, switchBridgeDirection, switchNetwork, supportedNetworks } = ForceBridgeContainer.useContainer();
   const { direction, switchBridgeDirection, switchNetwork } = ForceBridgeContainer.useContainer();
-  const supportedNetworks = ['Ethereum'];
-  const network = 'Ethereum';
+  const supportedNetworks = ['Axon'];
+  const network = 'Axon';
 
   const referenceLinks = (
     <Menu>
@@ -42,8 +42,8 @@ export const AppHeader: React.FC = () => {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a href="https://github.com/nervosnetwork/force-bridge" target="_blank" rel="noreferrer">
-          GitHub
+        <a href="https://github.com/nervosnetwork/axon-bridge-ui" target="_blank" rel="noreferrer">
+          GitHub Repo
         </a>
       </Menu.Item>
       <Menu.Item>

@@ -25,7 +25,14 @@ export const BridgeView: React.FC = () => {
         >
           <Switch>
             <Route
-              path={['/bridge/Ethereum/Nervos', '/bridge/Nervos/Ethereum', '/bridge/Bsc/Nervos', '/bridge/Nervos/Bsc']}
+              path={[
+                '/bridge/Ethereum/Nervos',
+                '/bridge/Nervos/Ethereum',
+                '/bridge/Axon/Nervos',
+                '/bridge/Nervos/Axon',
+                '/bridge/Bsc/Nervos',
+                '/bridge/Nervos/Bsc',
+              ]}
               component={EthereumBridge}
             />
           </Switch>

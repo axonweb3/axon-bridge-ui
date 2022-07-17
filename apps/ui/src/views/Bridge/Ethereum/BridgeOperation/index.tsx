@@ -53,7 +53,9 @@ const Help: React.FC<{ validateStatus: 'error' | ''; help?: string }> = ({ valid
 export const BridgeOperationForm: React.FC = () => {
   useAutoSetBridgeToAmount();
 
-  const { signer, direction, switchBridgeDirection, network } = ForceBridgeContainer.useContainer();
+  // const { signer, direction, switchBridgeDirection, network } = ForceBridgeContainer.useContainer();
+  const { signer, direction, switchBridgeDirection } = ForceBridgeContainer.useContainer();
+  const network = 'Axon';
   const query = useAssetQuery();
   const history = useHistory();
   const location = useLocation();
