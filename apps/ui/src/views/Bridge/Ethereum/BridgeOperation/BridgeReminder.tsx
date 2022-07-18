@@ -19,12 +19,12 @@ export const StyledReminderWrapper = styled.div`
 
 export const BridgeReminder: React.FC = () => {
   const { api, direction, network } = ForceBridgeContainer.useContainer();
-  const { asset } = BridgeOperationFormContainer.useContainer();
+  const { asset, bridgeFromAmount } = BridgeOperationFormContainer.useContainer();
 
   // FIXME use network from ForceBridgeContainer if backend support
   const ethereumNetwork = 'Ethereum';
   const query = useQuery(
-    ['getMinimalBridgeAmount', { asset: asset?.identity(), network }],
+    ['getMinimalBridgeAmount', { asset: asset?.identity(), network, amount: bridgeFromAmount }],
     () => {
       asserts(asset != null && asset.shadow != null);
 

@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["@nervosnetwork/ckb-types"]
+    "types": ["@nervosnetwork/ckb-types"],
+    "resolveJsonModule": true
   }
 }

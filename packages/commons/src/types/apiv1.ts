@@ -88,6 +88,7 @@ export type GetBridgeTransactionStatusResponse = {
 export interface GetMinimalBridgeAmountPayload {
   network: string;
   xchainAssetIdent: string;
+  amount?: string;
 }
 
 export interface GetMinimalBridgeAmountResponse {

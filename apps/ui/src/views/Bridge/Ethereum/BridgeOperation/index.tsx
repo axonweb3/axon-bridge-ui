@@ -148,10 +148,10 @@ export const BridgeOperationForm: React.FC = () => {
 
   const metamaskChainId = useChainId();
   const bridgeChainInfo =
-    network === 'Ethereum'
+    network === 'Axon'
       ? {
-          chainId: Number(process.env.REACT_APP_ETHEREUM_ENABLE_CHAIN_ID),
-          chainName: process.env.REACT_APP_ETHEREUM_ENABLE_CHAIN_NAME,
+          chainId: Number(process.env.REACT_APP_AXON_ENABLE_CHAIN_ID),
+          chainName: process.env.REACT_APP_AXON_ENABLE_CHAIN_NAME,
         }
       : {
           chainId: Number(process.env.REACT_APP_BSC_ENABLE_CHAIN_ID),

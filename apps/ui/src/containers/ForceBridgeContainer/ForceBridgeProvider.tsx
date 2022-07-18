@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { WalletContainer, WalletState } from './WalletContainer';
 import { fromEnv, Version } from './version';
+import { AxonApiHandler } from '@axon-bridge/commons/lib/rpc/axon-client';
 
 const SUPPORTED_NETWORKS = ['Ethereum', 'Bsc'];
 
@@ -42,12 +43,14 @@ interface ForceBridgeState extends WalletState {
 export const ForceBridgeContainer = createContainer<ForceBridgeState>(() => {
   const walletState = WalletContainer.useContainer();
 
-  const [network, switchNetwork] = useState<string>('Ethereum');
+  const [network, switchNetwork] = useState<string>('Axon');
   const [direction, setDirection] = useState<BridgeDirection>(BridgeDirection.In);
 
   const api = useMemo<API.ForceBridgeAPIV1>(
     () =>
-      network === 'Ethereum'
+      network === 'Axon'
+        ? new AxonApiHandler(process.env.REACT_APP_AXON_RPC_URL)
+        : network === 'Ethereum'
         ? new ForceBridgeAPIV1Handler(process.env.REACT_APP_BRIDGE_RPC_URL)
         : new ForceBridgeAPIV1Handler(process.env.REACT_APP_BRIDGE_BSC_RPC_URL),
     [network],

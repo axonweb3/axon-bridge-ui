@@ -15,7 +15,16 @@ export function useSwitchMetaMaskNetwork(): UseMutationResult<void, unknown, Swi
     ['switchMetaMaskNetwork'],
     async (input: SwitchInputValues) => {
       try {
-        await provider.send('wallet_switchEthereumChain', [{ chainId: input.chainId }]);
+        // await provider.send('wallet_switchEthereumChain', [{ chainId: input.chainId }]);
+        await provider.send('wallet_addEthereumChain', [
+          {
+            chainId: `0x${Number(process.env.REACT_APP_AXON_ENABLE_CHAIN_ID).toString(16)}`,
+            chainName: process.env.REACT_APP_AXON_ENABLE_CHAIN_NAME,
+            rpcUrls: [process.env.REACT_APP_AXON_RPC_URL],
+            nativeCurrency: { name: 'AT', symbol: 'AT', decimals: 18 },
+            blockExplorerUrls: [process.env.REACT_APP_TX_EXPLORER_BSC.slice(0, -4)],
+          },
+        ]);
       } catch (switchError) {
         // This error code indicates that the chain has not been added to MetaMask.
         if (switchError.code === 4902) {

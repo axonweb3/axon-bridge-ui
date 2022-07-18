@@ -19,6 +19,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+    "resolveJsonModule": true
   }
 }
