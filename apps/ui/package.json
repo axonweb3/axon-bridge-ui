@@ -47,8 +47,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco start",
-    "build": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco build",
+    "start": "cross-env craco start",
+    "build": "cross-env craco build",
+    "build-cross-env": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco build",
     "test": "cross-env REACT_APP_REPO_UI_GIT_SHA=`git rev-parse HEAD` craco test",
     "lint": "eslint src --format=pretty",
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx}'",
