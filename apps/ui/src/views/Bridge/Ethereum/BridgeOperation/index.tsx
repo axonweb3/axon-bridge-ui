@@ -1,9 +1,11 @@
 import Icon from '@ant-design/icons';
-import { Button, Divider, Row, Spin, Typography } from 'antd';
+import { Button, Divider, Row, Spin, Typography, notification } from 'antd';
+import { ethers } from 'ethers';
 import { useFormik } from 'formik';
 import React, { useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useMinWCKBQuery } from '../../../../hooks/useMinWCKBQuery';
 import { useAllowance } from '../hooks/useAllowance';
 import { useApproveTransaction } from '../hooks/useApproveTransaction';
 import { useChainId } from '../hooks/useChainId';
@@ -60,6 +62,7 @@ export const BridgeOperationForm: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { selectedAsset, setSelectedAsset } = useSelectBridgeAsset();
+  const minWCKBQuery = useMinWCKBQuery();
 
   const searchParams = useSearchParams();
   const initRecipient = searchParams.get('recipient');
@@ -106,6 +109,13 @@ export const BridgeOperationForm: React.FC = () => {
     } else {
       const asset = direction === BridgeDirection.In ? selectedAsset.copy() : selectedAsset.shadow?.copy();
       if (asset.info?.decimals == null) boom('asset info is not loaded');
+      if (ethers.BigNumber.from(bridgeFromAmount).lt(ethers.BigNumber.from(minWCKBQuery.data))) {
+        notification.open({
+          message: 'Bridge amount is too low',
+          description: `Bridge amount should be greater than ${minWCKBQuery.data}`,
+        });
+        return;
+      }
 
       asset.amount = BeautyAmount.fromHumanize(bridgeFromAmount, asset.info.decimals).val.toString();
       sendBridgeTransaction({ asset, recipient }).then(resetForm);
@@ -204,14 +214,17 @@ export const BridgeOperationForm: React.FC = () => {
           }
           extra={
             selectedAsset && (
-              <Button
-                type="link"
-                size="small"
-                onClick={() => setBridgeFromAmount(BeautyAmount.from(selectedAsset).humanize({ separator: false }))}
-              >
-                Max:&nbsp;
-                <HumanizeAmount asset={selectedAsset} humanize={{ decimalPlaces: 4 }} />
-              </Button>
+              <div>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => setBridgeFromAmount(BeautyAmount.from(selectedAsset).humanize({ separator: false }))}
+                >
+                  Max:&nbsp;
+                  <HumanizeAmount asset={selectedAsset} humanize={{ decimalPlaces: 4 }} />
+                </Button>
+                <div>minWCKB:&nbsp; {minWCKBQuery.data}</div>
+              </div>
             )
           }
           placeholder="0.0"

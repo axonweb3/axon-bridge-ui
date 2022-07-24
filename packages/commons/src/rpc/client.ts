@@ -101,4 +101,8 @@ export class ForceBridgeAPIV1Handler implements API.ForceBridgeAPIV1 {
   async getBridgeConfig(): Promise<API.GetConfigResponse> {
     return this.client.request('getBridgeConfig');
   }
+
+  getWCKBMin(): Promise<string> {
+    return Promise.reject(new Error('not implementation'));
+  }
 }

@@ -5,7 +5,7 @@ import CrossChain from '../../src/abi/CrossChain.json';
 import ERC20 from '../../src/abi/ERC20.json';
 import { API, AssetType, NetworkBase, NetworkTypes, RequiredAsset } from '../types';
 import { GetBalanceResponse } from '../types/apiv1';
-import { stringToUint8Array } from '../utils/index';
+import { stringToUint8Array } from '../utils';
 
 export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   provider: ethers.providers.JsonRpcProvider;
@@ -71,6 +71,15 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   ): Promise<API.GetBridgeOutNervosBridgeFeeResponse> {
     // return Promise.resolve(Promise.resolve(this.client.request('getBridgeOutNervosBridgeFee', payload)));
     return Promise.reject(new Error('not implementation'));
+  }
+
+  getWCKBMin(): Promise<string> {
+    // return Promise.resolve(Promise.resolve(this.client.request('getBridgeOutNervosBridgeFee', payload)));
+    return (async () => {
+      const minWCKB_amount = await this.crossChainContract.getWCKBMin();
+      const minWCKB = minWCKB_amount.toString();
+      return minWCKB;
+    })();
   }
 
   async generateBridgeInNervosTransaction<T extends NetworkTypes>(
