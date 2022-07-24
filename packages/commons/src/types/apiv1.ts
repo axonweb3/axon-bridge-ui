@@ -167,5 +167,7 @@ export interface ForceBridgeAPIV1 {
   // prettier-ignore
   getBridgeOutNervosBridgeFee: (payload: GetBridgeOutNervosBridgeFeePayload) => Promise<GetBridgeOutNervosBridgeFeeResponse>;
 
+  getWCKBMin: () => Promise<string>;
+
   getBridgeConfig: () => Promise<GetConfigResponse>;
 }
