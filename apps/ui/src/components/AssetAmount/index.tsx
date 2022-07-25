@@ -1,1 +1,0 @@
-export { HumanizeAmount } from './HumanizeAmount';
