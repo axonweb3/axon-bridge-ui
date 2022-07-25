@@ -1,6 +1,6 @@
-import { QuestionOutlined } from "@ant-design/icons";
-import React from "react";
-import styled from "styled-components";
+import { QuestionOutlined } from '@ant-design/icons';
+import React from 'react';
+import styled from 'styled-components';
 
 type AssetSymbolProps = {
   info?: {
@@ -24,16 +24,10 @@ const AssetSymbolWrapper = styled.span`
   }
 `;
 
-export const AssetSymbol: React.FC<
-  React.HTMLAttributes<HTMLSpanElement> & AssetSymbolProps
-> = (props) => {
-  const { logoURI, symbol = "Unknown", ...wrapperProps } = props.info ?? {};
+export const AssetSymbol: React.FC<React.HTMLAttributes<HTMLSpanElement> & AssetSymbolProps> = (props) => {
+  const { logoURI, symbol = 'Unknown', ...wrapperProps } = props.info ?? {};
 
-  const logo = logoURI ? (
-    <img className="logo" alt={symbol} src={logoURI} />
-  ) : (
-    <QuestionOutlined className="logo" />
-  );
+  const logo = logoURI ? <img className="logo" alt={symbol} src={logoURI} /> : <QuestionOutlined className="logo" />;
 
   return (
     <AssetSymbolWrapper {...wrapperProps}>

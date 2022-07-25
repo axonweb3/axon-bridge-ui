@@ -1,32 +1,25 @@
-import { Asset, NERVOS_NETWORK, utils } from "axon-bridge-commons";
-import { Modal } from "antd";
-import React from "react";
-import { useMutation, UseMutationResult } from "react-query";
-import { TransactionLink } from "components/TransactionLink";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { boom } from "errors";
-import { ApproveInfo } from "views/Bridge/Ethereum/hooks/useAllowance";
-import { EthWalletSigner } from "xchain/eth/EthWalletSigner";
+import { Asset, NERVOS_NETWORK, utils } from 'axon-bridge-commons';
+import { Modal } from 'antd';
+import React from 'react';
+import { useMutation, UseMutationResult } from 'react-query';
+import { TransactionLink } from 'components/TransactionLink';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { boom } from 'errors';
+import { ApproveInfo } from 'views/Bridge/Ethereum/hooks/useAllowance';
+import { EthWalletSigner } from 'xchain/eth/EthWalletSigner';
 
 export interface ApproveInputValues {
   asset: Asset;
   addApprove: (approve: ApproveInfo) => void;
 }
 
-export function useApproveTransaction(): UseMutationResult<
-  { txId: string },
-  unknown,
-  ApproveInputValues
-> {
+export function useApproveTransaction(): UseMutationResult<{ txId: string }, unknown, ApproveInputValues> {
   const { signer, direction, network } = ForceBridgeContainer.useContainer();
 
   return useMutation(
-    ["approveTransaction"],
+    ['approveTransaction'],
     async (input: ApproveInputValues) => {
-      if (!signer) boom("signer is not load");
+      if (!signer) boom('signer is not load');
 
       const txId = await (signer as EthWalletSigner).approve(input.asset.ident);
       input.addApprove({
@@ -39,11 +32,10 @@ export function useApproveTransaction(): UseMutationResult<
     },
     {
       onSuccess({ txId }) {
-        const fromNetwork =
-          direction === BridgeDirection.In ? network : NERVOS_NETWORK;
+        const fromNetwork = direction === BridgeDirection.In ? network : NERVOS_NETWORK;
 
         Modal.success({
-          title: "Approve Tx Sent",
+          title: 'Approve Tx Sent',
           content: (
             <div>
               The transaction has been sent, check it in&nbsp;
@@ -59,15 +51,13 @@ export function useApproveTransaction(): UseMutationResult<
         });
       },
       onError(error) {
-        const errorMsg: string = utils.hasProp(error, "message")
-          ? String(error.message)
-          : "Unknown error";
+        const errorMsg: string = utils.hasProp(error, 'message') ? String(error.message) : 'Unknown error';
         Modal.error({
-          title: "Approve Tx failed",
+          title: 'Approve Tx failed',
           content: errorMsg,
           width: 360,
         });
       },
-    }
+    },
   );
 }

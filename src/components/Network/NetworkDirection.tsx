@@ -1,8 +1,8 @@
-import { ArrowRightOutlined } from "@ant-design/icons";
-import { Col, Row } from "antd";
-import React from "react";
-import styled from "styled-components";
-import { NetworkIcon } from "components/Network/NetworkIcon";
+import { ArrowRightOutlined } from '@ant-design/icons';
+import { Col, Row } from 'antd';
+import React from 'react';
+import styled from 'styled-components';
+import { NetworkIcon } from 'components/Network/NetworkIcon';
 
 export interface NetworkDirectionProps {
   from: string;

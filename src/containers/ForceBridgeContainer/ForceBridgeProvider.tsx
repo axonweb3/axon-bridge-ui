@@ -1,26 +1,19 @@
-import {
-  API,
-  eth,
-  ForceBridgeAPIV1Handler,
-  Module,
-  nervos,
-  NervosNetwork,
-} from "axon-bridge-commons";
-import { useCallback, useMemo, useState } from "react";
-import { createContainer } from "unstated-next";
-import { WalletContainer, WalletState } from "./WalletContainer";
-import { fromEnv, Version } from "./version";
-import { AxonApiHandler } from "axon-bridge-commons/lib/rpc/axon-client";
+import { API, eth, ForceBridgeAPIV1Handler, Module, nervos, NervosNetwork } from 'axon-bridge-commons';
+import { useCallback, useMemo, useState } from 'react';
+import { createContainer } from 'unstated-next';
+import { WalletContainer, WalletState } from './WalletContainer';
+import { fromEnv, Version } from './version';
+import { AxonApiHandler } from 'axon-bridge-commons/lib/rpc/axon-client';
 
-const SUPPORTED_NETWORKS = ["Ethereum", "Bsc"];
+const SUPPORTED_NETWORKS = ['Ethereum', 'Bsc'];
 
 export enum BridgeDirection {
   // bridge in to nervos
   // XChain -> Nervos
-  In = "In",
+  In = 'In',
   // bridge out to xchain
   // Nervos -> XChain
-  Out = "Out",
+  Out = 'Out',
 }
 
 interface ForceBridgeState extends WalletState {
@@ -50,37 +43,30 @@ interface ForceBridgeState extends WalletState {
 export const ForceBridgeContainer = createContainer<ForceBridgeState>(() => {
   const walletState = WalletContainer.useContainer();
 
-  const [network, switchNetwork] = useState<string>("Axon");
-  const [direction, setDirection] = useState<BridgeDirection>(
-    BridgeDirection.In
-  );
+  const [network, switchNetwork] = useState<string>('Axon');
+  const [direction, setDirection] = useState<BridgeDirection>(BridgeDirection.In);
 
   const api = useMemo<API.ForceBridgeAPIV1>(
     () =>
-      network === "Axon"
+      network === 'Axon'
         ? new AxonApiHandler(process.env.REACT_APP_AXON_RPC_URL)
-        : network === "Ethereum"
+        : network === 'Ethereum'
         ? new ForceBridgeAPIV1Handler(process.env.REACT_APP_BRIDGE_RPC_URL)
         : new ForceBridgeAPIV1Handler(process.env.REACT_APP_BRIDGE_BSC_RPC_URL),
-    [network]
+    [network],
   );
 
   // TODO replace with ModuleRegistry
   const xchainModule = useMemo<Module>(() => {
-    if (network === "Axon" || network === "Ethereum" || network === "Bsc")
-      return eth.module as Module;
-    throw new Error("unknown network");
+    if (network === 'Axon' || network === 'Ethereum' || network === 'Bsc') return eth.module as Module;
+    throw new Error('unknown network');
   }, [network]);
 
   const switchBridgeDirection = useCallback(
-    (
-      nextDirection: BridgeDirection = direction === BridgeDirection.In
-        ? BridgeDirection.Out
-        : BridgeDirection.In
-    ) => {
+    (nextDirection: BridgeDirection = direction === BridgeDirection.In ? BridgeDirection.Out : BridgeDirection.In) => {
       setDirection(nextDirection);
     },
-    [direction, setDirection]
+    [direction, setDirection],
   );
 
   const state: ForceBridgeState = {

@@ -1,2 +1,2 @@
-export * from "./ForceBridgeProvider";
-export { WalletContainer } from "./WalletContainer";
+export * from './ForceBridgeProvider';
+export { WalletContainer } from './WalletContainer';

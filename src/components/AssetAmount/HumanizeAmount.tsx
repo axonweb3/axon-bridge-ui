@@ -1,9 +1,9 @@
-import { AssetType } from "axon-bridge-commons";
-import { Tooltip } from "antd";
-import React, { useMemo } from "react";
-import styled from "styled-components";
-import { useAssetInfoListQuery } from "hooks/useAssetInfoListQuery";
-import { BeautyAmount, HumanizeOptions } from "libs";
+import { AssetType } from 'axon-bridge-commons';
+import { Tooltip } from 'antd';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+import { useAssetInfoListQuery } from 'hooks/useAssetInfoListQuery';
+import { BeautyAmount, HumanizeOptions } from 'libs';
 
 const HumanizeAmountWrapper = styled.span`
   .symbol {
@@ -29,14 +29,14 @@ export const HumanizeAmount: React.FC<HumanizeAmountProps> = (props) => {
     if (asset.network != null && asset.ident != null) {
       result = infoOf({ network: asset.network, ident: asset.ident });
     }
-    return result ?? { decimals: 0, symbol: "Unknown" };
+    return result ?? { decimals: 0, symbol: 'Unknown' };
   }, [asset, infoOf]);
 
-  const beauty = BeautyAmount.from(asset.amount ?? "0", info?.decimals);
+  const beauty = BeautyAmount.from(asset.amount ?? '0', info?.decimals);
 
   return (
     <HumanizeAmountWrapper>
-      <Tooltip title={beauty.humanize() + " " + info?.symbol}>
+      <Tooltip title={beauty.humanize() + ' ' + info?.symbol}>
         <span>
           {beauty.humanize({
             decimalPlaces: humanize?.decimalPlaces ?? 8,

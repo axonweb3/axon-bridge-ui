@@ -1,6 +1,6 @@
-import { Input, InputProps, Row, Tooltip } from "antd";
-import React from "react";
-import styled from "styled-components";
+import { Input, InputProps, Row, Tooltip } from 'antd';
+import React from 'react';
+import styled from 'styled-components';
 
 export interface UserInputProps extends InputProps {
   label?: React.ReactNode;
@@ -30,22 +30,10 @@ export const UserInput: React.FC<UserInputProps> = (props) => {
       </Row>
       {tooltip && (
         <Tooltip color="orange" mouseEnterDelay={0} title={tooltip}>
-          <Input
-            bordered={false}
-            autoComplete="off"
-            size="large"
-            {...inputProps}
-          />
+          <Input bordered={false} autoComplete="off" size="large" {...inputProps} />
         </Tooltip>
       )}
-      {!tooltip && (
-        <Input
-          bordered={false}
-          autoComplete="off"
-          size="large"
-          {...inputProps}
-        />
-      )}
+      {!tooltip && <Input bordered={false} autoComplete="off" size="large" {...inputProps} />}
     </UserInputWrapper>
   );
 };

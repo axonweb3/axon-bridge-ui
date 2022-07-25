@@ -1,10 +1,10 @@
-import { Asset, nervos } from "axon-bridge-commons";
-import { useMemo } from "react";
-import { QueryObserverResult, useQuery } from "react-query";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
-import { boom } from "errors";
-import { useAssetInfoListQuery } from "hooks/useAssetInfoListQuery";
-import { useSignerSelector } from "hooks/useSignerSelector";
+import { Asset, nervos } from 'axon-bridge-commons';
+import { useMemo } from 'react';
+import { QueryObserverResult, useQuery } from 'react-query';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { boom } from 'errors';
+import { useAssetInfoListQuery } from 'hooks/useAssetInfoListQuery';
+import { useSignerSelector } from 'hooks/useSignerSelector';
 
 type Assets = { xchain: Asset[]; nervos: nervos.SUDT[] };
 
@@ -22,10 +22,10 @@ export function useAssetQuery(): QueryObserverResult<Assets> {
   }, [query.data]);
 
   return useQuery(
-    ["getAssetBalance", { network, direction, signer: signer?.identity }],
+    ['getAssetBalance', { network, direction, signer: signer?.identity }],
     async (): Promise<Assets> => {
-      if (!signer) boom("signer is not found when fetching balance");
-      if (!infos) boom("asset list is not loaded");
+      if (!signer) boom('signer is not found when fetching balance');
+      if (!infos) boom('asset list is not loaded');
 
       const infoToBalancePayload =
         (userIdent: string) =>
@@ -35,12 +35,8 @@ export function useAssetQuery(): QueryObserverResult<Assets> {
           assetIdent: ident,
         });
 
-      const xchainBalances = await api.getBalance(
-        infos.xchain.map(infoToBalancePayload(signer.identityXChain))
-      );
-      const nervosBalances = await api.getBalance(
-        infos.nervos.map(infoToBalancePayload(signer.identityNervos))
-      );
+      const xchainBalances = await api.getBalance(infos.xchain.map(infoToBalancePayload(signer.identityXChain)));
+      const nervosBalances = await api.getBalance(infos.nervos.map(infoToBalancePayload(signer.identityNervos)));
 
       return {
         xchain: xchainBalances.map<Asset>((balance, i) => {
@@ -55,6 +51,6 @@ export function useAssetQuery(): QueryObserverResult<Assets> {
         }),
       };
     },
-    { enabled: signer != null && infos != null }
+    { enabled: signer != null && infos != null },
   );
 }

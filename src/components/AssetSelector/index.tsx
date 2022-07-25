@@ -1,9 +1,9 @@
-import { AmountWithoutDecimals, FungibleBaseInfo } from "axon-bridge-commons";
-import { Button, ButtonProps, List, Modal } from "antd";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { HumanizeAmount } from "components/AssetAmount";
-import { AssetSymbol } from "components/AssetSymbol";
+import { AmountWithoutDecimals, FungibleBaseInfo } from 'axon-bridge-commons';
+import { Button, ButtonProps, List, Modal } from 'antd';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { HumanizeAmount } from 'components/AssetAmount';
+import { AssetSymbol } from 'components/AssetSymbol';
 
 type AssetWithInfoLike = {
   amount: AmountWithoutDecimals;
@@ -40,14 +40,11 @@ const ModalBorderWrapper = styled.div`
   }
 `;
 
-export function AssetSelector<T extends AssetWithInfoLike>(
-  props: AssetSelectorProps<T>
-): React.ReactElement {
+export function AssetSelector<T extends AssetWithInfoLike>(props: AssetSelectorProps<T>): React.ReactElement {
   const [visible, setModalVisible] = useState(false);
 
   const { options, selected, onSelect, rowKey, btnProps } = props;
-  const selectedAsset =
-    selected != null && options.find((asset) => rowKey(asset) === selected);
+  const selectedAsset = selected != null && options.find((asset) => rowKey(asset) === selected);
 
   function onSelectInternal(item: T) {
     setModalVisible(false);
@@ -67,16 +64,10 @@ export function AssetSelector<T extends AssetWithInfoLike>(
             <AssetSymbol info={selectedAsset.info} />
           </div>
         ) : (
-          "Select"
+          'Select'
         )}
       </Button>
-      <StyledModal
-        closable
-        width={312}
-        visible={visible}
-        onCancel={() => setModalVisible(false)}
-        footer={null}
-      >
+      <StyledModal closable width={312} visible={visible} onCancel={() => setModalVisible(false)} footer={null}>
         <ModalBorderWrapper>
           <List
             pagination={false}

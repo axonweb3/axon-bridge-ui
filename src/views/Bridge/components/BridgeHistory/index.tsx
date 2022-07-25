@@ -1,19 +1,16 @@
-import { Asset, utils } from "axon-bridge-commons";
-import {
-  BridgeTransactionStatus,
-  TransactionSummaryWithStatus,
-} from "axon-bridge-commons/lib/types/apiv1";
-import { Button, Col, Row, Table, Typography } from "antd";
-import { ColumnsType } from "antd/lib/table/interface";
-import dayjs from "dayjs";
-import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
-import { ExpandRowContent } from "./ExpandRowContent";
-import { useQueryWithCache } from "./useQueryWithCache";
-import { HumanizeAmount } from "components/AssetAmount";
-import { NetworkIcon } from "components/Network";
-import { StyledCardWrapper } from "components/Styled";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
+import { Asset, utils } from 'axon-bridge-commons';
+import { BridgeTransactionStatus, TransactionSummaryWithStatus } from 'axon-bridge-commons/lib/types/apiv1';
+import { Button, Col, Row, Table, Typography } from 'antd';
+import { ColumnsType } from 'antd/lib/table/interface';
+import dayjs from 'dayjs';
+import React, { useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+import { ExpandRowContent } from './ExpandRowContent';
+import { useQueryWithCache } from './useQueryWithCache';
+import { HumanizeAmount } from 'components/AssetAmount';
+import { NetworkIcon } from 'components/Network';
+import { StyledCardWrapper } from 'components/Styled';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
 
 export type TransactionWithKey = TransactionSummaryWithStatus & {
   key: string;
@@ -50,9 +47,7 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
   const { nervosModule, network } = ForceBridgeContainer.useContainer();
 
   const asset = useMemo(() => {
-    const isNervosAsset = nervosModule.assetModel.isCurrentNetworkAsset(
-      props.asset
-    );
+    const isNervosAsset = nervosModule.assetModel.isCurrentNetworkAsset(props.asset);
     if (isNervosAsset) return props.asset.shadow;
     return props.asset;
   }, [nervosModule.assetModel, props.asset]);
@@ -61,35 +56,23 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
 
   const columns: ColumnsType<TransactionWithKey> = [
     {
-      title: "From",
-      dataIndex: "",
+      title: 'From',
+      dataIndex: '',
       render: (value, record) => (
-        <div style={{ width: "120px" }}>
-          <NetworkIcon
-            network={
-              record.txSummary.fromAsset.network === "Nervos"
-                ? "Nervos"
-                : network
-            }
-          />
+        <div style={{ width: '120px' }}>
+          <NetworkIcon network={record.txSummary.fromAsset.network === 'Nervos' ? 'Nervos' : network} />
           &nbsp;
           <HumanizeAmount showSymbol asset={record.txSummary.fromAsset} />
         </div>
       ),
     },
     {
-      title: "To",
-      dataIndex: "",
+      title: 'To',
+      dataIndex: '',
       render: (value, record) => (
-        <div style={{ width: "120px" }}>
+        <div style={{ width: '120px' }}>
           <div>
-            <NetworkIcon
-              network={
-                record.txSummary.toAsset.network === "Nervos"
-                  ? "Nervos"
-                  : network
-              }
-            />
+            <NetworkIcon network={record.txSummary.toAsset.network === 'Nervos' ? 'Nervos' : network} />
             &nbsp;
             <HumanizeAmount showSymbol asset={record.txSummary.toAsset} />
             {record.status === BridgeTransactionStatus.Failed && (
@@ -97,66 +80,58 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
             )}
           </div>
           <div className="date">
-            {dayjs(
-              record.txSummary.toTransaction?.timestamp ||
-                record.txSummary.fromTransaction.timestamp
-            ).format("YYYY-MM-DD HH:mm")}
+            {dayjs(record.txSummary.toTransaction?.timestamp || record.txSummary.fromTransaction.timestamp).format(
+              'YYYY-MM-DD HH:mm',
+            )}
           </div>
         </div>
       ),
     },
   ];
 
-  const [historyKind, setHistoryKind] = useState<"Pending" | "Successful">(
-    "Pending"
-  );
+  const [historyKind, setHistoryKind] = useState<'Pending' | 'Successful'>('Pending');
   const historyData = useMemo<TransactionWithKey[]>(() => {
     if (!transactionSummaries) return [];
     return transactionSummaries
       .filter((item) => {
-        if (historyKind === "Pending") {
-          return item.status === "Pending" || item.status === "Failed";
+        if (historyKind === 'Pending') {
+          return item.status === 'Pending' || item.status === 'Failed';
         }
-        return item.status === "Successful";
+        return item.status === 'Successful';
       })
       .map((item) => {
         const itemWithKey: TransactionWithKey = {
           txSummary: item.txSummary,
           status: item.status,
-          message: utils.hasProp(item, "message") ? item.message : "",
+          message: utils.hasProp(item, 'message') ? item.message : '',
           key: item.txSummary.fromTransaction.txId,
         };
         return itemWithKey;
       });
   }, [transactionSummaries, historyKind]);
 
-  const [pendingExpandedRowKeys, setPendingExpandedRowKeys] =
-    useState<string[]>();
-  const [successExpandedRowKeys, setSuccessExpandedRowKeys] =
-    useState<string[]>();
+  const [pendingExpandedRowKeys, setPendingExpandedRowKeys] = useState<string[]>();
+  const [successExpandedRowKeys, setSuccessExpandedRowKeys] = useState<string[]>();
   useEffect(() => {
     setPendingExpandedRowKeys([]);
     setSuccessExpandedRowKeys([]);
   }, [asset?.ident]);
   const expandedRowKeys = useMemo(
-    () =>
-      historyKind === "Pending"
-        ? pendingExpandedRowKeys
-        : successExpandedRowKeys,
-    [historyKind, pendingExpandedRowKeys, successExpandedRowKeys]
+    () => (historyKind === 'Pending' ? pendingExpandedRowKeys : successExpandedRowKeys),
+    [historyKind, pendingExpandedRowKeys, successExpandedRowKeys],
   );
   return (
     <BridgeHistoryWrapper>
       <header>
         <strong>History</strong>
       </header>
-      <Row gutter={12} style={{ margin: "16px 0" }}>
+      <Row gutter={12} style={{ margin: '16px 0' }}>
         <Col span={12}>
           <Button
             block
-            type={historyKind === "Pending" ? "primary" : undefined}
+            type={historyKind === 'Pending' ? 'primary' : undefined}
             onClick={() => {
-              setHistoryKind("Pending");
+              setHistoryKind('Pending');
             }}
           >
             Pending
@@ -165,9 +140,9 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
         <Col span={12}>
           <Button
             block
-            type={historyKind === "Successful" ? "primary" : undefined}
+            type={historyKind === 'Successful' ? 'primary' : undefined}
             onClick={() => {
-              setHistoryKind("Successful");
+              setHistoryKind('Successful');
             }}
           >
             Succeed
@@ -189,35 +164,24 @@ export const BridgeHistory: React.FC<BridgeHistoryProps> = (props) => {
           expandedRowKeys: expandedRowKeys,
           onExpand: (expanded, record) => {
             if (expanded) {
-              if (historyKind === "Pending") {
+              if (historyKind === 'Pending') {
                 setPendingExpandedRowKeys(
                   pendingExpandedRowKeys
                     ? pendingExpandedRowKeys.concat([record.key.toString()])
-                    : [record.key.toString()]
+                    : [record.key.toString()],
                 );
               } else {
                 setSuccessExpandedRowKeys(
                   successExpandedRowKeys
                     ? successExpandedRowKeys.concat([record.key.toString()])
-                    : [record.key.toString()]
+                    : [record.key.toString()],
                 );
               }
             } else {
-              if (pendingExpandedRowKeys && historyKind === "Pending") {
-                setPendingExpandedRowKeys(
-                  pendingExpandedRowKeys.filter(
-                    (item) => item !== record.key.toString()
-                  )
-                );
-              } else if (
-                successExpandedRowKeys &&
-                historyKind === "Successful"
-              ) {
-                setSuccessExpandedRowKeys(
-                  successExpandedRowKeys.filter(
-                    (item) => item !== record.key.toString()
-                  )
-                );
+              if (pendingExpandedRowKeys && historyKind === 'Pending') {
+                setPendingExpandedRowKeys(pendingExpandedRowKeys.filter((item) => item !== record.key.toString()));
+              } else if (successExpandedRowKeys && historyKind === 'Successful') {
+                setSuccessExpandedRowKeys(successExpandedRowKeys.filter((item) => item !== record.key.toString()));
               }
             }
           },

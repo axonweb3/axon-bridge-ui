@@ -1,35 +1,27 @@
-import { Asset, NERVOS_NETWORK, utils } from "axon-bridge-commons";
-import { Modal } from "antd";
-import React from "react";
-import { useMutation, UseMutationResult } from "react-query";
-import { TransactionLink } from "components/TransactionLink";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { boom } from "errors";
-import { useSentTransactionStorage } from "hooks/useSentTransactionStorage";
+import { Asset, NERVOS_NETWORK, utils } from 'axon-bridge-commons';
+import { Modal } from 'antd';
+import React from 'react';
+import { useMutation, UseMutationResult } from 'react-query';
+import { TransactionLink } from 'components/TransactionLink';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { boom } from 'errors';
+import { useSentTransactionStorage } from 'hooks/useSentTransactionStorage';
 
 export interface BridgeInputValues {
   asset: Asset;
   recipient: string;
 }
 
-export function useSendBridgeTransaction(): UseMutationResult<
-  { txId: string },
-  unknown,
-  BridgeInputValues
-> {
-  const { api, signer, network, direction } =
-    ForceBridgeContainer.useContainer();
+export function useSendBridgeTransaction(): UseMutationResult<{ txId: string }, unknown, BridgeInputValues> {
+  const { api, signer, network, direction } = ForceBridgeContainer.useContainer();
   const { addTransaction } = useSentTransactionStorage();
   // FIXME use network from ForceBridgeContainer if backend support
-  const ethereumNetwork = "Ethereum";
+  const ethereumNetwork = 'Ethereum';
 
   return useMutation(
-    ["sendTransaction"],
+    ['sendTransaction'],
     async (input: BridgeInputValues) => {
-      if (!signer) boom("signer is not load");
+      if (!signer) boom('signer is not load');
       let generated;
       let txToCache;
       if (direction === BridgeDirection.In) {
@@ -44,7 +36,7 @@ export function useSendBridgeTransaction(): UseMutationResult<
           sender: signer.identityXChain(),
         });
         txToCache = {
-          txId: "",
+          txId: '',
           sender: signer.identityXChain(),
           timestamp: new Date().getTime(),
           fromAsset: {
@@ -70,7 +62,7 @@ export function useSendBridgeTransaction(): UseMutationResult<
           sender: signer.identityNervos(),
         });
         txToCache = {
-          txId: "",
+          txId: '',
           sender: signer.identityNervos(),
           timestamp: new Date().getTime(),
           toAsset: {
@@ -96,11 +88,10 @@ export function useSendBridgeTransaction(): UseMutationResult<
     },
     {
       onSuccess({ txId }) {
-        const fromNetwork =
-          direction === BridgeDirection.In ? network : NERVOS_NETWORK;
+        const fromNetwork = direction === BridgeDirection.In ? network : NERVOS_NETWORK;
 
         Modal.success({
-          title: "Bridge Tx sent",
+          title: 'Bridge Tx sent',
           content: (
             <p>
               The transaction has been sent, check it in&nbsp;
@@ -116,11 +107,9 @@ export function useSendBridgeTransaction(): UseMutationResult<
         });
       },
       onError(error) {
-        const errorMsg: string = utils.hasProp(error, "message")
-          ? String(error.message)
-          : "Unknown error";
-        Modal.error({ title: "Tx failed", content: errorMsg, width: 360 });
+        const errorMsg: string = utils.hasProp(error, 'message') ? String(error.message) : 'Unknown error';
+        Modal.error({ title: 'Tx failed', content: errorMsg, width: 360 });
       },
-    }
+    },
   );
 }

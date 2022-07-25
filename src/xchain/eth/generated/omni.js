@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
 });
 exports.ScriptVecOpt =
@@ -101,9 +101,7 @@ exports.XudtWitnessInput =
     void 0;
 
 function dataLengthError(actual, required) {
-  throw new Error(
-    `Invalid data length! Required: ${required}, actual: ${actual}`
-  );
+  throw new Error(`Invalid data length! Required: ${required}, actual: ${actual}`);
 }
 
 function assertDataLength(actual, required) {
@@ -118,9 +116,7 @@ function assertArrayBuffer(reader) {
   }
 
   if (!(reader instanceof ArrayBuffer)) {
-    throw new Error(
-      "Provided value must be an ArrayBuffer or can be transformed into ArrayBuffer!"
-    );
+    throw new Error('Provided value must be an ArrayBuffer or can be transformed into ArrayBuffer!');
   }
 
   return reader;
@@ -128,7 +124,7 @@ function assertArrayBuffer(reader) {
 
 function verifyAndExtractOffsets(view, expectedFieldCount, compatible) {
   if (view.byteLength < 4) {
-    dataLengthError(view.byteLength, ">4");
+    dataLengthError(view.byteLength, '>4');
   }
 
   const requiredByteLength = view.getUint32(0, true);
@@ -139,7 +135,7 @@ function verifyAndExtractOffsets(view, expectedFieldCount, compatible) {
   }
 
   if (requiredByteLength < 8) {
-    dataLengthError(view.byteLength, ">8");
+    dataLengthError(view.byteLength, '>8');
   }
 
   const firstOffset = view.getUint32(4, true);
@@ -151,13 +147,9 @@ function verifyAndExtractOffsets(view, expectedFieldCount, compatible) {
   const itemCount = firstOffset / 4 - 1;
 
   if (itemCount < expectedFieldCount) {
-    throw new Error(
-      `Item count not enough! Required: ${expectedFieldCount}, actual: ${itemCount}`
-    );
+    throw new Error(`Item count not enough! Required: ${expectedFieldCount}, actual: ${itemCount}`);
   } else if (!compatible && itemCount > expectedFieldCount) {
-    throw new Error(
-      `Item count is more than required! Required: ${expectedFieldCount}, actual: ${itemCount}`
-    );
+    throw new Error(`Item count is more than required! Required: ${expectedFieldCount}, actual: ${itemCount}`);
   }
 
   if (requiredByteLength < firstOffset) {
@@ -175,11 +167,7 @@ function verifyAndExtractOffsets(view, expectedFieldCount, compatible) {
 
   for (let i = 0; i < offsets.length - 1; i++) {
     if (offsets[i] > offsets[i + 1]) {
-      throw new Error(
-        `Offset index ${i}: ${offsets[i]} is larger than offset index ${
-          i + 1
-        }: ${offsets[i + 1]}`
-      );
+      throw new Error(`Offset index ${i}: ${offsets[i]} is larger than offset index ${i + 1}: ${offsets[i + 1]}`);
     }
   }
 
@@ -567,7 +555,7 @@ class RCCellVec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * Byte32.size() + 4;
@@ -580,15 +568,9 @@ class RCCellVec {
   }
 
   indexAt(i) {
-    return new Byte32(
-      this.view.buffer.slice(
-        4 + i * Byte32.size(),
-        4 + (i + 1) * Byte32.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new Byte32(this.view.buffer.slice(4 + i * Byte32.size(), 4 + (i + 1) * Byte32.size()), {
+      validate: false,
+    });
   }
 
   length() {
@@ -621,7 +603,7 @@ class RCData {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      assertDataLength(this.view.byteLength, ">4");
+      assertDataLength(this.view.byteLength, '>4');
     }
 
     const t = this.view.getUint32(0, true);
@@ -649,10 +631,10 @@ class RCData {
 
     switch (t) {
       case 0:
-        return "RCRule";
+        return 'RCRule';
 
       case 1:
-        return "RCCellVec";
+        return 'RCCellVec';
 
       default:
         throw new Error(`Invalid type: ${t}`);
@@ -683,7 +665,7 @@ exports.RCData = RCData;
 
 function SerializeRCData(value) {
   switch (value.type) {
-    case "RCRule": {
+    case 'RCRule': {
       const itemBuffer = SerializeRCRule(value.value);
       const array = new Uint8Array(4 + itemBuffer.byteLength);
       const view = new DataView(array.buffer);
@@ -692,7 +674,7 @@ function SerializeRCData(value) {
       return array.buffer;
     }
 
-    case "RCCellVec": {
+    case 'RCCellVec': {
       const itemBuffer = SerializeRCCellVec(value.value);
       const array = new Uint8Array(4 + itemBuffer.byteLength);
       const view = new DataView(array.buffer);
@@ -717,7 +699,7 @@ class SmtProof {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() + 4;
@@ -894,7 +876,7 @@ class SmtUpdateItemVec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * SmtUpdateItem.size() + 4;
@@ -907,15 +889,9 @@ class SmtUpdateItemVec {
   }
 
   indexAt(i) {
-    return new SmtUpdateItem(
-      this.view.buffer.slice(
-        4 + i * SmtUpdateItem.size(),
-        4 + (i + 1) * SmtUpdateItem.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new SmtUpdateItem(this.view.buffer.slice(4 + i * SmtUpdateItem.size(), 4 + (i + 1) * SmtUpdateItem.size()), {
+      validate: false,
+    });
   }
 
   length() {
@@ -1220,7 +1196,7 @@ class Bytes {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() + 4;
@@ -1345,7 +1321,7 @@ class Byte32Vec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * Byte32.size() + 4;
@@ -1358,15 +1334,9 @@ class Byte32Vec {
   }
 
   indexAt(i) {
-    return new Byte32(
-      this.view.buffer.slice(
-        4 + i * Byte32.size(),
-        4 + (i + 1) * Byte32.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new Byte32(this.view.buffer.slice(4 + i * Byte32.size(), 4 + (i + 1) * Byte32.size()), {
+      validate: false,
+    });
   }
 
   length() {
@@ -1565,7 +1535,7 @@ class ProposalShortIdVec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * ProposalShortId.size() + 4;
@@ -1579,13 +1549,10 @@ class ProposalShortIdVec {
 
   indexAt(i) {
     return new ProposalShortId(
-      this.view.buffer.slice(
-        4 + i * ProposalShortId.size(),
-        4 + (i + 1) * ProposalShortId.size()
-      ),
+      this.view.buffer.slice(4 + i * ProposalShortId.size(), 4 + (i + 1) * ProposalShortId.size()),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -1619,7 +1586,7 @@ class CellDepVec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * CellDep.size() + 4;
@@ -1632,15 +1599,9 @@ class CellDepVec {
   }
 
   indexAt(i) {
-    return new CellDep(
-      this.view.buffer.slice(
-        4 + i * CellDep.size(),
-        4 + (i + 1) * CellDep.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new CellDep(this.view.buffer.slice(4 + i * CellDep.size(), 4 + (i + 1) * CellDep.size()), {
+      validate: false,
+    });
   }
 
   length() {
@@ -1673,7 +1634,7 @@ class CellInputVec {
 
   validate(compatible = false) {
     if (this.view.byteLength < 4) {
-      dataLengthError(this.view.byteLength, ">4");
+      dataLengthError(this.view.byteLength, '>4');
     }
 
     const requiredByteLength = this.length() * CellInput.size() + 4;
@@ -1686,15 +1647,9 @@ class CellInputVec {
   }
 
   indexAt(i) {
-    return new CellInput(
-      this.view.buffer.slice(
-        4 + i * CellInput.size(),
-        4 + (i + 1) * CellInput.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new CellInput(this.view.buffer.slice(4 + i * CellInput.size(), 4 + (i + 1) * CellInput.size()), {
+      validate: false,
+    });
   }
 
   length() {
@@ -1780,9 +1735,7 @@ class Script {
     }).validate();
 
     if (offsets[2] - offsets[1] !== 1) {
-      throw new Error(
-        `Invalid offset for hash_type: ${offsets[1]} - ${offsets[2]}`
-      );
+      throw new Error(`Invalid offset for hash_type: ${offsets[1]} - ${offsets[2]}`);
     }
 
     new Bytes(this.view.buffer.slice(offsets[2], offsets[3]), {
@@ -1844,15 +1797,9 @@ class OutPoint {
   }
 
   getIndex() {
-    return new Uint32(
-      this.view.buffer.slice(
-        0 + Byte32.size(),
-        0 + Byte32.size() + Uint32.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new Uint32(this.view.buffer.slice(0 + Byte32.size(), 0 + Byte32.size() + Uint32.size()), {
+      validate: false,
+    });
   }
 
   validate(compatible = false) {
@@ -1892,15 +1839,9 @@ class CellInput {
   }
 
   getPreviousOutput() {
-    return new OutPoint(
-      this.view.buffer.slice(
-        0 + Uint64.size(),
-        0 + Uint64.size() + OutPoint.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new OutPoint(this.view.buffer.slice(0 + Uint64.size(), 0 + Uint64.size() + OutPoint.size()), {
+      validate: false,
+    });
   }
 
   validate(compatible = false) {
@@ -1920,10 +1861,7 @@ function SerializeCellInput(value) {
   const array = new Uint8Array(0 + Uint64.size() + OutPoint.size());
   const view = new DataView(array.buffer);
   array.set(new Uint8Array(SerializeUint64(value.since)), 0);
-  array.set(
-    new Uint8Array(SerializeOutPoint(value.previous_output)),
-    0 + Uint64.size()
-  );
+  array.set(new Uint8Array(SerializeOutPoint(value.previous_output)), 0 + Uint64.size());
   return array.buffer;
 }
 
@@ -2188,26 +2126,17 @@ class RawHeader {
   }
 
   getCompactTarget() {
-    return new Uint32(
-      this.view.buffer.slice(
-        0 + Uint32.size(),
-        0 + Uint32.size() + Uint32.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new Uint32(this.view.buffer.slice(0 + Uint32.size(), 0 + Uint32.size() + Uint32.size()), {
+      validate: false,
+    });
   }
 
   getTimestamp() {
     return new Uint64(
-      this.view.buffer.slice(
-        0 + Uint32.size() + Uint32.size(),
-        0 + Uint32.size() + Uint32.size() + Uint64.size()
-      ),
+      this.view.buffer.slice(0 + Uint32.size() + Uint32.size(), 0 + Uint32.size() + Uint32.size() + Uint64.size()),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2215,11 +2144,11 @@ class RawHeader {
     return new Uint64(
       this.view.buffer.slice(
         0 + Uint32.size() + Uint32.size() + Uint64.size(),
-        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size()
+        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2227,52 +2156,30 @@ class RawHeader {
     return new Uint64(
       this.view.buffer.slice(
         0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size(),
-        0 +
-          Uint32.size() +
-          Uint32.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Uint64.size()
+        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
   getParentHash() {
     return new Byte32(
       this.view.buffer.slice(
-        0 +
-          Uint32.size() +
-          Uint32.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Uint64.size(),
-        0 +
-          Uint32.size() +
-          Uint32.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Byte32.size()
+        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size(),
+        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size() + Byte32.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
   getTransactionsRoot() {
     return new Byte32(
       this.view.buffer.slice(
-        0 +
-          Uint32.size() +
-          Uint32.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Uint64.size() +
-          Byte32.size(),
+        0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size() + Byte32.size(),
         0 +
           Uint32.size() +
           Uint32.size() +
@@ -2280,11 +2187,11 @@ class RawHeader {
           Uint64.size() +
           Uint64.size() +
           Byte32.size() +
-          Byte32.size()
+          Byte32.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2307,11 +2214,11 @@ class RawHeader {
           Uint64.size() +
           Byte32.size() +
           Byte32.size() +
-          Byte32.size()
+          Byte32.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2336,11 +2243,11 @@ class RawHeader {
           Byte32.size() +
           Byte32.size() +
           Byte32.size() +
-          Byte32.size()
+          Byte32.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2367,11 +2274,11 @@ class RawHeader {
           Byte32.size() +
           Byte32.size() +
           Byte32.size() +
-          Byte32.size()
+          Byte32.size(),
       ),
       {
         validate: false,
-      }
+      },
     );
   }
 
@@ -2420,55 +2327,28 @@ function SerializeRawHeader(value) {
       Byte32.size() +
       Byte32.size() +
       Byte32.size() +
-      Byte32.size()
+      Byte32.size(),
   );
   const view = new DataView(array.buffer);
   array.set(new Uint8Array(SerializeUint32(value.version)), 0);
-  array.set(
-    new Uint8Array(SerializeUint32(value.compact_target)),
-    0 + Uint32.size()
-  );
-  array.set(
-    new Uint8Array(SerializeUint64(value.timestamp)),
-    0 + Uint32.size() + Uint32.size()
-  );
-  array.set(
-    new Uint8Array(SerializeUint64(value.number)),
-    0 + Uint32.size() + Uint32.size() + Uint64.size()
-  );
+  array.set(new Uint8Array(SerializeUint32(value.compact_target)), 0 + Uint32.size());
+  array.set(new Uint8Array(SerializeUint64(value.timestamp)), 0 + Uint32.size() + Uint32.size());
+  array.set(new Uint8Array(SerializeUint64(value.number)), 0 + Uint32.size() + Uint32.size() + Uint64.size());
   array.set(
     new Uint8Array(SerializeUint64(value.epoch)),
-    0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size()
+    0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size(),
   );
   array.set(
     new Uint8Array(SerializeByte32(value.parent_hash)),
-    0 +
-      Uint32.size() +
-      Uint32.size() +
-      Uint64.size() +
-      Uint64.size() +
-      Uint64.size()
+    0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size(),
   );
   array.set(
     new Uint8Array(SerializeByte32(value.transactions_root)),
-    0 +
-      Uint32.size() +
-      Uint32.size() +
-      Uint64.size() +
-      Uint64.size() +
-      Uint64.size() +
-      Byte32.size()
+    0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size() + Byte32.size(),
   );
   array.set(
     new Uint8Array(SerializeByte32(value.proposals_hash)),
-    0 +
-      Uint32.size() +
-      Uint32.size() +
-      Uint64.size() +
-      Uint64.size() +
-      Uint64.size() +
-      Byte32.size() +
-      Byte32.size()
+    0 + Uint32.size() + Uint32.size() + Uint64.size() + Uint64.size() + Uint64.size() + Byte32.size() + Byte32.size(),
   );
   array.set(
     new Uint8Array(SerializeByte32(value.uncles_hash)),
@@ -2480,7 +2360,7 @@ function SerializeRawHeader(value) {
       Uint64.size() +
       Byte32.size() +
       Byte32.size() +
-      Byte32.size()
+      Byte32.size(),
   );
   array.set(
     new Uint8Array(SerializeByte32(value.dao)),
@@ -2493,7 +2373,7 @@ function SerializeRawHeader(value) {
       Byte32.size() +
       Byte32.size() +
       Byte32.size() +
-      Byte32.size()
+      Byte32.size(),
   );
   return array.buffer;
 }
@@ -2514,15 +2394,9 @@ class Header {
   }
 
   getNonce() {
-    return new Uint128(
-      this.view.buffer.slice(
-        0 + RawHeader.size(),
-        0 + RawHeader.size() + Uint128.size()
-      ),
-      {
-        validate: false,
-      }
-    );
+    return new Uint128(this.view.buffer.slice(0 + RawHeader.size(), 0 + RawHeader.size() + Uint128.size()), {
+      validate: false,
+    });
   }
 
   validate(compatible = false) {
@@ -2542,10 +2416,7 @@ function SerializeHeader(value) {
   const array = new Uint8Array(0 + RawHeader.size() + Uint128.size());
   const view = new DataView(array.buffer);
   array.set(new Uint8Array(SerializeRawHeader(value.raw)), 0);
-  array.set(
-    new Uint8Array(SerializeUint128(value.nonce)),
-    0 + RawHeader.size()
-  );
+  array.set(new Uint8Array(SerializeUint128(value.nonce)), 0 + RawHeader.size());
   return array.buffer;
 }
 

@@ -1,6 +1,6 @@
-import { Button, ButtonProps } from "antd";
-import React from "react";
-import { AllowanceState } from "views/Bridge/Ethereum/hooks/useAllowance";
+import { Button, ButtonProps } from 'antd';
+import React from 'react';
+import { AllowanceState } from 'views/Bridge/Ethereum/hooks/useAllowance';
 
 interface SubmitButtonProps extends ButtonProps {
   isloading: boolean;
@@ -19,25 +19,21 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
 
   let isLoading = false;
   let content;
-  if (
-    allowanceStatus.status === "Querying" ||
-    allowanceStatus.status === "Approving" ||
-    isloading
-  ) {
+  if (allowanceStatus.status === 'Querying' || allowanceStatus.status === 'Approving' || isloading) {
     isLoading = true;
   }
   switch (allowanceStatus.status) {
-    case "NeedApprove":
-      content = "Approve";
+    case 'NeedApprove':
+      content = 'Approve';
       break;
-    case "Approving":
-      content = "Approving";
+    case 'Approving':
+      content = 'Approving';
       break;
-    case "Approved":
-      content = "Bridge";
+    case 'Approved':
+      content = 'Bridge';
       break;
     default:
-      content = " ";
+      content = ' ';
   }
 
   return (

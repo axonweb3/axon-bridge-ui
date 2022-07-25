@@ -1,10 +1,7 @@
-import { useMemo } from "react";
-import { createNonNilStateHook } from "./helper";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { asserts } from "errors";
+import { useMemo } from 'react';
+import { createNonNilStateHook } from './helper';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { asserts } from 'errors';
 
 interface SignerState {
   identity: string;
@@ -24,14 +21,10 @@ export function useSignerSelector(): SignerState | undefined {
 
     const identityNervos = signer.identityNervos();
     const identityXChain = signer.identityXChain();
-    const identity =
-      BridgeDirection.In === direction ? identityXChain : identityNervos;
+    const identity = BridgeDirection.In === direction ? identityXChain : identityNervos;
 
     function sendTransaction(tx: unknown): Promise<{ txId: string }> {
-      asserts(
-        signer != null,
-        "Wallet is not Connected, please check the wallet connect status"
-      );
+      asserts(signer != null, 'Wallet is not Connected, please check the wallet connect status');
       return Promise.resolve(signer.sendTransaction(tx));
     }
 

@@ -1,11 +1,11 @@
-import { NERVOS_NETWORK } from "axon-bridge-commons";
-import { BigNumber } from "bignumber.js";
-import React, { useEffect } from "react";
-import { Route, useHistory, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import { AppHeader } from "./Header";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
-import { BridgeView } from "views/Bridge";
+import { NERVOS_NETWORK } from 'axon-bridge-commons';
+import { BigNumber } from 'bignumber.js';
+import React, { useEffect } from 'react';
+import { Route, useHistory, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { AppHeader } from './Header';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { BridgeView } from 'views/Bridge';
 
 BigNumber.set({ EXPONENTIAL_AT: 99 });
 
@@ -25,8 +25,7 @@ export const AppView: React.FC = () => {
   const { network } = ForceBridgeContainer.useContainer();
 
   useEffect(() => {
-    if (location.pathname === "/")
-      history.replace(`/bridge/${network}/${NERVOS_NETWORK}`);
+    if (location.pathname === '/') history.replace(`/bridge/${network}/${NERVOS_NETWORK}`);
   }, [network, location.pathname, history]);
 
   return (

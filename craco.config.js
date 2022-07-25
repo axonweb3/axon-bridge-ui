@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-const CracoLessPlugin = require("craco-less");
+const CracoLessPlugin = require('craco-less');
 
 module.exports = {
   babel: {
-    plugins: ["babel-plugin-styled-components"],
+    plugins: ['babel-plugin-styled-components'],
   },
   devServer: {
     proxy: {
-      "/api": {
-        target: "https://force-bridge-dev.ckbapp.dev",
+      '/api': {
+        target: 'https://force-bridge-dev.ckbapp.dev',
         cookieDomainRewrite: true,
-        headers: { host: "force-bridge-dev.ckbapp.dev" },
+        headers: { host: 'force-bridge-dev.ckbapp.dev' },
         // pathRewrite: { '^/api': '' },
       },
       // '/api': {
@@ -28,9 +28,9 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              "@primary-color": "#00CCC0",
-              "@border-radius-base": "8px",
-              "@btn-border-radius-base": "8px",
+              '@primary-color': '#00CCC0',
+              '@border-radius-base': '8px',
+              '@btn-border-radius-base': '8px',
             },
             javascriptEnabled: true,
           },

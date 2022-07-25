@@ -1,19 +1,12 @@
-import {
-  AlertOutlined,
-  LoadingOutlined,
-  FrownOutlined,
-} from "@ant-design/icons";
-import { Typography, Space } from "antd";
-import React from "react";
-import { useQuery } from "react-query";
-import styled from "styled-components";
-import { HumanizeAmount } from "components/AssetAmount";
-import { BridgeOperationFormContainer } from "containers/BridgeOperationFormContainer";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { asserts } from "errors";
+import { AlertOutlined, LoadingOutlined, FrownOutlined } from '@ant-design/icons';
+import { Typography, Space } from 'antd';
+import React from 'react';
+import { useQuery } from 'react-query';
+import styled from 'styled-components';
+import { HumanizeAmount } from 'components/AssetAmount';
+import { BridgeOperationFormContainer } from 'containers/BridgeOperationFormContainer';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { asserts } from 'errors';
 
 export const StyledReminderWrapper = styled.div`
   margin-top: 28px;
@@ -26,16 +19,12 @@ export const StyledReminderWrapper = styled.div`
 
 export const BridgeReminder: React.FC = () => {
   const { api, direction, network } = ForceBridgeContainer.useContainer();
-  const { asset, bridgeFromAmount } =
-    BridgeOperationFormContainer.useContainer();
+  const { asset, bridgeFromAmount } = BridgeOperationFormContainer.useContainer();
 
   // FIXME use network from ForceBridgeContainer if backend support
-  const ethereumNetwork = "Ethereum";
+  const ethereumNetwork = 'Ethereum';
   const query = useQuery(
-    [
-      "getMinimalBridgeAmount",
-      { asset: asset?.identity(), network, amount: bridgeFromAmount },
-    ],
+    ['getMinimalBridgeAmount', { asset: asset?.identity(), network, amount: bridgeFromAmount }],
     () => {
       asserts(asset != null && asset.shadow != null);
 
@@ -55,19 +44,14 @@ export const BridgeReminder: React.FC = () => {
       enabled: !!asset,
       refetchInterval: false,
       retry: 3,
-    }
+    },
   );
 
   if (!asset) return null;
 
   const minimalBridgeAmount = (
     <>
-      {query.data && (
-        <HumanizeAmount
-          showSymbol
-          asset={{ ...asset, amount: query.data.minimalAmount }}
-        />
-      )}
+      {query.data && <HumanizeAmount showSymbol asset={{ ...asset, amount: query.data.minimalAmount }} />}
       {query.isLoading && <LoadingOutlined />}
       {query.isError && (
         <Space>
@@ -81,22 +65,19 @@ export const BridgeReminder: React.FC = () => {
   return (
     <StyledReminderWrapper>
       <Space>
-        <AlertOutlined
-          style={{ position: "relative", bottom: "1px", color: "#f7d749" }}
-        />
+        <AlertOutlined style={{ position: 'relative', bottom: '1px', color: '#f7d749' }} />
         <Typography.Text type="secondary">Reminder</Typography.Text>
       </Space>
-      <Space direction="vertical" style={{ marginTop: "8px" }}>
-        <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
+      <Space direction="vertical" style={{ marginTop: '8px' }}>
+        <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
           1. Minimum amount is {minimalBridgeAmount}
         </Typography.Text>
-        <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
+        <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
           2. The cross chain fee may differ as the token price changes
         </Typography.Text>
         {direction === BridgeDirection.In && (
-          <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
-            3. You will get 400 CKBytes as the capacity of mirror token when you
-            transfer to Nervos Network
+          <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
+            3. You will get 400 CKBytes as the capacity of mirror token when you transfer to Nervos Network
           </Typography.Text>
         )}
       </Space>

@@ -1,8 +1,8 @@
-import { utils } from "axon-bridge-commons";
-import detectEthereumProvider from "@metamask/detect-provider";
-import { MetaMaskInpageProvider } from "@metamask/inpage-provider";
-import { useEffect, useState } from "react";
-import { EthereumProviderContainer } from "containers/EthereumProviderContainer";
+import { utils } from 'axon-bridge-commons';
+import detectEthereumProvider from '@metamask/detect-provider';
+import { MetaMaskInpageProvider } from '@metamask/inpage-provider';
+import { useEffect, useState } from 'react';
+import { EthereumProviderContainer } from 'containers/EthereumProviderContainer';
 
 export function useChainId(): number | null {
   const [chainId, setChainId] = useState<number | null>(null);
@@ -20,14 +20,14 @@ export function useChainId(): number | null {
     }
 
     detectEthereumProvider().then((provider) => {
-      if (utils.propEq(provider, "isMetaMask", true)) {
+      if (utils.propEq(provider, 'isMetaMask', true)) {
         inpageProvider = provider as MetaMaskInpageProvider;
-        inpageProvider.on("chainChanged", chainIdListener);
+        inpageProvider.on('chainChanged', chainIdListener);
       }
     });
 
     return () => {
-      inpageProvider?.off?.("chainChanged", chainIdListener);
+      inpageProvider?.off?.('chainChanged', chainIdListener);
     };
   }, [provider]);
 

@@ -1,6 +1,6 @@
-import { Modal } from "antd";
-import React, { useCallback } from "react";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
+import { Modal } from 'antd';
+import React, { useCallback } from 'react';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
 
 export const About: React.FC = () => {
   const { version } = ForceBridgeContainer.useContainer();
@@ -9,15 +9,11 @@ export const About: React.FC = () => {
     Modal.info({
       closable: true,
       width: 320,
-      title: "About",
+      title: 'About',
       icon: null,
       content: (
         <div>
-          <a
-            href="https://github.com/nervosnetwork/axon-bridge-ui"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://github.com/nervosnetwork/axon-bridge-ui" target="_blank" rel="noreferrer">
             Axon-Bridge-UI
           </a>
           <br />

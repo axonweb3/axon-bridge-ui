@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { BridgeOperationForm } from "./BridgeOperation";
-import { useChainId } from "./hooks/useChainId";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
-import { BridgeHistory } from "views/Bridge/components/BridgeHistory";
-import { useSelectBridgeAsset } from "views/Bridge/hooks/useSelectBridgeAsset";
-import { ConnectorConfig, EthereumWalletConnector } from "xchain";
+import React, { useEffect, useState } from 'react';
+import { BridgeOperationForm } from './BridgeOperation';
+import { useChainId } from './hooks/useChainId';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { BridgeHistory } from 'views/Bridge/components/BridgeHistory';
+import { useSelectBridgeAsset } from 'views/Bridge/hooks/useSelectBridgeAsset';
+import { ConnectorConfig, EthereumWalletConnector } from 'xchain';
 
-function checkChainId(
-  chainId: number
-): asserts chainId is ConnectorConfig["ckbChainID"] {
+function checkChainId(chainId: number): asserts chainId is ConnectorConfig['ckbChainID'] {
   if (chainId !== 0 && chainId !== 1 && chainId !== 2) {
     throw new Error(`${chainId} is not a valid CKB Chain Id`);
   }
@@ -70,7 +68,7 @@ const EthereumBridge: React.FC = () => {
       {wallet instanceof EthereumWalletConnector && (
         <div>
           <BridgeOperationForm />
-          <div style={{ padding: "8px" }} />
+          <div style={{ padding: '8px' }} />
           {selectedAsset && confirmNumberConfig && (
             <BridgeHistory
               asset={selectedAsset}

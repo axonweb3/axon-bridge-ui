@@ -1,12 +1,12 @@
-import { Skeleton } from "antd";
-import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
-import { StyledCardWrapper } from "components/Styled";
-import { BridgeOperationFormContainer } from "containers/BridgeOperationFormContainer";
-import { EthereumProviderContainer } from "containers/EthereumProviderContainer";
-import { BindNetworkDirectionWithRoute } from "views/Bridge/BindNetworkDirectionWithRoute";
+import { Skeleton } from 'antd';
+import React, { lazy, Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { StyledCardWrapper } from 'components/Styled';
+import { BridgeOperationFormContainer } from 'containers/BridgeOperationFormContainer';
+import { EthereumProviderContainer } from 'containers/EthereumProviderContainer';
+import { BindNetworkDirectionWithRoute } from 'views/Bridge/BindNetworkDirectionWithRoute';
 
-const EthereumBridge = lazy(async () => import("./Ethereum"));
+const EthereumBridge = lazy(async () => import('./Ethereum'));
 
 export const BridgeView: React.FC = () => {
   // useBindRouteAndBridgeState();
@@ -24,10 +24,7 @@ export const BridgeView: React.FC = () => {
           }
         >
           <Switch>
-            <Route
-              path={["/bridge/Axon/Nervos", "/bridge/Nervos/Axon"]}
-              component={EthereumBridge}
-            />
+            <Route path={['/bridge/Axon/Nervos', '/bridge/Nervos/Axon']} component={EthereumBridge} />
           </Switch>
         </Suspense>
       </EthereumProviderContainer.Provider>

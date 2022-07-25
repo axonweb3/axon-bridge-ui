@@ -1,12 +1,9 @@
-import { Asset, NERVOS_NETWORK } from "axon-bridge-commons";
-import { useCallback, useEffect, useMemo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { BridgeOperationFormContainer } from "containers/BridgeOperationFormContainer";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { useAssetQuery } from "hooks/useAssetQuery";
+import { Asset, NERVOS_NETWORK } from 'axon-bridge-commons';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { BridgeOperationFormContainer } from 'containers/BridgeOperationFormContainer';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { useAssetQuery } from 'hooks/useAssetQuery';
 
 interface SelectedAssetState {
   selectedAsset: Asset | undefined;
@@ -23,15 +20,13 @@ export function useSelectBridgeAsset(): SelectedAssetState {
 
   const assetXChainIdent = useMemo(() => {
     const params = new URLSearchParams(location.search);
-    return params.get("xchain-asset");
+    return params.get('xchain-asset');
   }, [location.search]);
 
   const selectedAsset = useMemo<Asset | undefined>(() => {
     if (!assets || !assetXChainIdent) return undefined;
 
-    const found = assets.xchain.find(
-      (asset) => asset.ident === assetXChainIdent
-    );
+    const found = assets.xchain.find((asset) => asset.ident === assetXChainIdent);
     if (direction === BridgeDirection.Out) return found?.shadow;
     return found;
   }, [assetXChainIdent, assets, direction]);
@@ -40,14 +35,13 @@ export function useSelectBridgeAsset(): SelectedAssetState {
 
   const setSelectedAsset = useCallback(
     (asset: Asset | undefined) => {
-      const assetXChainIdent =
-        asset?.network === NERVOS_NETWORK ? asset?.shadow?.ident : asset?.ident;
+      const assetXChainIdent = asset?.network === NERVOS_NETWORK ? asset?.shadow?.ident : asset?.ident;
 
       const params = new URLSearchParams(location.search);
-      params.set("xchain-asset", assetXChainIdent || "");
+      params.set('xchain-asset', assetXChainIdent || '');
       history.replace({ search: params.toString() });
     },
-    [history, location.search]
+    [history, location.search],
   );
 
   return { setSelectedAsset, selectedAsset };

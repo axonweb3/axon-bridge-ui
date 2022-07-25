@@ -1,12 +1,12 @@
-import { MenuOutlined } from "@ant-design/icons";
-import { Col, Dropdown, Menu, Row } from "antd";
-import React from "react";
-import styled from "styled-components";
-import { About } from "./About";
-import { NetworkDirectionSelector } from "./NetworkDirectionSelector";
-import { ReactComponent as Logo } from "./logo.svg";
-import { LinearGradientButton } from "components/Styled";
-import { ForceBridgeContainer } from "containers/ForceBridgeContainer";
+import { MenuOutlined } from '@ant-design/icons';
+import { Col, Dropdown, Menu, Row } from 'antd';
+import React from 'react';
+import styled from 'styled-components';
+import { About } from './About';
+import { NetworkDirectionSelector } from './NetworkDirectionSelector';
+import { ReactComponent as Logo } from './logo.svg';
+import { LinearGradientButton } from 'components/Styled';
+import { ForceBridgeContainer } from 'containers/ForceBridgeContainer';
 
 const AppHeaderWrapper = styled.header`
   z-index: 1;
@@ -26,10 +26,9 @@ const AppHeaderWrapper = styled.header`
 
 export const AppHeader: React.FC = () => {
   // const { network, direction, switchBridgeDirection, switchNetwork, supportedNetworks } = ForceBridgeContainer.useContainer();
-  const { direction, switchBridgeDirection, switchNetwork } =
-    ForceBridgeContainer.useContainer();
-  const supportedNetworks = ["Axon"];
-  const network = "Axon";
+  const { direction, switchBridgeDirection, switchNetwork } = ForceBridgeContainer.useContainer();
+  const supportedNetworks = ['Axon'];
+  const network = 'Axon';
 
   const referenceLinks = (
     <Menu>
@@ -43,11 +42,7 @@ export const AppHeader: React.FC = () => {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a
-          href="https://github.com/nervosnetwork/axon-bridge-ui"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://github.com/nervosnetwork/axon-bridge-ui" target="_blank" rel="noreferrer">
           GitHub Repo
         </a>
       </Menu.Item>
@@ -66,7 +61,7 @@ export const AppHeader: React.FC = () => {
           </div>
         </Col>
         <Col md={18} sm={22} xs={22}>
-          <div style={{ maxWidth: "300px", margin: "0 auto" }}>
+          <div style={{ maxWidth: '300px', margin: '0 auto' }}>
             <NetworkDirectionSelector
               networks={supportedNetworks}
               network={network}
@@ -78,7 +73,7 @@ export const AppHeader: React.FC = () => {
             />
           </div>
         </Col>
-        <Col md={3} sm={0} xs={0} style={{ textAlign: "right" }}>
+        <Col md={3} sm={0} xs={0} style={{ textAlign: 'right' }}>
           <Dropdown overlay={referenceLinks}>
             <LinearGradientButton icon={<MenuOutlined />} size="small" />
           </Dropdown>

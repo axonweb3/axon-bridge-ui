@@ -1,14 +1,11 @@
-import { Asset, eth } from "axon-bridge-commons";
-import { useLocalStorage } from "@rehooks/local-storage";
-import { useQuery } from "react-query";
-import {
-  BridgeDirection,
-  ForceBridgeContainer,
-} from "containers/ForceBridgeContainer";
-import { EthWalletSigner } from "xchain";
+import { Asset, eth } from 'axon-bridge-commons';
+import { useLocalStorage } from '@rehooks/local-storage';
+import { useQuery } from 'react-query';
+import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';
+import { EthWalletSigner } from 'xchain';
 
 export interface AllowanceState {
-  status: "Querying" | "NeedApprove" | "Approving" | "Approved";
+  status: 'Querying' | 'NeedApprove' | 'Approving' | 'Approved';
   addApprove: (approve: ApproveInfo) => void;
 }
 
@@ -19,13 +16,10 @@ export interface ApproveInfo {
   txId: string;
 }
 
-export function useAllowance(
-  asset: Asset | undefined
-): AllowanceState | undefined {
+export function useAllowance(asset: Asset | undefined): AllowanceState | undefined {
   const { signer, network, direction } = ForceBridgeContainer.useContainer();
   // if (!signer) boom('signer is not load');
-  const [approveList, setApproveList] =
-    useLocalStorage<ApproveInfo[]>("approveList");
+  const [approveList, setApproveList] = useLocalStorage<ApproveInfo[]>('approveList');
   const addApprove = (approve: ApproveInfo) => {
     if (!approveList) return setApproveList([approve]);
     setApproveList(approveList.concat(approve));
@@ -33,7 +27,7 @@ export function useAllowance(
   const disableApprove =
     !signer ||
     !asset ||
-    (network !== "Ethereum" && network !== "Bsc") ||
+    (network !== 'Ethereum' && network !== 'Bsc') ||
     direction === BridgeDirection.Out ||
     !eth.module.assetModel.isDerivedAsset(asset);
 
@@ -46,20 +40,17 @@ export function useAllowance(
     {
       enabled: !disableApprove,
       refetchInterval: 5000,
-    }
+    },
   );
   if (disableApprove || !signer || !asset) return;
-  if (!query.data) return { status: "Querying", addApprove };
-  if (query.data.gte(asset.amount)) return { status: "Approved", addApprove };
+  if (!query.data) return { status: 'Querying', addApprove };
+  if (query.data.gte(asset.amount)) return { status: 'Approved', addApprove };
   if (
     approveList &&
     approveList.find(
-      (item) =>
-        item.user === signer.identityXChain() &&
-        item.network === network &&
-        item.assetIdent === asset.ident
+      (item) => item.user === signer.identityXChain() && item.network === network && item.assetIdent === asset.ident,
     )
   )
-    return { status: "Approving", addApprove };
-  return { status: "NeedApprove", addApprove };
+    return { status: 'Approving', addApprove };
+  return { status: 'NeedApprove', addApprove };
 }

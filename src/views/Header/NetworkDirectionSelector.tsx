@@ -1,9 +1,9 @@
-import { NERVOS_NETWORK } from "axon-bridge-commons";
-import { Dropdown, Menu } from "antd";
-import React, { useMemo } from "react";
-import { NetworkDirection } from "components/Network";
-import { LinearGradientButton } from "components/Styled";
-import { BridgeDirection } from "containers/ForceBridgeContainer";
+import { NERVOS_NETWORK } from 'axon-bridge-commons';
+import { Dropdown, Menu } from 'antd';
+import React, { useMemo } from 'react';
+import { NetworkDirection } from 'components/Network';
+import { LinearGradientButton } from 'components/Styled';
+import { BridgeDirection } from 'containers/ForceBridgeContainer';
 
 interface NetworkDirectionSelectorProps {
   networks: string[];
@@ -12,27 +12,24 @@ interface NetworkDirectionSelectorProps {
   onSelect: (config: { network: string; direction: BridgeDirection }) => void;
 }
 
-export const NetworkDirectionSelector: React.FC<
-  NetworkDirectionSelectorProps
-> = (props) => {
+export const NetworkDirectionSelector: React.FC<NetworkDirectionSelectorProps> = (props) => {
   const { network, direction, networks, onSelect } = props;
 
   const selected = useMemo(() => {
-    if (direction === BridgeDirection.In)
-      return { from: network, to: NERVOS_NETWORK };
+    if (direction === BridgeDirection.In) return { from: network, to: NERVOS_NETWORK };
     return { from: NERVOS_NETWORK, to: network };
   }, [direction, network]);
 
   const directionItems = networks.flatMap((network) => [
     {
-      key: network + "-" + NERVOS_NETWORK,
+      key: network + '-' + NERVOS_NETWORK,
       network,
       direction: BridgeDirection.In,
       from: network,
       to: NERVOS_NETWORK,
     },
     {
-      key: NERVOS_NETWORK + "-" + network,
+      key: NERVOS_NETWORK + '-' + network,
       network,
       direction: BridgeDirection.Out,
       from: NERVOS_NETWORK,
@@ -43,24 +40,17 @@ export const NetworkDirectionSelector: React.FC<
   const directionsElem = (
     <Menu>
       {directionItems.map((item) => (
-        <Menu.Item
-          key={item.key}
-          onClick={() =>
-            onSelect({ direction: item.direction, network: item.network })
-          }
-        >
+        <Menu.Item key={item.key} onClick={() => onSelect({ direction: item.direction, network: item.network })}>
           <NetworkDirection from={item.from} to={item.to} />
         </Menu.Item>
       ))}
     </Menu>
   );
 
-  const selectedItem = selected && (
-    <NetworkDirection from={selected.from} to={selected.to} />
-  );
+  const selectedItem = selected && <NetworkDirection from={selected.from} to={selected.to} />;
 
   return (
-    <Dropdown trigger={["click"]} overlay={directionsElem}>
+    <Dropdown trigger={['click']} overlay={directionsElem}>
       <LinearGradientButton block type="primary">
         {selectedItem}
       </LinearGradientButton>

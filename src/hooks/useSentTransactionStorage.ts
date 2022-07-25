@@ -1,10 +1,7 @@
-import { NetworkTypes, RequiredAsset } from "axon-bridge-commons";
-import {
-  BridgeTransactionStatus,
-  TransactionSummaryWithStatus,
-} from "axon-bridge-commons/lib/types/apiv1";
-import { useLocalStorage } from "@rehooks/local-storage";
-import { useCallback } from "react";
+import { NetworkTypes, RequiredAsset } from 'axon-bridge-commons';
+import { BridgeTransactionStatus, TransactionSummaryWithStatus } from 'axon-bridge-commons/lib/types/apiv1';
+import { useLocalStorage } from '@rehooks/local-storage';
+import { useCallback } from 'react';
 
 export interface SentTransactionStorage<T extends NetworkTypes> {
   transactions: CachedTransaction<T>[] | null;
@@ -14,26 +11,21 @@ export interface SentTransactionStorage<T extends NetworkTypes> {
   setTransaction: (txId: string, tx: CachedTransaction<T>) => void;
 }
 
-export type CachedTransaction<T extends NetworkTypes> =
-  TransactionSummaryWithStatus & { sender: string } & {
-    rawTx: T["RawTransaction"];
-  };
+export type CachedTransaction<T extends NetworkTypes> = TransactionSummaryWithStatus & { sender: string } & {
+  rawTx: T['RawTransaction'];
+};
 
 export interface AddTransactionPayload<T extends NetworkTypes> {
   txId: string;
   timestamp: number;
   sender: string;
-  fromAsset: RequiredAsset<"amount">;
-  toAsset: RequiredAsset<"amount">;
-  rawTx: T["RawTransaction"];
+  fromAsset: RequiredAsset<'amount'>;
+  toAsset: RequiredAsset<'amount'>;
+  rawTx: T['RawTransaction'];
 }
 
-export function useSentTransactionStorage<
-  T extends NetworkTypes
->(): SentTransactionStorage<T> {
-  const [transactions, setTransactions] = useLocalStorage<
-    CachedTransaction<T>[]
-  >("SentTransactionStorage");
+export function useSentTransactionStorage<T extends NetworkTypes>(): SentTransactionStorage<T> {
+  const [transactions, setTransactions] = useLocalStorage<CachedTransaction<T>[]>('SentTransactionStorage');
   const addTransaction = useCallback(
     (tx: AddTransactionPayload<T>) => {
       const cachedTx: CachedTransaction<T> = {
@@ -45,7 +37,7 @@ export function useSentTransactionStorage<
           fromTransaction: {
             txId: tx.txId,
             timestamp: tx.timestamp,
-            confirmStatus: "pending",
+            confirmStatus: 'pending',
           },
         },
         rawTx: tx.rawTx,
@@ -55,27 +47,24 @@ export function useSentTransactionStorage<
       }
       setTransactions(transactions.concat(cachedTx));
     },
-    [transactions, setTransactions]
+    [transactions, setTransactions],
   );
   const removeTransactions = useCallback(
     (txIds: string[]) => {
       if (!transactions || !txIds.length) return;
       const newTransactions = transactions.filter(
-        (value) =>
-          !txIds.find((id) => id === value.txSummary.fromTransaction.txId)
+        (value) => !txIds.find((id) => id === value.txSummary.fromTransaction.txId),
       );
       setTransactions(newTransactions);
     },
-    [transactions, setTransactions]
+    [transactions, setTransactions],
   );
   const getTransactionByFromTxId = useCallback(
     (txId: string) => {
       if (!transactions) return undefined;
-      return transactions.find(
-        (value) => value.txSummary.fromTransaction.txId === txId
-      );
+      return transactions.find((value) => value.txSummary.fromTransaction.txId === txId);
     },
-    [transactions]
+    [transactions],
   );
   const setTransaction = useCallback(
     (txId: string, tx: CachedTransaction<T>) => {
@@ -86,7 +75,7 @@ export function useSentTransactionStorage<
       });
       setTransactions(newTransactions);
     },
-    [transactions, setTransactions]
+    [transactions, setTransactions],
   );
   return {
     transactions: transactions,

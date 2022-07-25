@@ -1,6 +1,6 @@
-import { NetworkBase } from "axon-bridge-commons";
-import { EventEmitter } from "eventemitter3";
-import { ConnectStatus, TwoWaySigner, Wallet } from "./types";
+import { NetworkBase } from 'axon-bridge-commons';
+import { EventEmitter } from 'eventemitter3';
+import { ConnectStatus, TwoWaySigner, Wallet } from './types';
 
 /**
  * @example
@@ -19,10 +19,7 @@ import { ConnectStatus, TwoWaySigner, Wallet } from "./types";
  * }
  * ```
  */
-export abstract class AbstractWalletConnector<T extends NetworkBase>
-  extends EventEmitter
-  implements Wallet<T>
-{
+export abstract class AbstractWalletConnector<T extends NetworkBase> extends EventEmitter implements Wallet<T> {
   status: ConnectStatus = ConnectStatus.Disconnected;
 
   connect(): void {
@@ -34,28 +31,28 @@ export abstract class AbstractWalletConnector<T extends NetworkBase>
       (e) => {
         this.changeStatus(ConnectStatus.Disconnected);
         this.onError(e);
-      }
+      },
     );
   }
 
   disconnect(): void {
     this._disconnect().then(
       () => this.changeStatus(ConnectStatus.Disconnected),
-      (e) => this.onError(e)
+      (e) => this.onError(e),
     );
   }
 
   protected changeStatus(connectStatus: ConnectStatus): void {
     this.status = connectStatus;
-    this.emit("connectStatusChanged", connectStatus);
+    this.emit('connectStatusChanged', connectStatus);
   }
 
   protected changeSigner(signer: TwoWaySigner<T> | undefined): void {
-    this.emit("signerChanged", signer);
+    this.emit('signerChanged', signer);
   }
 
   private onError(e: Error): void {
-    this.emit("error", e);
+    this.emit('error', e);
   }
 
   /**

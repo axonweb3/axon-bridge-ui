@@ -1,14 +1,11 @@
-import { EthereumNetwork } from "axon-bridge-commons";
-import { helpers, Script, HashType } from "@ckb-lumos/lumos";
-import detectEthereumProvider from "@metamask/detect-provider";
-import { MetaMaskInpageProvider } from "@metamask/inpage-provider";
-import warning from "tiny-warning";
-import { EthWalletSigner } from "./EthWalletSigner";
-import { unimplemented } from "errors";
-import {
-  AbstractWalletConnector,
-  ConnectStatus,
-} from "interfaces/WalletConnector";
+import { EthereumNetwork } from 'axon-bridge-commons';
+import { helpers, Script, HashType } from '@ckb-lumos/lumos';
+import detectEthereumProvider from '@metamask/detect-provider';
+import { MetaMaskInpageProvider } from '@metamask/inpage-provider';
+import warning from 'tiny-warning';
+import { EthWalletSigner } from './EthWalletSigner';
+import { unimplemented } from 'errors';
+import { AbstractWalletConnector, ConnectStatus } from 'interfaces/WalletConnector';
 
 export interface ConnectorConfig {
   ckbChainID:
@@ -21,10 +18,7 @@ export interface ConnectorConfig {
   omniLockscriptHashType: HashType;
 }
 
-function retrySync(
-  retry: () => boolean,
-  options: { times: number; interval: number }
-): void {
+function retrySync(retry: () => boolean, options: { times: number; interval: number }): void {
   if (!options.times || retry()) return;
   setTimeout(() => {
     retrySync(retry, { times: options.times - 1, interval: options.interval });
@@ -42,11 +36,9 @@ export class EthereumWalletConnector extends AbstractWalletConnector<EthereumNet
 
   async init(): Promise<void> {
     const provider = (await detectEthereumProvider()) as MetaMaskInpageProvider;
-    if (!provider) throw new Error("Metamask is required");
+    if (!provider) throw new Error('Metamask is required');
 
-    provider.on("accountsChanged", (accounts) =>
-      this.onSignerChanged(accounts)
-    );
+    provider.on('accountsChanged', (accounts) => this.onSignerChanged(accounts));
     this.provider = provider;
     retrySync(
       () => {
@@ -57,17 +49,14 @@ export class EthereumWalletConnector extends AbstractWalletConnector<EthereumNet
         this.onSignerChanged(selectedAddress);
         return true;
       },
-      { times: 5, interval: 100 }
+      { times: 5, interval: 100 },
     );
   }
 
   protected async _connect(): Promise<void> {
-    if (!this.provider)
-      return Promise.reject(
-        "Provider is not loaded, maybe Metamask is not installed"
-      );
+    if (!this.provider) return Promise.reject('Provider is not loaded, maybe Metamask is not installed');
     return this.provider
-      .request?.({ method: "eth_requestAccounts" })
+      .request?.({ method: 'eth_requestAccounts' })
       .then((accounts) => this.onSignerChanged(accounts));
   }
 
@@ -76,14 +65,11 @@ export class EthereumWalletConnector extends AbstractWalletConnector<EthereumNet
   }
 
   private onSignerChanged(accounts: unknown): void {
-    warning(
-      typeof accounts === "string" || Array.isArray(accounts),
-      `unknown account type: ${accounts}`
-    );
+    warning(typeof accounts === 'string' || Array.isArray(accounts), `unknown account type: ${accounts}`);
     if (!accounts) return super.changeSigner(undefined);
 
     const address = Array.isArray(accounts) ? accounts[0] : accounts;
-    if (typeof address !== "string") return super.changeSigner(undefined);
+    if (typeof address !== 'string') return super.changeSigner(undefined);
 
     const omniLock: Script = {
       code_hash: this.config.omniLockscriptCodeHash,
@@ -93,7 +79,7 @@ export class EthereumWalletConnector extends AbstractWalletConnector<EthereumNet
 
     const omniAddr = helpers.encodeToAddress(omniLock, {
       config: {
-        PREFIX: this.config.ckbChainID === 0 ? "ckb" : "ckt",
+        PREFIX: this.config.ckbChainID === 0 ? 'ckb' : 'ckt',
         SCRIPTS: {},
       },
     });
