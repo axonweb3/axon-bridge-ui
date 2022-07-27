@@ -3467,10 +3467,10 @@ axobject-query@^2.2.0:
   resolved "https://registry.npmjs.org/axobject-query/-/axobject-query-2.2.0.tgz"
   integrity sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==
 
-axon-bridge-commons@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/axon-bridge-commons/-/axon-bridge-commons-0.0.3.tgz#d8d2a65b5b1f96f66b98a4422d74be301f65d346"
-  integrity sha512-MgYk+DEXJxn1zCsKGz3yW7SMVfUSHKMx/fu+XrpAGcei3eIH9Wj1Yg/VXLaK7fkOzsecOeiSkocl5YecWl2ozw==
+axon-bridge-commons@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/axon-bridge-commons/-/axon-bridge-commons-0.0.4.tgz#b4bd6398644a3f3da48f17ea452a188bd24187e9"
+  integrity sha512-vUwk4yutIRPZE6Q8d1CeMx7b6PdkEnFNVT4oP5kOLsb029phRo1DnZDX7pcdv/jmEP12T2QxRyge4XHBZl3SCw==
   dependencies:
     "@ckb-lumos/lumos" "^0.18.0-rc4"
     "@nervosnetwork/ckb-sdk-utils" "^0.101.0"
