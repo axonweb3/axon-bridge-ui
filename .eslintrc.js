@@ -25,11 +25,11 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      "typescript": {},
-      "node": {
-        "paths": ["src"],
-        "extensions": [".js", ".jsx", ".d.ts", ".ts", ".tsx", ".native.js"]
-      }
+      typescript: {},
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.d.ts', '.ts', '.tsx', '.native.js'],
+      },
     },
   },
 };
