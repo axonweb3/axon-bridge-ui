@@ -1,4 +1,4 @@
-import { NERVOS_NETWORK } from 'axon-bridge-commons';
+import { NERVOS_NETWORK } from 'commons';
 import React, { useEffect } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useMount } from 'react-use';

@@ -1,4 +1,4 @@
-import { NetworkBase } from 'axon-bridge-commons';
+import { NetworkBase } from 'commons';
 import { EventEmitter } from 'eventemitter3';
 import { ConnectStatus, TwoWaySigner, Wallet } from './types';
 

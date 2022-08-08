@@ -1,4 +1,4 @@
-import { BridgeTransactionStatus } from 'axon-bridge-commons/lib/types/apiv1';
+import { BridgeTransactionStatus } from 'commons/types/apiv1';
 import { Space } from 'antd';
 import React from 'react';
 import { RetryBurnButton } from './RetryBurnButton';

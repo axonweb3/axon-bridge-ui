@@ -1,4 +1,4 @@
-import { NERVOS_NETWORK } from 'axon-bridge-commons';
+import { NERVOS_NETWORK } from 'commons';
 import { Dropdown, Menu } from 'antd';
 import React, { useMemo } from 'react';
 import { NetworkDirection } from 'components/Network';

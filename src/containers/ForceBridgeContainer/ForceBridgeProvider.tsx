@@ -1,9 +1,9 @@
-import { API, eth, ForceBridgeAPIV1Handler, Module, nervos, NervosNetwork } from 'axon-bridge-commons';
+import { API, eth, ForceBridgeAPIV1Handler, Module, nervos, NervosNetwork } from 'commons';
+import { AxonApiHandler } from '../../commons/rpc/axon-client';
 import { useCallback, useMemo, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { WalletContainer, WalletState } from './WalletContainer';
 import { fromEnv, Version } from './version';
-import { AxonApiHandler } from 'axon-bridge-commons/lib/rpc/axon-client';
 
 const SUPPORTED_NETWORKS = ['Ethereum', 'Bsc'];
 

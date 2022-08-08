@@ -1,4 +1,4 @@
-import { utils } from 'axon-bridge-commons';
+import { utils } from 'commons';
 import { Modal } from 'antd';
 import { useMutation, UseMutationResult } from 'react-query';
 import { EthereumProviderContainer } from 'containers/EthereumProviderContainer';

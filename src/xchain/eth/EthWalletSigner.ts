@@ -1,4 +1,4 @@
-import { EthereumNetwork, NervosNetwork, utils } from 'axon-bridge-commons';
+import { EthereumNetwork, NervosNetwork, utils } from 'commons';
 import { helpers, toolkit, core, RPC } from '@ckb-lumos/lumos';
 import { SerializeRcLockWitnessLock } from '@ckitjs/rc-lock';
 import { JsonRpcSigner } from '@ethersproject/providers/src.ts/json-rpc-provider';

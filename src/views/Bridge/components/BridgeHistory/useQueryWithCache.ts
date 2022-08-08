@@ -1,6 +1,6 @@
-import { Asset } from 'axon-bridge-commons';
-import { API } from 'axon-bridge-commons/lib/types';
-import { TransactionSummaryWithStatus } from 'axon-bridge-commons/lib/types/apiv1';
+import { Asset } from 'commons';
+import { API } from 'commons/types';
+import { TransactionSummaryWithStatus } from 'commons/types/apiv1';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';

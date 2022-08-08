@@ -1,4 +1,4 @@
-import { Asset } from 'axon-bridge-commons';
+import { Asset } from 'commons';
 import { useCallback, useState } from 'react';
 import { createContainer } from 'unstated-next';
 

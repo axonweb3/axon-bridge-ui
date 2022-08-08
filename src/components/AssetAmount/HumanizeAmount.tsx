@@ -1,4 +1,4 @@
-import { AssetType } from 'axon-bridge-commons';
+import { AssetType } from 'commons';
 import { Tooltip } from 'antd';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';

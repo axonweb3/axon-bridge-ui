@@ -1,4 +1,4 @@
-import { API } from 'axon-bridge-commons';
+import { API } from 'commons';
 import { useMemo } from 'react';
 import { QueryObserverResult, useQuery } from 'react-query';
 import { useDebounce } from 'use-debounce';

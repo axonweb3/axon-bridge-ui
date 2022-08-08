@@ -1,4 +1,4 @@
-import { NervosNetwork, NetworkBase, Signer } from 'axon-bridge-commons';
+import { NervosNetwork, NetworkBase, Signer } from 'commons';
 
 export enum ConnectStatus {
   Connected = 'Connected',

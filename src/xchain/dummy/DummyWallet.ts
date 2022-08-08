@@ -1,4 +1,4 @@
-import { NetworkTypes } from 'axon-bridge-commons';
+import { NetworkTypes } from 'commons';
 import { DummyWalletSigner } from './DummyWalletSigner';
 import { unimplemented } from 'errors';
 import { AbstractWalletConnector } from 'interfaces/WalletConnector';

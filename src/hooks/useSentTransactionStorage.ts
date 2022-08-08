@@ -1,5 +1,5 @@
-import { NetworkTypes, RequiredAsset } from 'axon-bridge-commons';
-import { BridgeTransactionStatus, TransactionSummaryWithStatus } from 'axon-bridge-commons/lib/types/apiv1';
+import { NetworkTypes, RequiredAsset } from 'commons';
+import { BridgeTransactionStatus, TransactionSummaryWithStatus } from '../commons/types/apiv1';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { useCallback } from 'react';
 

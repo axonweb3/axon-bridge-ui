@@ -1,4 +1,4 @@
-import { EthereumNetwork } from 'axon-bridge-commons';
+import { EthereumNetwork } from 'commons';
 import { helpers, Script, HashType } from '@ckb-lumos/lumos';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { MetaMaskInpageProvider } from '@metamask/inpage-provider';

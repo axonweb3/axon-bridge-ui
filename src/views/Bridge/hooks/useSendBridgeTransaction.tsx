@@ -1,4 +1,4 @@
-import { Asset, NERVOS_NETWORK, utils } from 'axon-bridge-commons';
+import { Asset, NERVOS_NETWORK, utils } from 'commons';
 import { Modal } from 'antd';
 import React from 'react';
 import { useMutation, UseMutationResult } from 'react-query';

@@ -1,4 +1,4 @@
-import { Asset, eth } from 'axon-bridge-commons';
+import { Asset, eth } from 'commons';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { useQuery } from 'react-query';
 import { BridgeDirection, ForceBridgeContainer } from 'containers/ForceBridgeContainer';

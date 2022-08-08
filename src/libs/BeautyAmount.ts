@@ -1,4 +1,4 @@
-import { AmountWithoutDecimals, Asset } from 'axon-bridge-commons';
+import { AmountWithoutDecimals, Asset } from 'commons';
 import { BigNumber } from 'bignumber.js';
 import warning from 'tiny-warning';
 
