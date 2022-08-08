@@ -1,6 +1,8 @@
-# @axon-bridge/ui
+# axon-bridge-ui
 
-A Axon-Bridge user interface created by create-react-app
+Frontend UI for the Axon Bridge. 
+
+### How to run
 
 ```
 yarn
