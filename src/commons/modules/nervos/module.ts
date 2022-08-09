@@ -18,7 +18,7 @@ export const NervosModule: Module<NervosNetwork> = {
     network: NERVOS_NETWORK,
     validateUserIdent: (address) => {
       try {
-        parseAddress(address);
+        // parseAddress(address);
         return true;
       } catch {
         return false;
