@@ -16,7 +16,9 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   wCkbContract: ethers.Contract;
 
   constructor(axonRpcUrl: string) {
-    this.provider = new ethers.providers.JsonRpcProvider(axonRpcUrl);
+    // this.provider = new ethers.providers.JsonRpcProvider(axonRpcUrl);
+    this.provider = new ethers.providers.Web3Provider(window.ethereum);
+    this.provider.send('eth_requestAccounts', []);
     this.crossChainAddress = '0xf67bc4e50d1df92b0e4c61794a4517af6a995cb2';
     this.crossChainContract = new ethers.Contract(this.crossChainAddress, CrossChain.abi, this.provider);
     this.wCkbAddress = '0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352';
@@ -91,7 +93,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     return (async () => {
       const fee_amount = await this.crossChainContract.fee(payload.xchainAssetIdent, payload.amount);
       const fee = fee_amount.toString();
-      console.log(`getBridgeInNervosBridgeFee: ${JSON.stringify(payload)}, ${fee}`);
+      console.log(`fee = ${fee}`);
       return { fee };
     })();
   }
