@@ -112,10 +112,10 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     console.log(`generateBridgeInNervosTransaction, payload: ${JSON.stringify(payload)}`);
 
     // check allowance of wCKB
-    let allowance = await this.wCkbContract.allowance(payload.sender, this.crossChainAddress);
-    if (allowance != ethers.constants.MaxUint256) {
+    const allowance = await this.wCkbContract.allowance(payload.sender, this.crossChainAddress);
+    if (!allowance.eq(ethers.constants.MaxUint256)) {
       const result = await this.wCkbContract.approve(this.crossChainAddress, ethers.constants.MaxUint256);
-      console.log('set allowance of wCKB:', result);
+      console.log('set allowance of wCKB:', await result.wait());
     }
 
     let tx;
@@ -134,10 +134,10 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
           default: {
             // check allowance of crossing erc20 token
             const tokenContract = new ethers.Contract(payload.asset.ident, ERC20.abi, this.provider.getSigner());
-            allowance = await tokenContract.allowance(payload.sender, this.crossChainAddress);
-            if (allowance != ethers.constants.MaxUint256) {
+            const allowance = await tokenContract.allowance(payload.sender, this.crossChainAddress);
+            if (!allowance.eq(ethers.constants.MaxUint256)) {
               const result = await tokenContract.approve(this.crossChainAddress, ethers.constants.MaxUint256);
-              console.log('set allowance of cross token:', result);
+              console.log('set allowance of cross token:', await result.wait());
             }
             tx = await this.crossChainContract.populateTransaction.crossTokenToCKB(
               recipient,
