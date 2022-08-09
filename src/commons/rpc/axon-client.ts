@@ -20,9 +20,9 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     this.provider = new ethers.providers.Web3Provider(window.ethereum);
     this.provider.send('eth_requestAccounts', []);
     this.crossChainAddress = '0xf67bc4e50d1df92b0e4c61794a4517af6a995cb2';
-    this.crossChainContract = new ethers.Contract(this.crossChainAddress, CrossChain.abi, this.provider);
+    this.crossChainContract = new ethers.Contract(this.crossChainAddress, CrossChain.abi, this.provider.getSigner());
     this.wCkbAddress = '0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352';
-    this.wCkbContract = new ethers.Contract(this.wCkbAddress, ERC20.abi, this.provider);
+    this.wCkbContract = new ethers.Contract(this.wCkbAddress, ERC20.abi, this.provider.getSigner());
     // eslint-disable-next-line no-console
     console.log(`crossChainContract: ${this.crossChainContract}`);
   }
@@ -77,7 +77,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
 
   getTokenNameAndDecimals(tokenAddress: string): Promise<API.getTokenNameAndDecimalsResponse> {
     return (async () => {
-      const tokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider);
+      const tokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider.getSigner());
       const name = await tokenContract.name();
       const decimals = await tokenContract.decimals();
       return { name, decimals };
@@ -133,7 +133,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
           }
           default: {
             // check allowance of crossing erc20 token
-            const tokenContract = new ethers.Contract(payload.asset.ident, ERC20.abi, this.provider);
+            const tokenContract = new ethers.Contract(payload.asset.ident, ERC20.abi, this.provider.getSigner());
             allowance = await tokenContract.allowance(payload.sender, this.crossChainAddress);
             if (allowance != ethers.constants.MaxUint256) {
               const result = await tokenContract.approve(this.crossChainAddress, ethers.constants.MaxUint256);
@@ -234,7 +234,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
             const eth_amount = await this.provider.getBalance(userAddress);
             balance = eth_amount.toString();
           } else {
-            const TokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider);
+            const TokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider.getSigner());
             const erc20_amount = await TokenContract.balanceOf(userAddress);
             balance = erc20_amount.toString();
           }
