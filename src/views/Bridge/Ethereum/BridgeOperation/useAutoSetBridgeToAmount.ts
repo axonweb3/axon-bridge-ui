@@ -10,6 +10,8 @@ export function useAutoSetBridgeToAmount(): void {
   const feeAmount = feeQuery.data?.fee.amount;
 
   useEffect(() => {
+    setBridgeToAmount(bridgeFromAmount);
+    /*
     if (!feeAmount || !selectedAsset || !selectedAsset.info) {
       setBridgeToAmount('0');
       return;
@@ -20,5 +22,6 @@ export function useAutoSetBridgeToAmount(): void {
       .humanize({ decimalPlaces: Infinity, separator: false });
 
     setBridgeToAmount(actualReceived);
+    */
   }, [bridgeFromAmount, setBridgeToAmount, feeAmount, selectedAsset]);
 }
