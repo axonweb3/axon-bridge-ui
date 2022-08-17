@@ -267,7 +267,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
             balance = ckb_amount.toString();
           } else {
             const sudtType = {
-              code_hash: process.env.REACT_SUDT_CODE_HASH || process.env.REACT_APP_PWLOCK_CODE_HASH,
+              code_hash: process.env.REACT_APP_SUDT_CODE_HASH || process.env.REACT_APP_PWLOCK_CODE_HASH,
               hash_type: 'type',
               args: p.assetIdent,
             } as Script;

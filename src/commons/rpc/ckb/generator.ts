@@ -16,7 +16,7 @@ const TYPE_ID_CODE_HASH = '0x000000000000000000000000000000000000000000000000005
 export class CkbTxGenerator extends CkbTxHelper {
   sudtDep = {
     out_point: {
-      tx_hash: process.env.REACT_SUDT_OUTPOINT_TXHASH,
+      tx_hash: process.env.REACT_APP_SUDT_OUTPOINT_TXHASH,
       index: '0',
     },
     dep_type: 'code',
@@ -24,7 +24,7 @@ export class CkbTxGenerator extends CkbTxHelper {
 
   acsRequestDep = {
     out_point: {
-      tx_hash: process.env.REACT_ACS_REQUEST_OUTPOINT_TXHASH,
+      tx_hash: process.env.REACT_APP_ACS_REQUEST_OUTPOINT_TXHASH,
       index: '0',
     },
     dep_type: 'code',
@@ -32,7 +32,7 @@ export class CkbTxGenerator extends CkbTxHelper {
 
   acsMeatadataDep = {
     out_point: {
-      tx_hash: process.env.REACT_DEPLOY_METADATA_OUTPOINT_TXHASH,
+      tx_hash: process.env.REACT_APP_DEPLOY_METADATA_OUTPOINT_TXHASH,
       index: '0',
     },
     dep_type: 'code',
@@ -46,7 +46,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     const type_script = {
       code_hash: TYPE_ID_CODE_HASH,
       hash_type: 'type',
-      args: process.env.REACT_DEPLOY_METADATA_TYPE_ARGS,
+      args: process.env.REACT_APP_DEPLOY_METADATA_TYPE_ARGS,
     } as Script;
     return computeScriptHash(type_script);
   }
@@ -55,7 +55,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     const deployed_metadata_typescript = <Script>{
       code_hash: TYPE_ID_CODE_HASH,
       hash_type: 'type',
-      args: process.env.REACT_DEPLOY_METADATA_TYPE_ARGS,
+      args: process.env.REACT_APP_DEPLOY_METADATA_TYPE_ARGS,
     };
     const search_key = <SearchKey>{
       script: deployed_metadata_typescript,
@@ -97,7 +97,7 @@ export class CkbTxGenerator extends CkbTxHelper {
       cell_output: {
         capacity: '0x0',
         lock: {
-          code_hash: process.env.REACT_ACS_LOCK_TYPE_ID,
+          code_hash: process.env.REACT_APP_ACS_LOCK_TYPE_ID,
           hash_type: 'type',
           args: this.get_deployed_metadata_type_id(),
         },
@@ -106,7 +106,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     let transfer_args = '';
     if (sudt_owner_lockhash) {
       crosschan_lock_cell.cell_output.type = {
-        code_hash: process.env.REACT_SUDT_CODE_HASH,
+        code_hash: process.env.REACT_APP_SUDT_CODE_HASH,
         hash_type: 'type',
         args: sudt_owner_lockhash,
       } as Script;
@@ -135,7 +135,7 @@ export class CkbTxGenerator extends CkbTxHelper {
         capacity: '0x0',
         lock: parseAddress(sender),
         type: {
-          code_hash: process.env.REACT_ACS_REQUEST_TYPE_ID,
+          code_hash: process.env.REACT_APP_ACS_REQUEST_TYPE_ID,
           hash_type: 'type',
           args: transfer_args,
         },
