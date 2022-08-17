@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ethers } from 'ethers';
-import { JSONRPCClient, JSONRPCRequest } from 'json-rpc-2.0';
-import fetch from 'node-fetch';
+/* eslint-disable-next-line no-console */
+
 import CrossChain from '../abi/CrossChain.json';
 import ERC20 from '../abi/ERC20.json';
+import { ethers } from 'ethers';
+import { CkbTxGenerator } from './ckb';
 import { API, AssetType, NetworkBase, NetworkTypes, RequiredAsset } from '../types';
 import { GetBalanceResponse } from '../types/apiv1';
 import { stringToUint8Array } from '../utils/index';
+import { parseAddress } from '@ckb-lumos/helpers';
+import { Script } from '@ckb-lumos/base';
+import { initializeConfig, predefined } from '@ckb-lumos/config-manager';
 
 export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   provider: ethers.providers.JsonRpcProvider;
@@ -14,6 +18,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   crossChainContract: ethers.Contract;
   wCkbAddress: string;
   wCkbContract: ethers.Contract;
+  generator: CkbTxGenerator;
 
   constructor(axonRpcUrl: string) {
     // this.provider = new ethers.providers.JsonRpcProvider(axonRpcUrl);
@@ -23,6 +28,8 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     this.crossChainContract = new ethers.Contract(this.crossChainAddress, CrossChain.abi, this.provider.getSigner());
     this.wCkbAddress = '0x4af5ec5e3d29d9ddd7f4bf91a022131c41b72352';
     this.wCkbContract = new ethers.Contract(this.wCkbAddress, ERC20.abi, this.provider.getSigner());
+    this.generator = new CkbTxGenerator(process.env.REACT_APP_CKB_RPC_URL, process.env.REACT_APP_CKB_INDEXER_RPC_URL);
+    initializeConfig(predefined.AGGRON4);
     // eslint-disable-next-line no-console
     console.log(`crossChainContract: ${this.crossChainContract}`);
   }
@@ -84,32 +91,32 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     })();
   }
 
-  getBridgeInNervosBridgeFee(
+  async getBridgeInNervosBridgeFee(
     payload: API.GetBridgeInNervosBridgeFeePayload,
   ): Promise<API.GetBridgeInNervosBridgeFeeResponse> {
     // return Promise.resolve(this.client.request('getBridgeInNervosBridgeFee', payload));
     // eslint-disable-next-line no-console
     console.log(`getBridgeInNervosBridgeFee: ${JSON.stringify(payload)}`);
-    return (async () => {
-      const fee_amount = await this.crossChainContract.fee(payload.xchainAssetIdent, payload.amount);
-      const fee = fee_amount.toString();
-      console.log(`fee = ${fee}`);
-      return { fee };
-    })();
+    const fee_amount = await this.crossChainContract.fee(payload.xchainAssetIdent, payload.amount);
+    const fee = fee_amount.toString();
+    console.log(`fee = ${fee}`);
+    return { fee };
   }
 
-  getBridgeOutNervosBridgeFee(
+  async getBridgeOutNervosBridgeFee(
     payload: API.GetBridgeOutNervosBridgeFeePayload,
   ): Promise<API.GetBridgeOutNervosBridgeFeeResponse> {
     // return Promise.resolve(Promise.resolve(this.client.request('getBridgeOutNervosBridgeFee', payload)));
-    return Promise.reject(new Error('not implementation'));
+    const fee = await this.generator.fetch_crosschain_fee();
+    return { fee };
   }
 
   async generateBridgeInNervosTransaction<T extends NetworkTypes>(
     payload: API.GenerateBridgeInTransactionPayload,
   ): Promise<API.GenerateTransactionResponse<T>> {
     // eslint-disable-next-line no-console
-    console.log(`generateBridgeInNervosTransaction, payload: ${JSON.stringify(payload)}`);
+    const nonce = await this.provider.getSigner().getTransactionCount();
+    console.log(`generateBridgeInNervosTransaction, payload: ${JSON.stringify(payload)}, nonce: ${nonce}`);
 
     // check allowance of wCKB
     const allowance = await this.wCkbContract.allowance(payload.sender, this.crossChainAddress);
@@ -162,7 +169,16 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     payload: API.GenerateBridgeOutNervosTransactionPayload,
   ): Promise<API.GenerateTransactionResponse<T>> {
     // return this.client.request('generateBridgeOutNervosTransaction', payload);
-    return Promise.reject(new Error('not implementation'));
+    const tx = this.generator.generate_crosschain_tx(
+      payload.sender,
+      payload.recipient,
+      BigInt(payload.amount),
+      payload.asset,
+    );
+    return {
+      network: payload.network,
+      rawTransaction: tx,
+    };
   }
 
   async sendSignedTransaction<T extends NetworkBase>(
@@ -188,7 +204,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
 
   async getAssetList(name?: string): Promise<RequiredAsset<'info'>[]> {
     let param = { asset: name };
-    if (name == undefined) {
+    if (name === undefined) {
       param = { asset: 'all' };
     }
     // return this.client.request('getAssetList', param);
@@ -207,17 +223,20 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
           },
         },
       },
-      // {
-      //   network: 'Ethereum',
-      //   ident: '0x7Af456bf0065aADAB2E6BEc6DaD3731899550b84',
-      //   info: {
-      //     decimals: 18,
-      //     name: 'DAI',
-      //     symbol: 'DAI',
-      //     logoURI: 'https://cryptologos.cc/logos/single-collateral-dai-sai-logo.svg?v=002',
-      //     shadow: { network: 'Nervos', ident: '0x98e2067365e9a3eaaeb0313c8da717892d6ae635734db43b543d082930c31c6b' },
-      //   },
-      // },
+      {
+        network: 'Ethereum',
+        ident: '0x4Af5eC5E3d29d9dDD7f4BF91a022131C41b72352',
+        info: {
+          decimals: 8,
+          name: 'wCKB',
+          symbol: 'wCKB',
+          logoURI: 'https://cryptologos.cc/logos/nervos-network-ckb-logo.svg?v=023',
+          shadow: {
+            network: 'Nervos',
+            ident: '0x0000000000000000000000000000000000000000000000000000000000000000',
+          },
+        },
+      },
     ]);
   }
 
@@ -225,34 +244,36 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     // return this.client.request('getBalance', payload);
     const balanceFutures: Promise<AssetType>[] = payload.map(async (p) => {
       let balance: string;
-      const tokenAddress = p.assetIdent;
       const userAddress = p.userIdent;
       switch (p.network) {
         case 'Axon':
-        case 'Ethereum':
+        case 'Ethereum': {
+          const tokenAddress = p.assetIdent;
           if (tokenAddress === '0x0000000000000000000000000000000000000000') {
             const eth_amount = await this.provider.getBalance(userAddress);
             balance = eth_amount.toString();
           } else {
-            const TokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider.getSigner());
+            const TokenContract = new ethers.Contract(tokenAddress, ERC20.abi, this.provider);
             const erc20_amount = await TokenContract.balanceOf(userAddress);
             balance = erc20_amount.toString();
           }
           break;
+        }
         case 'Nervos': {
-          /*
-          const userScript = parseAddress(value.userIdent);
-          const sudtType = {
-            code_hash: ForceBridgeCore.config.ckb.deps.sudtType.script.codeHash,
-            hash_type: ForceBridgeCore.config.ckb.deps.sudtType.script.hashType,
-            args: value.assetIdent,
-          };
-          const collector = new IndexerCollector(ForceBridgeCore.ckbIndexer);
-          const sudt_amount = await collector.getSUDTBalance(sudtType, userScript);
-          balance = sudt_amount.toString();
-          break;
-           */
-          balance = '0';
+          const sudtArgs = p.assetIdent;
+          const userScript = parseAddress(userAddress);
+          if (sudtArgs === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+            const ckb_amount = await this.generator.getIndexerCollector().getBalance(userScript);
+            balance = ckb_amount.toString();
+          } else {
+            const sudtType = {
+              code_hash: process.env.REACT_SUDT_CODE_HASH || process.env.REACT_APP_PWLOCK_CODE_HASH,
+              hash_type: 'type',
+              args: p.assetIdent,
+            } as Script;
+            const sudt_amount = await this.generator.getIndexerCollector().getSUDTBalance(sudtType, userScript);
+            balance = sudt_amount.toString();
+          }
           break;
         }
         default:
