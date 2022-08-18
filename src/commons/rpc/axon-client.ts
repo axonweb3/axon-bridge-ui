@@ -59,7 +59,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     // return Promise.resolve(this.client.request('getMinimalBridgeAmount', payload));
     return (async () => {
       // const erc20_amount = await TokenContract.getWCKBMin();
-      const erc20_amount = await this.crossChainContract.fee(payload.xchainAssetIdent, payload.amount);
+      const erc20_amount = await this.crossChainContract.fee(payload.xchainAssetIdent, payload.amount ?? 0);
       const minimalAmount = erc20_amount.toString();
       return { minimalAmount };
     })();
@@ -267,7 +267,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
             balance = ckb_amount.toString();
           } else {
             const sudtType = {
-              code_hash: process.env.REACT_APP_SUDT_CODE_HASH || process.env.REACT_APP_PWLOCK_CODE_HASH,
+              code_hash: process.env.REACT_APP_SUDT_CODE_HASH,
               hash_type: 'type',
               args: p.assetIdent,
             } as Script;
