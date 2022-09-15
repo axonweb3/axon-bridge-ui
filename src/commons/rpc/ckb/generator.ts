@@ -7,6 +7,7 @@ import {
   TransactionSkeletonObject,
   transactionSkeletonToObject,
 } from '@ckb-lumos/helpers';
+import { common } from '@ckb-lumos/common-scripts';
 import { CkbTxHelper } from './helper';
 import { ScriptType, SearchKey } from './indexer';
 import { get_crosschain_fee, get_erc20_address, make_crosschain_transfer } from './molecule';
@@ -17,7 +18,7 @@ export class CkbTxGenerator extends CkbTxHelper {
   sudtDep = {
     out_point: {
       tx_hash: process.env.REACT_APP_SUDT_OUTPOINT_TXHASH,
-      index: '0',
+      index: '0x0',
     },
     dep_type: 'code',
   } as CellDep;
@@ -25,7 +26,7 @@ export class CkbTxGenerator extends CkbTxHelper {
   acsRequestDep = {
     out_point: {
       tx_hash: process.env.REACT_APP_ACS_REQUEST_OUTPOINT_TXHASH,
-      index: '0',
+      index: '0x0',
     },
     dep_type: 'code',
   } as CellDep;
@@ -33,7 +34,7 @@ export class CkbTxGenerator extends CkbTxHelper {
   acsMeatadataDep = {
     out_point: {
       tx_hash: process.env.REACT_APP_DEPLOY_METADATA_OUTPOINT_TXHASH,
-      index: '0',
+      index: '0x0',
     },
     dep_type: 'code',
   } as CellDep;
@@ -90,7 +91,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     sender: string,
     recipient: string,
     amount: bigint,
-    sudt_owner_lockhash?: string,
+    sudt_owner_lockhash: string,
   ): Promise<TransactionSkeletonObject> {
     // make crosschain lock output cell
     const crosschan_lock_cell = <Cell>{
@@ -102,9 +103,10 @@ export class CkbTxGenerator extends CkbTxHelper {
           args: this.get_deployed_metadata_type_id(),
         },
       },
+      data: '0x',
     };
     let transfer_args = '';
-    if (sudt_owner_lockhash) {
+    if (sudt_owner_lockhash.startsWith('0x')) {
       crosschan_lock_cell.cell_output.type = {
         code_hash: process.env.REACT_APP_SUDT_CODE_HASH,
         hash_type: 'type',
@@ -120,7 +122,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     } else {
       const capacity = minimalCellCapacity(crosschan_lock_cell);
       if (capacity > amount) {
-        throw new Error('Insufficient cell capacity');
+        throw new Error('Insufficient minimal cell capacity');
       }
       crosschan_lock_cell.cell_output.capacity = `0x${amount.toString(16)}`;
       transfer_args = make_crosschain_transfer(recipient, capacity, {
@@ -140,18 +142,21 @@ export class CkbTxGenerator extends CkbTxHelper {
           args: transfer_args,
         },
       },
+      data: '0x',
     } as Cell;
-    crosschain_request_cell.cell_output.capacity = `0x${minimalCellCapacity(crosschain_request_cell).toString(16)}`;
+    const capacity = minimalCellCapacity(crosschain_request_cell);
+    crosschain_request_cell.cell_output.capacity = `0x${capacity.toString(16)}`;
 
     // make tx
     let txSkeleton = TransactionSkeleton({ cellProvider: this.indexer });
-    txSkeleton.update('cellDeps', (cellDeps) => {
+    txSkeleton = txSkeleton.update('cellDeps', (cellDeps) => {
       return cellDeps.push(this.sudtDep).push(this.acsMeatadataDep).push(this.acsRequestDep);
     });
-    txSkeleton.update('outputs', (outputs) => {
+    txSkeleton = txSkeleton.update('outputs', (outputs) => {
       return outputs.push(crosschan_lock_cell).push(crosschain_request_cell);
     });
     txSkeleton = await this.completeTx(txSkeleton, sender);
+    txSkeleton = common.prepareSigningEntries(txSkeleton);
 
     // to object
     return transactionSkeletonToObject(txSkeleton);

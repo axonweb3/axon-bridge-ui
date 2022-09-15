@@ -24,7 +24,7 @@ export function useSendBridgeTransaction(): UseMutationResult<{ txId: string }, 
       if (!signer) boom('signer is not load');
       let generated;
       let txToCache;
-      if (direction === BridgeDirection.In) {
+      if (direction === BridgeDirection.Out) {
         // TODO refactor to life-time style? beforeTransactionSending / afterTransactionSending
         generated = await api.generateBridgeInNervosTransaction({
           asset: {

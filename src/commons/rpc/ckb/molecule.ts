@@ -37,7 +37,13 @@ const MOL_METADATA = molecule.table(
 
 function hexify(hash_or_address: number[] | Uint8Array): string {
   let hex_string = '0x';
-  hash_or_address.forEach((byte) => (hex_string += byte.toString(16)));
+  hash_or_address.forEach((byte) => {
+    let hex = byte.toString(16);
+    if (hex.length == 1) {
+      hex = '0' + hex;
+    }
+    hex_string += hex;
+  });
   return hex_string;
 }
 

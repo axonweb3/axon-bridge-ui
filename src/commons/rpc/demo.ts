@@ -1,16 +1,15 @@
 /* eslint-disable no-console */
-import CKB from '@nervosnetwork/ckb-sdk-core/';
+import { AxonApiHandler } from './axon-client';
 import { ethers } from 'ethers';
-import { ForceBridgeAPIV1Handler } from './client';
+import CKB from '@nervosnetwork/ckb-sdk-core';
 
-const FORCE_BRIDGE_URL = 'http://localhost:8080/force-bridge/api/v1';
-const client = new ForceBridgeAPIV1Handler(FORCE_BRIDGE_URL);
+const client = new AxonApiHandler();
 
 const ETH_NODE_URL = 'http://127.0.0.1:8545';
 const ETH_WALLET_PRIV = '0xc4ad657963930fbff2e9de3404b30a4e21432c89952ed430b56bf802945ed37a';
 
-const CKB_NODE_URL = 'http://127.0.0.1:8114';
-const CKB_PRI_KEY = '0xa800c82df5461756ae99b5c6677d019c98cc98c7786b80d7b2e77256e46ea1fe';
+const CKB_NODE_URL = 'http://47.111.84.118:81/';
+const CKB_PRI_KEY = '0xf2462a5b1eb08885ce66c41dfcd76d0fb339ee7c92f8143992e0b88d5345cec6';
 
 async function mint() {
   const mintPayload = {
@@ -42,14 +41,15 @@ async function mint() {
 
 async function burn() {
   const burnPayload = {
-    network: 'Ethereum',
-    sender: 'ckt1qyqyph8v9mclls35p6snlaxajeca97tc062sa5gahk',
-    recipient: '0x1000000000000000000000000000000000000001',
-    asset: '0x0000000000000000000000000000000000000000',
+    network: 'Nervos',
+    sender: 'ckt1qyqy76t2hhemukpjsa6aue37q7fyzgkneuhswnd2pa',
+    recipient: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    asset: '',
     amount: '1',
   };
 
   const burnTx = await client.generateBridgeOutNervosTransaction(burnPayload);
+  console.log('tx = ', JSON.stringify(burnTx.rawTransaction));
 
   const ckb = new CKB(CKB_NODE_URL);
   const signedTx = ckb.signTransaction(CKB_PRI_KEY)(<CKBComponents.RawTransactionToSign>burnTx.rawTransaction);
@@ -99,11 +99,12 @@ function asyncSleep(ms = 0) {
 }
 
 async function main() {
-  const mintTxId = await mint();
-  await checkTransaction(mintTxId);
+  // const mintTxId = await mint();
+  // await checkTransaction(mintTxId);
 
   const burnTxId = await burn();
-  await checkTransaction(burnTxId);
+  console.log('tx = ', burnTxId);
+  // await checkTransaction(burnTxId);
 }
 
 main();

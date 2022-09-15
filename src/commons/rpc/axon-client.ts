@@ -20,7 +20,7 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
   wCkbContract: ethers.Contract;
   generator: CkbTxGenerator;
 
-  constructor(axonRpcUrl: string) {
+  constructor(axonRpcUrl?: string) {
     // this.provider = new ethers.providers.JsonRpcProvider(axonRpcUrl);
     this.provider = new ethers.providers.Web3Provider(window.ethereum);
     this.provider.send('eth_requestAccounts', []);
@@ -169,12 +169,20 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     payload: API.GenerateBridgeOutNervosTransactionPayload,
   ): Promise<API.GenerateTransactionResponse<T>> {
     // return this.client.request('generateBridgeOutNervosTransaction', payload);
-    const tx = this.generator.generate_crosschain_tx(
+    payload = {
+      network: 'Nervos',
+      sender: 'ckt1qr496ulyv32e0x6f3e7xad8t3zhjskk5wnp6064e35twpkfpp4t0zqqp7w0adeg64ky0daxwd2ugyuneellmjgnxqq7pxapc',
+      recipient: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+      asset: '',
+      amount: (200 * Math.pow(10, 8)).toString(),
+    };
+    const tx = await this.generator.generate_crosschain_tx(
       payload.sender,
       payload.recipient,
       BigInt(payload.amount),
       payload.asset,
     );
+    console.log('ckb tx = ', tx);
     return {
       network: payload.network,
       rawTransaction: tx,
@@ -219,12 +227,14 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
           logoURI: 'https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=002',
           shadow: {
             network: 'Nervos',
+            // sudt lock_args
             ident: '0xb3fdbe0ddaf0b8d3e427fd56968a1eaefa7b57acb36cce34bafebeae22e0ebef',
           },
         },
       },
       {
         network: 'Ethereum',
+        // erc20 contract address
         ident: '0x4Af5eC5E3d29d9dDD7f4BF91a022131C41b72352',
         info: {
           decimals: 8,

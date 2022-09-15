@@ -50,7 +50,7 @@ export class EthWalletSigner extends AbstractWalletSigner<EthereumNetwork> {
   async _sendToNervos(raw: NervosNetwork['RawTransaction']): Promise<{ txId: string }> {
     let skeleton = helpers.objectToTransactionSkeleton(raw);
     const messageToSign = skeleton.signingEntries.get(0)?.message;
-    if (!messageToSign) throw new Error('Invalid burn tx: no signingEntries');
+    if (!messageToSign) throw new Error('Invalid ckb tx: no signingEntries');
     if (!window.ethereum) throw new Error('Could not find ethereum wallet');
     const paramsToSign = window.ethereum.isSafePal ? [messageToSign] : [this.identityXChain(), messageToSign];
     let sigs = await this.provider.send('personal_sign', paramsToSign);
