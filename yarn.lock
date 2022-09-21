@@ -4294,16 +4294,8 @@ cjs-module-lexer@^0.6.0:
 
 ckb-js-toolkit@^0.10.2:
   version "0.10.2"
-  resolved "https://registry.npmjs.org/ckb-js-toolkit/-/ckb-js-toolkit-0.10.2.tgz"
+  resolved "https://registry.yarnpkg.com/ckb-js-toolkit/-/ckb-js-toolkit-0.10.2.tgz#d616eaef315babe797ea9ee7a271c51f82fe5a80"
   integrity sha512-hVfIH5OBYibAssTag68zVhuUdqB4Iu3EqbCJrOsePpW+TryvqdmvGca2RQyGm0h6fhVK6RuNuKQ8rSdq/cjgUg==
-  dependencies:
-    cross-fetch "^3.0.6"
-    jsbi "^3.1.2"
-
-ckb-js-toolkit@^0.9.1:
-  version "0.9.3"
-  resolved "https://registry.npmjs.org/ckb-js-toolkit/-/ckb-js-toolkit-0.9.3.tgz"
-  integrity sha512-P/j+0e98alJmulLFJNzcVFAlWu7OqoAjgAbW86Zywh0tU7UQGmTBnv0pEmAmWLFoq7jYmIp/aabf+XfC4kFrtw==
   dependencies:
     cross-fetch "^3.0.6"
     jsbi "^3.1.2"

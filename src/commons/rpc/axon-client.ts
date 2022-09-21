@@ -9,7 +9,7 @@ import { API, AssetType, NetworkBase, NetworkTypes, RequiredAsset } from '../typ
 import { GetBalanceResponse } from '../types/apiv1';
 import { stringToUint8Array } from '../utils/index';
 import { parseAddress } from '@ckb-lumos/helpers';
-import { Script } from '@ckb-lumos/base';
+import { HashType, Script } from '@ckb-lumos/base';
 import { initializeConfig, predefined } from '@ckb-lumos/config-manager';
 
 export class AxonApiHandler implements API.ForceBridgeAPIV1 {
@@ -169,13 +169,13 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
     payload: API.GenerateBridgeOutNervosTransactionPayload,
   ): Promise<API.GenerateTransactionResponse<T>> {
     // return this.client.request('generateBridgeOutNervosTransaction', payload);
-    payload = {
-      network: 'Nervos',
-      sender: 'ckt1qr496ulyv32e0x6f3e7xad8t3zhjskk5wnp6064e35twpkfpp4t0zqqp7w0adeg64ky0daxwd2ugyuneellmjgnxqq7pxapc',
-      recipient: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-      asset: '',
-      amount: (200 * Math.pow(10, 8)).toString(),
-    };
+    // payload = {
+    //   network: 'Nervos',
+    //   sender: 'ckt1qpuljza4azfdsrwjzdpea6442yfqadqhv7yzfu5zknlmtusm45hpuqgp7w0adeg64ky0daxwd2ugyuneellmjgnxqqhnnzef',
+    //   recipient: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    //   asset: '',
+    //   amount: (200 * Math.pow(10, 8)).toString(),
+    // };
     const tx = await this.generator.generate_crosschain_tx(
       payload.sender,
       payload.recipient,
@@ -312,12 +312,12 @@ export class AxonApiHandler implements API.ForceBridgeAPIV1 {
       nervos: {
         network: 'testnet',
         confirmNumber: 15,
-        omniLockCodeHash: '0xea5d73e46455979b498e7c6eb4eb88af285ad474c3a7eab98d16e0d9210d56f1',
-        omniLockHashType: 'data',
+        omniLockCodeHash: process.env.REACT_APP_PWLOCK_CODE_HASH,
+        omniLockHashType: 'type',
       },
       xchains: {
         Ethereum: {
-          contractAddress: '0xf67bc4e50d1df92b0e4c61794a4517af6a995cb2',
+          contractAddress: '0xb484fd480e598621638f380f404697cd9f58b0f8',
           confirmNumber: 12,
         },
       },

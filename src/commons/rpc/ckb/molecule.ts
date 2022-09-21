@@ -62,7 +62,8 @@ function flatten(hex_string: string): number[] {
 
 export function get_crosschain_fee(buffer: string, owner_lockhash?: string): number | null {
   const metadata = MOL_METADATA.unpack(buffer);
-  if (owner_lockhash) {
+  console.log('metadata = ', metadata);
+  if (owner_lockhash && owner_lockhash.startsWith('0x')) {
     let fee = null;
     metadata.token_config.forEach((token) => {
       if (hexify(token.sUDT_typehash) == owner_lockhash) {

@@ -7,17 +7,26 @@ import {
   TransactionSkeletonObject,
   transactionSkeletonToObject,
 } from '@ckb-lumos/helpers';
-import { common } from '@ckb-lumos/common-scripts';
+import { config } from '@ckb-lumos/lumos';
 import { CkbTxHelper } from './helper';
 import { ScriptType, SearchKey } from './indexer';
 import { get_crosschain_fee, get_erc20_address, make_crosschain_transfer } from './molecule';
 
 const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944';
+const SECP256K1 = config.predefined.AGGRON4.SCRIPTS.SECP256K1_BLAKE160;
 
 export class CkbTxGenerator extends CkbTxHelper {
   sudtDep = {
     out_point: {
       tx_hash: process.env.REACT_APP_SUDT_OUTPOINT_TXHASH,
+      index: '0x0',
+    },
+    dep_type: 'code',
+  } as CellDep;
+
+  omniLockDep = {
+    out_point: {
+      tx_hash: process.env.REACT_APP_PWLOCK_OUTPOINT_TXHASH,
       index: '0x0',
     },
     dep_type: 'code',
@@ -38,6 +47,14 @@ export class CkbTxGenerator extends CkbTxHelper {
     },
     dep_type: 'code',
   } as CellDep;
+
+  secp256k1Dep = {
+    out_point: {
+      tx_hash: SECP256K1.TX_HASH,
+      index: SECP256K1.INDEX,
+    },
+    dep_type: SECP256K1.DEP_TYPE,
+  };
 
   constructor(ckb_rpc: string, indexer_rpc: string) {
     super(ckb_rpc, indexer_rpc);
@@ -91,7 +108,7 @@ export class CkbTxGenerator extends CkbTxHelper {
     sender: string,
     recipient: string,
     amount: bigint,
-    sudt_owner_lockhash: string,
+    sudt_owner_lockhash?: string,
   ): Promise<TransactionSkeletonObject> {
     // make crosschain lock output cell
     const crosschan_lock_cell = <Cell>{
@@ -106,7 +123,9 @@ export class CkbTxGenerator extends CkbTxHelper {
       data: '0x',
     };
     let transfer_args = '';
-    if (sudt_owner_lockhash.startsWith('0x')) {
+    const cross_fee = await this.fetch_crosschain_fee(sudt_owner_lockhash);
+    console.log('cross_fee = ', cross_fee);
+    if (sudt_owner_lockhash && sudt_owner_lockhash.startsWith('0x')) {
       crosschan_lock_cell.cell_output.type = {
         code_hash: process.env.REACT_APP_SUDT_CODE_HASH,
         hash_type: 'type',
@@ -115,8 +134,9 @@ export class CkbTxGenerator extends CkbTxHelper {
       crosschan_lock_cell.data = toBigUInt128LE(amount);
       const capacity = minimalCellCapacity(crosschan_lock_cell);
       crosschan_lock_cell.cell_output.capacity = `0x${capacity.toString(16)}`;
+      const cross_sudt = (amount * BigInt(1000 - cross_fee)) / BigInt(1000);
       transfer_args = make_crosschain_transfer(recipient, capacity, {
-        amount,
+        amount: cross_sudt,
         erc20_address: await this.fetch_crosschain_erc20_address(sudt_owner_lockhash),
       });
     } else {
@@ -125,9 +145,10 @@ export class CkbTxGenerator extends CkbTxHelper {
         throw new Error('Insufficient minimal cell capacity');
       }
       crosschan_lock_cell.cell_output.capacity = `0x${amount.toString(16)}`;
-      transfer_args = make_crosschain_transfer(recipient, capacity, {
-        amount,
-        erc20_address: '0x' + '00'.repeat(20),
+      const cross_capacity = (amount * BigInt(1000 - cross_fee)) / BigInt(1000);
+      transfer_args = make_crosschain_transfer(recipient, cross_capacity, {
+        amount: BigInt(0),
+        erc20_address: '0x' + '11'.repeat(20),
       });
     }
 
@@ -150,13 +171,18 @@ export class CkbTxGenerator extends CkbTxHelper {
     // make tx
     let txSkeleton = TransactionSkeleton({ cellProvider: this.indexer });
     txSkeleton = txSkeleton.update('cellDeps', (cellDeps) => {
-      return cellDeps.push(this.sudtDep).push(this.acsMeatadataDep).push(this.acsRequestDep);
+      return cellDeps.concat([
+        this.sudtDep,
+        this.acsMeatadataDep,
+        this.acsRequestDep,
+        this.omniLockDep,
+        this.secp256k1Dep,
+      ]);
     });
     txSkeleton = txSkeleton.update('outputs', (outputs) => {
-      return outputs.push(crosschan_lock_cell).push(crosschain_request_cell);
+      return outputs.concat(crosschan_lock_cell, crosschain_request_cell);
     });
     txSkeleton = await this.completeTx(txSkeleton, sender);
-    txSkeleton = common.prepareSigningEntries(txSkeleton);
 
     // to object
     return transactionSkeletonToObject(txSkeleton);
